@@ -13,6 +13,7 @@
   - [chatting](architecture/chatting/README.md)
     - [채팅 시스템을 구현한다면, 어느 정도 수준의 설계까지 구현 가능할 것인가?](architecture/chatting/plan-for-designing-chatting-architecture.md)
     - [채팅 기능 설계 구체화](architecture/chatting/refining-chatting-feature-design.md)
+    - [채팅 아키텍처 설계 - 쓰는 중](architecture/chatting/design-chatting-architecture.md)
 - [development](development/README.md)
   - [frontend](development/frontend/README.md)
   - [board](development/board/README.md)
@@ -24,9 +25,19 @@
 - [consulting](consulting/README.md)
 - [decisions](decisions/README.md)
 - [review](review/README.md)
+  - [study](review/study/README.md)
+    - [[책] Cracking the PM Interview: How to Land a Product Manager Job in Technology(Cracking the Interview & Career) - 쓰는 중](review/study/cracking-the-pm-interview.md)
+    - [[책] 도메인 주도 설계 핵심](review/study/domain-driven-development-core.md)
+    - [[책] 가상 면접 사례로 배우는 대규모 시스템 설계 기초](review/study/system-design-interview.md)
+    - [Hexagonal Architecture](review/study/hexagonal-architecture.md)
+  
+  - [roadmap](review/roadmap/README.md)
+    - [프론트엔드 로드맵 만들기](review/roadmap/frontend-roadmap.md)
+    - [기획 로드맵 만들기 - 쓰는 중](review/roadmap/product-management-roadmap.md)
+  
   - [우리의 기획이 어설플 수밖에 없는 이유](review/reasons-of-our-product-design-is-clumsy.md)
   - [목적이 다른 여러 사람이 각자, 그리고 공동의 목표를 이룰 방법은?](review/ways-of-achieving-personal-and-public-goals.md)
-  - [프론트엔드 로드맵 만들기](review/frontend-roadmap.md)
+  
 
 
 ------
