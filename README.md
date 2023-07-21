@@ -17,6 +17,7 @@
     - [Jira-GitLab Integration](operations/jira/jira-gitlab-integration.md)
     - [Jira Conventions Seminar](operations/jira/jira-conventions-seminar.md)
 - [design](design/README.md)
+    - [Figma](design/Figma)
 - [architecture](architecture/README.md)
   - [chatting](architecture/chatting/README.md)
     - [채팅 시스템을 구현한다면, 어느 정도 수준의 설계까지 구현 가능할 것인가?](architecture/chatting/plan-for-designing-chatting-architecture.md)
