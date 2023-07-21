@@ -5,8 +5,8 @@
 
 > **목차**
 >
-> 1. [Jira-GitLab 연동하기](#Jira-GitLab 연동하기)
->    1. [Jira에서의 토큰 발행](#1. Jira에서의 토큰 발행)
+> 1. [Jira-GitLab 연동하기](#Jira-GitLab-연동하기)
+>    1. [Jira에서의 토큰 발행](#1.-Jira에서의-토큰-발행)
 >    1. [GitLab에서의 Jira Integration Setting](# 2. GitLab에서의 Jira Integration Setting)
 > 2. [Jira-GitLab Issue 연동하기](#Jira-GitLab Issue 연동하기)
 >    1. [Jira Issue Regex](#Jira Issue Regex)
