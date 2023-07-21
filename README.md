@@ -1,4 +1,4 @@
-# WeHee Docs - week2-sjyoon
+# WeHee Docs
 
 > WeHee의 자료를 관리하는 문서 레포지토리입니다.
 
