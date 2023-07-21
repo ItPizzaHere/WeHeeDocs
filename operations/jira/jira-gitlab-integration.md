@@ -6,19 +6,19 @@
 > **목차**
 >
 > 1. [Jira-GitLab 연동하기](#Jira-GitLab-연동하기)
->    1. [Jira에서의 토큰 발행](#1.-Jira에서의-토큰-발행)
->    1. [GitLab에서의 Jira Integration Setting](# 2. GitLab에서의 Jira Integration Setting)
-> 2. [Jira-GitLab Issue 연동하기](#Jira-GitLab Issue 연동하기)
->    1. [Jira Issue Regex](#Jira Issue Regex)
->    2. [Jira Issue Prefix](#Jira Issue Prefix)
->    3. [간단하게 처리하고 싶은 SSAFY인들을 위해](#간단하게 처리하고 싶은 SSAFY인들을 위해)
-> 3. [Jira project - GitLab branch, commit 연동 결과 확인](#Jira project - GitLab branch, commit 연동 결과 확인)
->    1. [Jira에서 GitLab 브랜치 생성](#1. Jira에서 GitLab 브랜치 생성)
->    2. [커밋명 규칙에 맞춰 커밋해보기](#2. 커밋명 규칙에 맞춰 커밋해보기)
->    3. [Jira에서 브랜치와 커밋 내역 확인](#3. Jira에서 브랜치와 커밋 내역 확인)
+>    1. [Jira에서의 토큰 발행](#1-jira에서의-토큰-발행)
+>    1. [GitLab에서의 Jira Integration Setting](#2-gitlab에서의-jira-integration-setting)
+> 2. [Jira-GitLab Issue 연동하기](#jira-gitlab-issue-연동하기)
+>    1. [Jira Issue Regex](#jira-issue-regex)
+>    2. [Jira Issue Prefix](#jira-issue-prefix)
+>    3. [간단하게 처리하고 싶은 SSAFY인들을 위해](#간단하게-처리하고-싶은-ssafy인들을-위해)
+> 3. [Jira project - GitLab branch, commit 연동 결과 확인](#jira-project---gitlab-branch-commit-연동-결과-확인)
+>    1. [Jira에서 GitLab 브랜치 생성](#1-jira에서-gitlab-브랜치-생성)
+>    2. [커밋명 규칙에 맞춰 커밋해보기](#2-커밋명-규칙에-맞춰-커밋해보기)
+>    3. [Jira에서 브랜치와 커밋 내역 확인](#3-jira에서-브랜치와-커밋-내역-확인)
 > 4. [제안](#제안)
 
-이 문서는 Jira를 처음 사용해보는 사람들이 쉽게 따라할만한 요소들을 담고 있습니다. Jira와 코드를 연동하기 위한 [Jira-GitLab Integration](#Jira-GitLab Integration)과 [Jira-GitLab Issue 연동하기](#Jira-GitLab Issue 연동하기) 섹션이 있고, Jira에서 이슈 관리를 하는 몇 가지 방법들에 대해서도 언급하고 있습니다.
+이 문서는 Jira를 처음 사용해보는 사람들이 쉽게 따라할만한 요소들을 담고 있습니다. Jira와 코드를 연동하기 위한 [Jira-GitLab 연동하기](#Jira-GitLab-연동하기)과 [Jira-GitLab Issue 연동하기](#jira-gitlab-issue-연동하기) 섹션이 있고, Jira에서 이슈 관리를 하는 몇 가지 방법들에 대해서도 언급하고 있습니다.
 
 현재 Jira 프로젝트와 GitLab 레포지토리를 연결해서 Jira Issue-GitLab Branch 간 연동까지는 확인했으나, SSAFY에서 하고 있는 Jira 프로젝트의 경우 다른 해보고 싶은 기능들(커밋/PR/merge 등 이벤트 발생 시 Jira Issue 페이지에서 자동으로 comment 작성)은 권한이 막혀있네요. 나중에 해결되면 업데이트 하겠습니다.
 
@@ -40,7 +40,7 @@ Jira와 GitLab이 연동되어 있다고 해도 GitLab 측에서 설정해야 �
 1. Jira에서의 토큰 발행
 2. GitLab에서의 Jira Integretion Setting
 
-본격적인 튜토리얼에 들어가기 앞서, GitLab측에서 제공하는 [Jira issue integration documentation](https://docs.gitlab.com/ee/integration/jira/configure.html)을 참고하면 큰 도움을 받을 수 있다. 참고로, 이 장에서는 기본적인 연동만 다루기 떄문에, Jira의 Issue나 Branch까지 연동하고 싶다면 [Jira-GitLab Issue 연동하기](#Jira-GitLab Issue 연동하기) 등의 섹션을 참고하면 된다.
+본격적인 튜토리얼에 들어가기 앞서, GitLab측에서 제공하는 [Jira issue integration documentation](https://docs.gitlab.com/ee/integration/jira/configure.html)을 참고하면 큰 도움을 받을 수 있다. 참고로, 이 장에서는 기본적인 연동만 다루기 떄문에, Jira의 Issue나 Branch까지 연동하고 싶다면 [Jira-GitLab Issue 연동하기](#jira-gitlab-issue-연동하기) 등의 섹션을 참고하면 된다.
 
 ## 1. Jira에서의 토큰 발행
 
@@ -67,7 +67,7 @@ Jira와 GitLab이 연동되어 있다고 해도 GitLab 측에서 설정해야 �
    1. Web URL에 Jira URL 입력
    2. Authentication type은 `Basic`으로 설정
    3. Email or Username 입력
-   4. Password or API token 입력 - [Jira에서의 토큰 발행](#Jira에서의 토큰 발행)에서 발행받은 토큰 입력
+   4. Password or API token 입력 - [Jira에서의 토큰 발행](#1-jira에서의-토큰-발행)에서 발행받은 토큰 입력
 4. Trigger 설정
    1. Commit 체크
    2. Merge Request 체크
@@ -98,7 +98,7 @@ Jira와 GitLab이 연동되어 있다고 해도 GitLab 측에서 설정해야 �
 
    3. Email or Username 입력
 
-   4. Password or API token 입력 - [Jira에서의 토큰 발행](#Jira에서의 토큰 발행)에서 발행받은 토큰 입력
+   4. Password or API token 입력 - [Jira에서의 토큰 발행](#1-jira에서의-토큰-발행)에서 발행받은 토큰 입력
 
    ![](images/practice05.png)
 
@@ -114,7 +114,7 @@ Jira와 GitLab이 연동되어 있다고 해도 GitLab 측에서 설정해야 �
 
 # Jira-GitLab Issue 연동하기
 
-[GitLab에서의 Jira Integration Setting](#2. GitLab에서의 Jira Integration Setting)을 하다보면 Jira ssue matching을 설정하는 부분이 나온다. 이 섹션을 잘 활용하면 `자동적으로 GitLab의 커밋, 브랜치, PR과 Jira의 이슈 발행을 연동`할 수 있다. 연동을 위해 설정할 내용은 Jira issue regex와 Jira issue prefix 둘 뿐이다. 하지만 이 기능을 활용하고 싶다면 Jira에서 Issue를 만들 때 어떤식으로 네이밍을 할 것인지에 대한 규칙이 정해져 있어야 한다. 이 부분은 [Jira Issue Convention](#Jira Issue Convention)을 참조하면 된다.
+[GitLab에서의 Jira Integration Setting](#2-gitlab에서의-jira-integration-setting)을 하다보면 Jira ssue matching을 설정하는 부분이 나온다. 이 섹션을 잘 활용하면 `자동적으로 GitLab의 커밋, 브랜치, PR과 Jira의 이슈 발행을 연동`할 수 있다. 연동을 위해 설정할 내용은 Jira issue regex와 Jira issue prefix 둘 뿐이다. 하지만 이 기능을 활용하고 싶다면 Jira에서 Issue를 만들 때 어떤식으로 네이밍을 할 것인지에 대한 규칙이 정해져 있어야 한다.
 
 하단에서 설정하는 부분은 사용 목적이나 연동 방법에 따라 달라지니 이 점에 유의해야 한다. 야무진 활용을 하고싶다면 공식 문서 등을 참고하는 것을 추천한다.
 
@@ -173,7 +173,7 @@ xxx에는 숫자가 들어간다), GitLab에서는 'PROJ-'를 제외한 숫자�
 
    3. **Branch name 정하기**
 
-      Branch name은 Jira에서 연동해 사용하기 위해 `<Jira Project Key>-<Issue 번호> <원하는 브랜치 이름>` 형식으로 작성해주시면 좋습니다(참고: [Jira Issue Regex](#Jira Issue Regex). [Jira Issue Prefix](#Jira Issue Prefix)).
+      Branch name은 Jira에서 연동해 사용하기 위해 `<Jira Project Key>-<Issue 번호> <원하는 브랜치 이름>` 형식으로 작성해주시면 좋습니다(참고: [Jira Issue Regex](#jira-issue-regex). [Jira Issue Prefix](#jira-issue-prefix)).
 
 ### 생성된 브랜치 확인
 
@@ -181,7 +181,7 @@ xxx에는 숫자가 들어간다), GitLab에서는 'PROJ-'를 제외한 숫자�
 
 ## 2. 커밋명 규칙에 맞춰 커밋해보기
 
-커밋하실 떄는 꼭 `<Jira Project Key>-<Issue 번호> <커밋 메시지>` 규칙을 맞춰주셔야 합니다(참고: [Jira Issue Regex](#Jira Issue Regex). [Jira Issue Prefix](#Jira Issue Prefix))!! 생성한 브랜치로 체크아웃 하시고 커밋 시 커밋명 규칙을 지키면 미션 완료입니다. 커밋을 할 때마다 일일이 issue key를 써주시는 것이 귀찮을 수도 있으나, issue key를 생략하고 커밋하실 경우 Jira에서는 해당 커밋 내역을 확인할 수 없습니다.
+커밋하실 떄는 꼭 `<Jira Project Key>-<Issue 번호> <커밋 메시지>` 규칙을 맞춰주셔야 합니다(참고: [Jira Issue Regex](#jira-issue-regex). [Jira Issue Prefix](#jira-issue-prefix))!! 생성한 브랜치로 체크아웃 하시고 커밋 시 커밋명 규칙을 지키면 미션 완료입니다. 커밋을 할 때마다 일일이 issue key를 써주시는 것이 귀찮을 수도 있으나, issue key를 생략하고 커밋하실 경우 Jira에서는 해당 커밋 내역을 확인할 수 없습니다.
 
 ## 3. Jira에서 브랜치와 커밋 내역 확인
 
