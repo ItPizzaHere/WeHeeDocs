@@ -29,6 +29,8 @@
     - [채팅 시스템을 구현한다면, 어느 정도 수준의 설계까지 구현 가능할 것인가?](architecture/chatting/plan-for-designing-chatting-architecture.md)
     - [채팅 기능 설계 구체화](architecture/chatting/refining-chatting-feature-design.md)
     - [채팅 아키텍처 설계 - 쓰는 중](architecture/chatting/design-chatting-architecture.md)
+  - [database](architecture/db/README.md)
+    - [MBTI 라운지 데이터베이스 테이블 설계](architecture/db/mbti-lounge-db-table.md)
 - [development](development/README.md)
   - [frontend](development/frontend/README.md)
   - [board](development/board/README.md)
