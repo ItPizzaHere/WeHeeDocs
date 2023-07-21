@@ -3,7 +3,7 @@
 
 ##### webRTC를 사용하여 실시간 채팅을 구현하는 방식
 
-![webRTC종류](images\webRTC종류.png)
+![webRTC종류](./images/webRTC종류.png)
 
 1. Mesh
    1. 
