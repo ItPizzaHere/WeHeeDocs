@@ -12,6 +12,11 @@
 
 - [operations](operations/README.md)
   - [conventions](operations/conventions/README.md)
+    - [templates](operations/conventions/templates/README.md)
+      - [버그 리포트 템플릿](operations/conventions/templates/bug-report-template.md)
+      - [기능 요청 템플릿](operations/conventions/templates/feature-request-template.md)
+      - [이슈 템플릿](operations/conventions/templates/issue-template.md)
+      - [PR 템플릿](operations/conventions/templates/pull-request-template.md)
   - [docs](operations/docs/README.md)
   - [jira](operations/jira/README.md)
     - [Jira-GitLab Integration](operations/jira/jira-gitlab-integration.md)
