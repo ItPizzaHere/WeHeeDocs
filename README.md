@@ -2,6 +2,14 @@
 
 > WeHee의 자료를 관리하는 문서 레포지토리입니다.
 
+### Quick Links
+
+- [Notion](https://lemonade-log.notion.site/SSAFY-PJT-f8804bbfc7b24b1e91c25a4667a75e61?pvs=4)
+- [Jira](https://ssafy.atlassian.net/jira/software/c/projects/S09P12A806/boards/3230)
+- [GitLab](https://project.ssafy.com/login?returnPath=%2Fsso)
+
+## Documentation
+
 - [operations](operations/README.md)
   - [conventions](operations/conventions/README.md)
   - [docs](operations/docs/README.md)
