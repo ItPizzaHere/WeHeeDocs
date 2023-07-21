@@ -5,9 +5,16 @@
 - [운영관리](운영관리/README.md)
   - [컨벤션](운영관리/컨벤션/README.md)
   - [독스](운영관리/독스/README.md)
+  - [Jira](운영관리/Jira/README.md)
+    - [Jira-GitLab Integration](운영관리/Jira/Jira-GitLab Integration.md)
+    - [Jira Conventions 세미나](운영관리/Jira/Jira Conventions 세미나.md)
   - [위키](운영관리/위키/README.md)
 - [기획](기획/README.md)
 - [설계](설계/README.md)
+  - [채팅](설계/채팅/README.md)
+    - [채팅 시스템을 구현한다면, 어느 정도 수준의 설계까지 구현 가능할 것인가?](설계/채팅/채팅 시스템을 구현한다면.md)
+    - [채팅 기능 설계 구체화](설계/채팅/채팅 기능 설계 구체화.md)
+
 - [개발](개발/README.md)
   - [프론트](개발/프론트/README.md)
   - [게시판](개발/게시판/README.md)
@@ -19,6 +26,10 @@
 - [컨설팅](컨설팅/README.md)
 - [결정사항](결정사항/README.md)
 - [회고](회고/README.md)
+  - [우리의 기획이 어설플 수밖에 없는 이유](회고/우리의 기획이 어설플 수밖에 없는 이유.md)
+  - [목적이 다른 여러 사람이 각자, 그리고 공동의 목표를 이룰 방법은?](회고/목적이 다른 여러 사람이.md)
+  - [프론트엔드 로드맵 만들기](회고/프론트엔드 로드맵 만들기.md)
+
 
 ------
 
