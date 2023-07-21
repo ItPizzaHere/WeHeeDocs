@@ -18,6 +18,8 @@
     - [Jira Conventions Seminar](operations/jira/jira-conventions-seminar.md)
 - [design](design/README.md)
     - [Figma](design/Figma)
+      - [피그마 보는 간단 가이드](design/Figma/README.md)
+      - [로고, 컬러팔레트, 무드보드](design/Figma/identity.md)
 - [architecture](architecture/README.md)
   - [chatting](architecture/chatting/README.md)
     - [채팅 시스템을 구현한다면, 어느 정도 수준의 설계까지 구현 가능할 것인가?](architecture/chatting/plan-for-designing-chatting-architecture.md)
