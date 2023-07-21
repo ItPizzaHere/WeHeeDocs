@@ -7,7 +7,7 @@
   - [docs](operations/docs/README.md)
   - [jira](operations/jira/README.md)
     - [Jira-GitLab Integration](operations/jira/jira-gitlab-integration.md)
-    - [Jira Conventions Seminar](operations/Jira/jira-conventions-seminar.md)
+    - [Jira Conventions Seminar](operations/jira/jira-conventions-seminar.md)
 - [design](design/README.md)
 - [architecture](architecture/README.md)
   - [chatting](architecture/chatting/README.md)
