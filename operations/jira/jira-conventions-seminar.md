@@ -1,18 +1,18 @@
 # Jira Conventions 세미나
 
-작성일: 2023-07-20
+작성일: 2023-07-20 <br>
 작성자: 김예진
 
 > **목차**
 >
-> 1. [Jira에서 사용할 기능들](#Jira에서 사용할 기능들)
-> 2. [Components 사용](#Components 사용)
->    1. [Component별 이슈 관리](#Component별 이슈 관리)
-> 3. [Issue를 활용한 프로젝트 관리](#Issue를 활용한 프로젝트 관리)
->    1. [Epic, Story 사용 - 생성 권한, 역할](#Epic, Story 사용 - 생성 권한, 역할)
->    2. [Task Issue 관리](#Task Issue 관리)
->    3. [Issue 깊이 관리](#Issue 깊이 관리)
-> 4. [Sprint 사용](#Sprint 사용)
+> 1. [Jira에서 사용할 기능들](#jira에서-사용할-기능들)
+> 2. [Components 사용](#components-사용)
+>    1. [Component별 이슈 관리](#component별-이슈-관리)
+> 3. [Issue를 활용한 프로젝트 관리](#issue를-활용한-프로젝트-관리)
+>    1. [Epic, Story 사용 - 생성 권한, 역할](#epic-story-사용---생성-권한-역할)
+>    2. [Task Issue 관리](#task-issue-관리)
+>    3. [Issue 깊이 관리](#issue-깊이-관리)
+> 4. [Sprint 사용](#sprint-사용)
 
 ### 빠른 참고 링크
 
