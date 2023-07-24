@@ -2,13 +2,13 @@
 
 > **목차**
 >
-> 1. [OAuth2 이해하고 적용하기](#1-oauth2-이해하고-적용하기)
->    1. [발급받은 키 정보](#1--1-발급받은-키-정보)
->    2. [왜 예제들에서는 다들 인증에 3000번 포트를 사용하는가?](#1--2-왜-예제들에서는-다들-인증에-3000번-포트를-사용하는가-)
->    3. [OAuth에 CORS 설정이 들어가는 이유?](#1-3. AOuth에 CORS 설정이 들어가는 이유?)
-> 2. [여기에서 더 심화한다면?](#2. 여기에서 더 심화한다면?)
->    1. [Redis를 이용한 유저 정보 관리](#2-1.Redis를 이용한 유저 정보 관리)
->    1. [보안에 집중](#2-2. 보안에 집중)
+> 1. [OAuth2 이해하고 적용하기](1-oauth2-이해하고-적용하기)
+>    1. [발급받은 키 정보](#1-1-발급받은-키-정보)
+>    2. [왜 예제들에서는 다들 인증에 3000번 포트를 사용하는가?](#1-2-왜-예제들에서는-다들-인증에-3000번-포트를-사용하는가)
+>    3. [OAuth에 CORS 설정이 들어가는 이유?](#1-3-oauth에-cors-설정이-들어가는-이유)
+> 2. [여기에서 더 심화한다면?](#2-여기에서-더-심화한다면)
+>    1. [Redis를 이용한 유저 정보 관리](#2-1redis를-이용한-유저-정보-관리)
+>    1. [보안에 집중](#2-2-보안에-집중)
 
 - 실습 레포
   - 아래의 두 레포를 가져와 간단하게 OAuth를 실습함
@@ -56,7 +56,7 @@
 
   It's important to note that the specific port numbers used, such as 3000 for authorization and 8080 for the service server, are not mandated by any standard. They are merely conventions often followed by developers, but you can choose any available ports that suit your needs.
 
-## 1-3. AOuth에 CORS 설정이 들어가는 이유?
+## 1-3. OAuth에 CORS 설정이 들어가는 이유?
 
 - CORS에 대한 간단한 정리 - [우테코 테코톡](https://www.youtube.com/watch?v=-2TgkKYmJt4)
 - [참고](https://taes-k.github.io/2019/12/05/spring-cors/)
