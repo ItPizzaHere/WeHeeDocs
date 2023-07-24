@@ -62,6 +62,7 @@
     - [[책] 도메인 주도 설계 핵심](review/study/domain-driven-development-core.md)
     - [[책] 가상 면접 사례로 배우는 대규모 시스템 설계 기초](review/study/system-design-interview.md)
     - [Hexagonal Architecture](review/study/hexagonal-architecture.md)
+    - [OAuth를 이용한 소셜 로그인 구현](review/study/social-login-using-oauth.md)
   - [roadmap](review/roadmap/README.md)
     - [프론트엔드 로드맵 만들기](review/roadmap/frontend-roadmap.md)
     - [기획 로드맵 만들기 - 쓰는 중](review/roadmap/product-management-roadmap.md)
