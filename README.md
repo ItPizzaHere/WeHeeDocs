@@ -23,10 +23,12 @@
   - [jira](operations/jira/README.md)
     - [Jira-GitLab Integration](operations/jira/jira-gitlab-integration.md)
     - [Jira Conventions Seminar](operations/jira/jira-conventions-seminar.md)
+  
 - [design](design/README.md)
   - [Figma](design/Figma)
     - [피그마 보는 간단 가이드](design/Figma/README.md)
     - [로고, 컬러팔레트, 무드보드](design/Figma/identity.md)
+    - [채팅 프로토타입](design/Figma/chatting-prototype.pdf)
   - [proposal](design/proposal/)
     - [project-proposal](design/proposal/project-proposal.pdf)
     - [chatting-requirements](design/proposal/chatting-requirements.pdf)
@@ -34,7 +36,12 @@
     - [board-requirements](design/proposal/board-requirements.pdf)
     - [voiceroom-requirements](design/proposal/voiceroom-requirements.pdf)
     - [references](design/proposal/references.pptx)
+  
 - [architecture](architecture/README.md)
+  
+  - [전체 시스템 설계](architecture/README.md)
+  - [lounge](architecture/lounge/README.md)
+  
   - [chatting](architecture/chatting/README.md)
     - [채팅 시스템을 구현한다면, 어느 정도 수준의 설계까지 구현 가능할 것인가?](architecture/chatting/plan-for-designing-chatting-architecture.md)
     - [채팅 기능 설계 구체화](architecture/chatting/refining-chatting-feature-design.md)
@@ -44,13 +51,21 @@
     - [webRTC 사용 방법](architecture/voice-room/plan-for-voice-room.md)
   - [database](architecture/db/README.md)
     - [MBTI 라운지 데이터베이스 테이블 설계](architecture/db/mbti-lounge-db-table.md)
+    - [채팅 데이터베이스 테이블 설계](architecture/database/chatting-db-table.md)
+  - [sequence-diagram](architecture/sequence-diagram/README.md)
+    - [채팅 시퀀스 다이어그램 - 쓰는 중](architecture/sequence-diagram/chatting-sequence-diagram.md)
+  
 - [infrastructure](infrastructure/README.md)
+
 - [presentation](presentation/README.md)
+
 - [consulting](consulting/README.md)
   - [week2](consulting/week2/README.md)
     - [week2 result](consulting/week2/week2-consulting-result.md)
     - [week3 plan](consulting/week2/week3-consulting-plan.md)
+
 - [decisions](decisions/README.md)
+
 - [review](review/README.md)
   - [study](review/study/README.md)
     - [[책] Cracking the PM Interview: How to Land a Product Manager Job in Technology(Cracking the Interview & Career) - 쓰는 중](review/study/cracking-the-pm-interview.md)
@@ -63,7 +78,7 @@
     - [기획 로드맵 만들기 - 쓰는 중](review/roadmap/product-management-roadmap.md)
   - [우리의 기획이 어설플 수밖에 없는 이유](review/reasons-of-our-product-design-is-clumsy.md)
   - [목적이 다른 여러 사람이 각자, 그리고 공동의 목표를 이룰 방법은?](review/ways-of-achieving-personal-and-public-goals.md)
-  
+
 
 
 ------
