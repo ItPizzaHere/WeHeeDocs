@@ -42,6 +42,7 @@
   - [voice-room](architecture/voice-room/README.md)
     - [webRTC 사용 방법](architecture/voice-room/plan-for-voice-room.md)
   - [database](architecture/db/README.md)
+    - [사용자 데이터베이스 테이블 설계](architecture/db/user-db-table.md)
     - [MBTI 라운지 데이터베이스 테이블 설계](architecture/db/mbti-lounge-db-table.md)
 - [development](development/README.md)
   - [frontend](development/frontend/README.md)
