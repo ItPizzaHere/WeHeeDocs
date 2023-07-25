@@ -43,6 +43,7 @@
     - [채팅 기능 설계 구체화](architecture/chatting/refining-chatting-feature-design.md)
     - [채팅 예시 프로젝트 실행 - Building Real-Time Apps with Spring, Cassandra, Redis, WebSocket and RabbitMQ](architecture/chatting/sample-project-jorge-acetozi.md)
     - [채팅 아키텍처 설계 - 쓰는 중](architecture/chatting/design-chatting-architecture.md)
+    - [채팅 기술 스택 조사 - 쓰는 중](architecture/chatting/tech-stack.md)
   - [voice-room](architecture/voice-room/README.md)
     - [webRTC 사용 방법](architecture/voice-room/plan-for-voice-room.md)
   - [database](architecture/db/README.md)
