@@ -4,6 +4,7 @@
 | MBTI번호 | mbti_id | INT | PK |
 | MBTI | name | VARCHAR(4) | NOT NULL |
 
+
 | 게시글(post) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
 | 글번호 | post_id | INT UNSIGNED | PK, AUTO_INCREMENT |
@@ -18,10 +19,12 @@
 | 삭제여부 | is_deleted | BOOL | DEFAULT FALSE |
 | 투표 존재여부 | has_vote | BOOL | DEFAULT FALSE |
 
+
 | 좋아요(like) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
 | 게시글번호 | like_post_id | INT UNSIGNED | PK, FK REFERENCES post_id(post) |
 | 사용자ID | like_user_id | INT UNSIGNED | PK, FK REFERENCES user_id(user) |
+
 
 | 댓글(comment) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
@@ -31,6 +34,9 @@
 | 내용 | content | TEXT | NOT NULL |
 | 게시시각 | upload_time | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP |
 | 게시상태 | state | INT | NOT NULL DEFAULT 0 |
+
+게시상태: 0=사용자가 직접 삭제, 1=사용자 탈퇴로 인한 삭제, 2=신고 누적으로 인한 삭제
+
 
 | 답글(reply) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
@@ -42,11 +48,15 @@
 | 게시시각 | upload_time | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP |
 | 게시상태 | state | INT | NOT NULL DEFAULT 0 |
 
+게시상태: 0=사용자가 직접 삭제, 1=사용자 탈퇴로 인한 삭제, 2=신고 누적으로 인한 삭제
+
+
 | 투표(vote) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
 | 투표번호 | vote_id | INT UNSIGNED | PK, AUTO_INCREMENT |
 | 게시글번호 | vote_post_id | INT UNSIGNED | FK REFERENCES post_id(post), NOT NULL |
 | 제목 | title | VARCHAR(30) | NOT NULL |
+
 
 | 투표선택지(vote_select) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
@@ -54,11 +64,13 @@
 | 투표번호 | vote_select_vote_id | INT UNSIGNED | PK, FK REFERENCES vote_id(vote) |
 | 선택지 | title | VARCHAR(100) | NOT NULL |
 
+
 | 투표자(voter) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
 | 투표번호 | voter_vote_id | INT UNSIGNED | PK, FK REFERENCES vote_id(vote) |
 | 선택지번호 | voter_vote_select_id | INT UNSIGNED | PK, FK REFERENCES vote_select_id(vote_seLect) |
 | 사용자 | voter_user_id | INT UNSIGNED | PK, FK REFERENCES user_id(user) |
+
 
 | 알림(notification) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
@@ -71,11 +83,13 @@
 | 게시글/댓글 번호 | origin_post_id | INT UNSIGNED |  |
 | 열람 여부 | browsed | BOOL | DEFAULT FALSE |
 
+
 | 신고(declare) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
 | 글 유형 | declare_type | INT | PK |
 | 글 번호 | declare_post_id | INT UNSIGNED | PK |
 | 신고자 | delclare_user_id | INT UNSIGNED | PK |
+
 
 | 삭제된 게시글(deleted_post) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
@@ -92,6 +106,7 @@
 | 삭제여부 | is_deleted | BOOL |  |
 | 투표 존재여부 | has_vote | BOOL |  |
 
+
 | 삭제된 댓글(deleted_comment) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
 | 고유번호 | deleted_comment_id | INT UNSIGNED | PK, AUTO_INCREMENT |
@@ -101,6 +116,9 @@
 | 내용 | content | TEXT |  |
 | 게시시각 | upload_time | TIMESTAMP |  |
 | 게시상태 | state | INT |  |
+
+게시상태: 0=사용자가 직접 삭제, 1=사용자 탈퇴로 인한 삭제, 2=신고 누적으로 인한 삭제
+
 
 | 삭제된 답글(deleted_reply) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
@@ -113,6 +131,9 @@
 | 게시시각 | upload_time | TIMESTAMP |  |
 | 게시상태 | state | INT |  |
 
+게시상태: 0=사용자가 직접 삭제, 1=사용자 탈퇴로 인한 삭제, 2=신고 누적으로 인한 삭제
+
+
 | 삭제된 투표(deleted_vote) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
 | 고유번호 | deleted_vote_id | INT UNSIGNED | PK, AUTO_INCREMENT |
@@ -120,12 +141,14 @@
 | 게시글번호 | vote_post_id | INT UNSIGNED |  |
 | 제목 | title | VARCHAR(30) |  |
 
+
 | 삭제된 투표선택지(deleted_vote_select) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
 | 고유번호 | deleted_vote_select_id | INT UNSIGNED | PK, AUTO_INCREMENT |
 | 선택지번호 | vote_select_id | INT UNSIGNED |  |
 | 투표번호 | vote_select_vote_id | INT UNSIGNED |  |
 | 선택지 | title | VARCHAR(100) |  |
+
 
 | 삭제된 투표자(deleted_voter) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
