@@ -24,6 +24,8 @@
     - [board-requirements](design/proposal/board-requirements.pdf)
     - [voiceroom-requirements](design/proposal/voiceroom-requirements.pdf)
     - [references](design/proposal/references.pptx)
+    - [vote-requirements](design/proposal/vote-requirements.pdf)
+    - [voiceroom-add_some_details](design/proposal/voiceroom-add_some_details.pdf)
 - [architecture](architecture/README.md)
   - [chatting](architecture/chatting/README.md)
     - [채팅 시스템을 구현한다면, 어느 정도 수준의 설계까지 구현 가능할 것인가?](architecture/chatting/plan-for-designing-chatting-architecture.md)
