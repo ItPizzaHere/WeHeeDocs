@@ -1,5 +1,5 @@
-create database wehee;
-use wehee;
+create database itpizza;
+use itpizza;
 
 create table MBTI(
 	mbti_id int primary key,
