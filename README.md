@@ -58,6 +58,8 @@
   - [week2](consulting/week2/README.md)
     - [week2 result](consulting/week2/week2-consulting-result.md)
     - [week3 plan](consulting/week2/week3-consulting-plan.md)
+  - [week3](consulting/week3/README.md)
+    - [week3 result](consulting/week3/week3-consulting-result.md)
 - [decisions](decisions/README.md)
 - [review](review/README.md)
   - [study](review/study/README.md)
