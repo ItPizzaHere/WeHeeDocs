@@ -39,7 +39,7 @@
     - [voiceroom-add_some_details](design/proposal/voiceroom-add_some_details.pdf)
     - [planning-presentation](design/proposal/planning-presentation.pdf)
 - [architecture](architecture/README.md)
-  - [전체 시스템 설계](architecture/README.md)
+  - [전체 시스템 설계 - 쓰는 중](architecture/README.md)
   - [lounge](architecture/lounge/README.md)
   - [chatting](architecture/chatting/README.md)
     - [채팅 시스템을 구현한다면, 어느 정도 수준의 설계까지 구현 가능할 것인가?](architecture/chatting/plan-for-designing-chatting-architecture.md)
@@ -71,13 +71,14 @@
     - [[책] 가상 면접 사례로 배우는 대규모 시스템 설계 기초](review/study/system-design-interview.md)
     - [Hexagonal Architecture](review/study/hexagonal-architecture.md)
     - [OAuth를 이용한 소셜 로그인 구현](review/study/social-login-using-oauth.md)
+    - [Docker - 쓰는 중](review/study/docker.md)
+    - [NoSQL - 쓰는 중](review/study/nosql.md)
   - [roadmap](review/roadmap/README.md)
     - [프론트엔드 로드맵 만들기](review/roadmap/frontend-roadmap.md)
     - [기획 로드맵 만들기 - 쓰는 중](review/roadmap/product-management-roadmap.md)
-  - [우리의 기획이 어설플 수밖에 없는 이유](review/reasons-of-our-product-design-is-clumsy.md)
-  - [목적이 다른 여러 사람이 각자, 그리고 공동의 목표를 이룰 방법은?](review/ways-of-achieving-personal-and-public-goals.md)
-
-
+  - [story](review/story/README.md)
+    - [우리의 기획이 어설플 수밖에 없는 이유](review/story/reasons-of-our-product-design-is-clumsy.md)
+    - [목적이 다른 여러 사람이 각자, 그리고 공동의 목표를 이룰 방법은?](review/story/ways-of-achieving-personal-and-public-goals.md)
 
 ------
 
