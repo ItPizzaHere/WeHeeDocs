@@ -35,6 +35,8 @@
     - [board-requirements](design/proposal/board-requirements.pdf)
     - [voiceroom-requirements](design/proposal/voiceroom-requirements.pdf)
     - [references](design/proposal/references.pptx)
+    - [vote-requirements](design/proposal/vote-requirements.pdf)
+    - [voiceroom-add_some_details](design/proposal/voiceroom-add_some_details.pdf)
 - [architecture](architecture/README.md)
   - [전체 시스템 설계](architecture/README.md)
   - [lounge](architecture/lounge/README.md)
