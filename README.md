@@ -24,6 +24,7 @@
     - [Jira-GitLab Integration](operations/jira/jira-gitlab-integration.md)
     - [Jira Conventions Seminar](operations/jira/jira-conventions-seminar.md)
 - [design](design/README.md)
+  - [로고 이미지](design/logo.png)
   - [Figma](design/Figma)
     - [피그마 보는 간단 가이드](design/Figma/README.md)
     - [로고, 컬러팔레트, 무드보드](design/Figma/identity.md)
@@ -38,6 +39,7 @@
     - [vote-requirements](design/proposal/vote-requirements.pdf)
     - [voiceroom-add_some_details](design/proposal/voiceroom-add_some_details.pdf)
     - [planning-presentation](design/proposal/planning-presentation.pdf)
+  
 - [architecture](architecture/README.md)
   - [architecture.drawio](architecture/architecture.drawio)
   - [전체 시스템 설계 - 쓰는 중](architecture/README.md)
