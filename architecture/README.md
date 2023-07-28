@@ -5,15 +5,34 @@
 
 > **목차**
 >
-> 1. [설계안](#설계안)
-> 2. [기능적 시스템 분류](#기능적-시스템-분류)
->    1. [라운지](#1-라운지)
->    2. [채팅](#2-채팅)
->    3. [보이스룸](#3-보이스룸)
+> 1. [설계 변천사](#설계-변천사)
+> 2. [손그림](#손그림)
+> 3. [v1 - 손그림 디지털화](#v1---손그림-디지털화)
+> 4. [v2 - V1 추상화](#v2---v1-추상화)
+> 5. [컨님 그림](#컨님-그림)
+> 6. [v3 - 레이어 적용](#v3---레이어-적용)
+> 7. [v4 - v3 업데이트](#v4---v3-업데이트)
+> 8. [v5 - monolithic architecture로 수정](#v5---monolithic-architecture로-수정)
 
-# 설계안
+# 설계 변천사
+
+## 배경
+
+
+
+# 손그림
 
 ![](images/practice25.jpg)
 
-
-
+# v1 - 손그림 디지털화
+![](images/practice26.png)
+# v2 - V1 추상화
+![](images/practice27.png)
+# 컨님 그림
+![](images/practice28.jpg)
+# v3 - 레이어 적용
+![](images/practice29.png)
+# v4 - v3 업데이트
+![](images/practice30.png)
+# v5 - monolithic architecture로 수정
+![](images/practice31.png)
