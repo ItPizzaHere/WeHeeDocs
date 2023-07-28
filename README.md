@@ -37,6 +37,7 @@
     - [references](design/proposal/references.pptx)
     - [vote-requirements](design/proposal/vote-requirements.pdf)
     - [voiceroom-add_some_details](design/proposal/voiceroom-add_some_details.pdf)
+    - [planning-presentation](design/proposal/planning-presentation.pdf)
 - [architecture](architecture/README.md)
   - [전체 시스템 설계](architecture/README.md)
   - [lounge](architecture/lounge/README.md)
