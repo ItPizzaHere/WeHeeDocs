@@ -39,6 +39,7 @@
     - [voiceroom-add_some_details](design/proposal/voiceroom-add_some_details.pdf)
     - [planning-presentation](design/proposal/planning-presentation.pdf)
 - [architecture](architecture/README.md)
+  - [architecture.drawio](architecture/architecture.drawio)
   - [전체 시스템 설계 - 쓰는 중](architecture/README.md)
   - [lounge](architecture/lounge/README.md)
   - [chatting](architecture/chatting/README.md)
@@ -55,6 +56,7 @@
     - [채팅 데이터베이스 테이블 설계](architecture/database/chatting-db-table.md)
   - [sequence-diagram](architecture/sequence-diagram/README.md)
     - [채팅 시퀀스 다이어그램 - 쓰는 중](architecture/sequence-diagram/chatting-sequence-diagram.md)
+
 - [infrastructure](infrastructure/README.md)
 - [presentation](presentation/README.md)
 - [consulting](consulting/README.md)
