@@ -32,7 +32,7 @@ create table post(
     hit int unsigned not null default 0,
     comment_count int unsigned not null default 0,
     upload_time timestamp not null default current_timestamp,
-    state int default 0,
+    state int not null default 0,
     foreign key(post_mbti_id) references MBTI(mbti_id),
     foreign key(post_user_id) references `user`(user_id) on delete cascade
 );
