@@ -14,11 +14,11 @@ create table `user`(
     birth int unsigned not null,
     gender varchar(1) not null,
     last_mbti_modified date default null,
-    birth_changed bool default false,
-    gender_changed bool default false,
+    birth_changed bool not null default false,
+    gender_changed bool not null default false,
     provider varchar(10) not null,
     provider_id varchar(255) not null,
-    withdrawl bool default false,
+    withdrawl bool not null default false,
     foreign key(user_mbti_id) references MBTI(mbti_id)
 );
 
@@ -27,7 +27,7 @@ create table post(
     post_mbti_id int not null,
     title varchar(30) not null,
     content text not null,
-    post_user_id int unsigned,
+    post_user_id int unsigned not null,
     like_count mediumint not null default 0,
     hit int unsigned not null default 0,
     comment_count int unsigned not null default 0,
@@ -39,7 +39,7 @@ create table post(
 
 create table `like`(
 	like_id int unsigned primary key auto_increment,
-	like_post_id int unsigned,
+	like_post_id int unsigned not null,
     like_user_id int unsigned,
     foreign key(like_post_id) references post(post_id) on delete cascade,
     foreign key(like_user_id) references `user`(user_id) on delete set null
