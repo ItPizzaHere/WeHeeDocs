@@ -7,8 +7,8 @@
 | 생년 | birth | INT UNSIGNED | NOT NULL |
 | 성별 | gender | VARCHAR(1) | NOT NULL |
 | 마지막 MBTI 변경일 | last_mbti_modified | DATE | DEFAULT NULL |
-| 생년 변경여부 | birth_changed | BOOL | DEFAULT FALSE |
-| 성별 변경여부 | gender_changed | BOOL | DEFAULT FALSE |
+| 생년 변경여부 | birth_changed | BOOL | NOT NULL, DEFAULT FALSE |
+| 성별 변경여부 | gender_changed | BOOL | NOT NULL, DEFAULT FALSE |
 | provider(네이버, 카카오, 구글 등) | provider | VARCHAR(10) | NOT NULL |
 | 식별자 | provider_id | VARCHAR(255) | NOT NULL |
-| 탈퇴여부 | withdrawal | BOOL | DEFAULT FALSE |
+| 탈퇴여부 | withdrawal | BOOL | NOT NULL, DEFAULT FALSE |
