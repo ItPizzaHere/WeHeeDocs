@@ -53,6 +53,7 @@
     - [사용자 데이터베이스 테이블 설계](architecture/db/user-db-table.md)
     - [MBTI 라운지 데이터베이스 테이블 설계](architecture/db/mbti-lounge-db-table.md)
     - [채팅 데이터베이스 테이블 설계](architecture/database/chatting-db-table.md)
+    - [사용자 및 MBTI 라운지 데이터베이스 테이블 생성&기본 데이터 삽입 SQL](architecture/db/user_lounge_init.sql)
   - [sequence-diagram](architecture/sequence-diagram/README.md)
     - [채팅 시퀀스 다이어그램 - 쓰는 중](architecture/sequence-diagram/chatting-sequence-diagram.md)
 - [infrastructure](infrastructure/README.md)
