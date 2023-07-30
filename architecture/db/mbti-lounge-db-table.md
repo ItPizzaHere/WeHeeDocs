@@ -15,9 +15,9 @@
 | 조회수 | hit | INT UNSIGNED | NOT NULL DEFAULT 0 |
 | 댓글수 | comment_count | INT UNSIGNED | NOT NULL DEFAULT 0 |
 | 게시시간 | upload_time | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP |
-| 상태 | state | INT | DEFAULT 0 |
+| 상태 | state | INT | NOT NULL DEFAULT 0 |
 
-게시상태: 0=사용자가 직접 삭제, 1=사용자 탈퇴로 인한 삭제, 2=신고 누적으로 인한 삭제
+게시상태: 0=정상, 1=사용자가 직접 삭제, 2=사용자 탈퇴로 인한 삭제, 3=신고 누적으로 인한 삭제
 
 
 | 좋아요(like) | 컬럼명 | 속성 | 제약조건 |
@@ -36,7 +36,7 @@
 | 게시시각 | upload_time | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP |
 | 게시상태 | state | INT | NOT NULL DEFAULT 0 |
 
-게시상태: 0=사용자가 직접 삭제, 1=사용자 탈퇴로 인한 삭제, 2=신고 누적으로 인한 삭제
+게시상태: 0=정상, 1=사용자가 직접 삭제, 2=사용자 탈퇴로 인한 삭제, 3=신고 누적으로 인한 삭제
 
 
 | 답글(reply) | 컬럼명 | 속성 | 제약조건 |
@@ -49,7 +49,7 @@
 | 게시시각 | upload_time | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP |
 | 게시상태 | state | INT | NOT NULL DEFAULT 0 |
 
-게시상태: 0=사용자가 직접 삭제, 1=사용자 탈퇴로 인한 삭제, 2=신고 누적으로 인한 삭제
+게시상태: 0=정상, 1=사용자가 직접 삭제, 2=사용자 탈퇴로 인한 삭제, 3=신고 누적으로 인한 삭제
 
 
 | 투표(vote) | 컬럼명 | 속성 | 제약조건 |
@@ -91,9 +91,9 @@
 | 신고(declare) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
 | 고유번호 | declare_id | INT UNSIGNED | PK, AUTO_INCREMENT |
-| 글 유형 | declare_type | INT | PK |
-| 글 번호 | declare_post_id | INT UNSIGNED | PK |
-| 신고자 | delclare_user_id | INT UNSIGNED | PK, FK REFERENCES user(user_id) ON DELETE SET NULL |
+| 글 유형 | declare_type | INT | NOT NULL |
+| 글 번호 | declare_post_id | INT UNSIGNED |  |
+| 신고자 | delclare_user_id | INT UNSIGNED | FK REFERENCES user(user_id) ON DELETE SET NULL |
 
 
 | 삭제된 게시글(deleted_post) | 컬럼명 | 속성 | 제약조건 |
@@ -110,7 +110,7 @@
 | 게시시간 | upload_time | TIMESTAMP |  |
 | 게시상태 | state | INT |  |
 
-게시상태: 0=사용자가 직접 삭제, 1=사용자 탈퇴로 인한 삭제, 2=신고 누적으로 인한 삭제
+게시상태: 0=정상, 1=사용자가 직접 삭제, 2=사용자 탈퇴로 인한 삭제, 3=신고 누적으로 인한 삭제
 
 
 | 삭제된 댓글(deleted_comment) | 컬럼명 | 속성 | 제약조건 |
@@ -123,7 +123,7 @@
 | 게시시각 | upload_time | TIMESTAMP |  |
 | 게시상태 | state | INT |  |
 
-게시상태: 0=사용자가 직접 삭제, 1=사용자 탈퇴로 인한 삭제, 2=신고 누적으로 인한 삭제
+게시상태: 0=정상, 1=사용자가 직접 삭제, 2=사용자 탈퇴로 인한 삭제, 3=신고 누적으로 인한 삭제
 
 
 | 삭제된 답글(deleted_reply) | 컬럼명 | 속성 | 제약조건 |
@@ -137,4 +137,4 @@
 | 게시시각 | upload_time | TIMESTAMP |  |
 | 게시상태 | state | INT |  |
 
-게시상태: 0=사용자가 직접 삭제, 1=사용자 탈퇴로 인한 삭제, 2=신고 누적으로 인한 삭제
+게시상태: 0=정상, 1=사용자가 직접 삭제, 2=사용자 탈퇴로 인한 삭제, 3=신고 누적으로 인한 삭제
