@@ -72,6 +72,7 @@
     - [[책] Cracking the PM Interview: How to Land a Product Manager Job in Technology(Cracking the Interview & Career) - 쓰는 중](review/study/cracking-the-pm-interview.md)
     - [[책] 도메인 주도 설계 핵심](review/study/domain-driven-development-core.md)
     - [[책] 가상 면접 사례로 배우는 대규모 시스템 설계 기초](review/study/system-design-interview.md)
+    - [[책] Building Real-Time Apps with Spring, Cassandra, Redis, WebSocket and RabbitMQ - 쓰는 중](review/study/building-real-time-apps.md)
     - [Hexagonal Architecture](review/study/hexagonal-architecture.md)
     - [OAuth를 이용한 소셜 로그인 구현](review/study/social-login-using-oauth.md)
     - [Docker - 쓰는 중](review/study/docker.md)
