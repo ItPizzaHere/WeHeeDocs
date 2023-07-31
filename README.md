@@ -76,7 +76,7 @@
     - [Hexagonal Architecture](review/study/hexagonal-architecture.md)
     - [OAuth를 이용한 소셜 로그인 구현](review/study/social-login-using-oauth.md)
     - [Docker](review/study/docker.md)
-    - [NoSQL - 쓰는 중](review/study/nosql.md)
+    - [RDBMS와 NoSQL DB의 차이](review/study/differences-between-rdmbs-and-nosql-db.md)
     - [Stateless와 Stateful 서비스 - 쓰는 중](review/study/stateless-and-stateful-services.md)
   - [roadmap](review/roadmap/README.md)
     - [프론트엔드 로드맵 만들기](review/roadmap/frontend-roadmap.md)
