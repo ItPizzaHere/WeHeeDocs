@@ -75,7 +75,7 @@
     - [[책] Building Real-Time Apps with Spring, Cassandra, Redis, WebSocket and RabbitMQ - 쓰는 중](review/study/building-real-time-apps.md)
     - [Hexagonal Architecture](review/study/hexagonal-architecture.md)
     - [OAuth를 이용한 소셜 로그인 구현](review/study/social-login-using-oauth.md)
-    - [Docker - 쓰는 중](review/study/docker.md)
+    - [Docker](review/study/docker.md)
     - [NoSQL - 쓰는 중](review/study/nosql.md)
     - [Stateless와 Stateful 서비스 - 쓰는 중](review/study/stateless-and-stateful-services.md)
   - [roadmap](review/roadmap/README.md)
