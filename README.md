@@ -39,10 +39,9 @@
     - [vote-requirements](design/proposal/vote-requirements.pdf)
     - [voiceroom-add_some_details](design/proposal/voiceroom-add_some_details.pdf)
     - [planning-presentation](design/proposal/planning-presentation.pdf)
-  
 - [architecture](architecture/README.md)
   - [architecture.drawio](architecture/architecture.drawio)
-  - [전체 시스템 설계 - 쓰는 중](architecture/README.md)
+  - [전체 시스템 설계](architecture/README.md)
   - [lounge](architecture/lounge/README.md)
   - [chatting](architecture/chatting/README.md)
     - [채팅 시스템을 구현한다면, 어느 정도 수준의 설계까지 구현 가능할 것인가?](architecture/chatting/plan-for-designing-chatting-architecture.md)
@@ -59,7 +58,6 @@
     - [사용자 및 MBTI 라운지 데이터베이스 테이블 생성&기본 데이터 삽입 SQL](architecture/db/user_lounge_init.sql)
   - [sequence-diagram](architecture/sequence-diagram/README.md)
     - [채팅 시퀀스 다이어그램 - 쓰는 중](architecture/sequence-diagram/chatting-sequence-diagram.md)
-
 - [infrastructure](infrastructure/README.md)
 - [presentation](presentation/README.md)
 - [consulting](consulting/README.md)
