@@ -5,21 +5,21 @@
 
 > **목차**
 >
-> 1. Schema
->    1. Schema 정의
->    2. RDBMS의 Schema
->    3. NoSQL DB의 Schema
-> 2. ACID 충족 여부
->    1. ACID
->    2. ACID - RDBMS
->    3. ACID - NoSQL DB
-> 3. Scalability
->    1. Scale Up과 Scale Out  정의
->    2. Scale Up과 Scale Out 장단점 비교
->    3. NoSQL에서의 Horizontal Scalability
-> 4. 대규모 배포를 고려한 DB 선택
->    1. NoSQL이 분산 시스템에 적용하기 위해 고안되었지만 대규모 배포 시 사용하기에 적절하지 않은 이유는?
->    2. 대규모 배포 시 RDMBS vs NoSQL DB
+> 1. [Schema](#schema)
+>    1. [Schema 정의](#schema-정의)
+>    2. [RDBMS의 Schema](#rdmbs의-schema)
+>    3. [NoSQL DB의 Schema](#nosql-db의-schema)
+> 2. [ACID 충족 여부](#acid-충족-여부)
+>    1. [ACID](#acid)
+>    2. [ACID - RDBMS](#acid---rdbms)
+>    3. [ACID - NoSQL DB](#acid---nosql-db)
+> 3. [Scalability](#scalability)
+>    1. [Scale Up과 Scale Out 정의](#scale-up과-scale-out-정의)
+>    2. [Scale Up과 Scale Out 장단점 비교](#scale-up과-scale-out-장단점-비교)
+>    3. [NoSQL에서의 Horizontal Scalability](#nosql에서의-horizontal-scalability)
+> 4. [대규모 배포를 고려한 DB 선택](#대규모-배포를-고려한-db-선택)
+>    1. [NoSQL이 분산 시스템에 적용하기 위해 고안되었지만 대규모 배포 시 사용하기에 적절하지 않은 이유는?](#nosql이-분산-시스템에-적용하기-위해-고안되었지만-대규모-배포-시-사용하기에-적절하지-않은-이유는)
+>    2. [대규모 배포 시 RDMBS vs NoSQL DB](#대규모-배포-시-rdmbs-vs-nosql-db)
 
 # Schema
 
@@ -46,7 +46,7 @@
 
 NoSQL 형식의 DB에서는 Document에 데이터가 저장된다. JSON 혹은 객체 형태인 key-value로 데이터가 저장되며, Documents가 모여 Collection이 되고 Collection이 모여 Database가 된다. 이때 중요한 점은 RDBMS와 달리 NoSQL DB는 `스키마를 정의하지 않아도 된다`는 점이다. (출처: [SQL vs NoSQL](https://velog.io/@thms200/SQL-vs-NoSQL))
 
-# ACID 충족
+# ACID 충족 여부
 
 ## ACID
 
