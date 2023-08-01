@@ -61,6 +61,9 @@
     - [사용자 및 MBTI 라운지 데이터베이스 테이블 생성&기본 데이터 삽입 SQL](architecture/db/user_lounge_init.sql)
   - [sequence-diagram](architecture/sequence-diagram/README.md)
     - [채팅 시퀀스 다이어그램 - WIP](architecture/sequence-diagram/chatting-sequence-diagram.md)
+- [development](development/README.md)
+  - [Spring WebSocket - WIP](development/spring-websocket.md)
+
 - [infrastructure](infrastructure/README.md)
 - [presentation](presentation/README.md)
 - [consulting](consulting/README.md)
@@ -75,7 +78,7 @@
     - [[책] Cracking the PM Interview: How to Land a Product Manager Job in Technology(Cracking the Interview & Career) - WIP](review/study/cracking-the-pm-interview.md)
     - [[책] 도메인 주도 설계 핵심](review/study/domain-driven-development-core.md)
     - [[책] 가상 면접 사례로 배우는 대규모 시스템 설계 기초](review/study/system-design-interview.md)
-    - [[책] Building Real-Time Apps with Spring, Cassandra, Redis, WebSocket and RabbitMQ - 쓰는 중](review/study/building-real-time-apps.md)
+    - [[책] Building Real-Time Apps with Spring, Cassandra, Redis, WebSocket and RabbitMQ - WIP](review/study/building-real-time-apps.md)
     - [Hexagonal Architecture](review/study/hexagonal-architecture.md)
     - [OAuth를 이용한 소셜 로그인 구현](review/study/social-login-using-oauth.md)
     - [Docker](review/study/docker.md)
