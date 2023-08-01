@@ -1,6 +1,6 @@
 # Docker 학습 내용
 
-마지막 업데이트 날짜: 2023-07-31 <br>
+마지막 업데이트 날짜: 2023-08-01 <br>
 작성자: 김예진
 
 > **목차**
@@ -27,6 +27,8 @@
 >    3. [컨테이너 포트 지정 → `-p`](#컨테이너-포트-지정---p)
 >    4. [환경변수 설정 → `-e`](#환경변수-설정---e)
 >    5. [볼륨 설정 → `-v`](#볼륨-설정---v)
+> 5. 도커 플러그인
+> 6. Docker with AWS
 
 이 문서에서는 [Building Real-Time Apps with Spring, Cassandra, Redis, WebSocket and RabbitMQ](building-real-time-apps.md)와 프로젝트 진행 중 알게 된 docker에 대한 정보를 다룹니다. Docker에 대한 사전적 정의 및 기타 내용은 생략합니다.
 
@@ -123,7 +125,7 @@ DB의 경우 도커 컨테이너를 사용하면 컨테이너가 종료되는 �
 
 `docker run -d -p 8080:8080 jenkins`
 
-일반적으로 `docker run jenkins`를 실행하면 도커 창이 jenkins를 실행시키느라고 그 작업에만 매달려 있게 되는데 -d 옵션을 사용하면 jenkins가 백그라운드에서 실행된다.
+일반적으로 `docker run jenkins`를 실행하면 도커 창이 jenkins를 실행시키느라고 그 작업에만 매달려 있게 되는데 -d 옵션을 사용하면 jenkins가 백그라운드에서 실행된다. 이때 'd'는 'detach' 혹은 'detached mode'를 의미한다. 도커가 foreground에서 실행될 때는 터미널과 붙어있는 관계지만 -d 옵션을 사용할 때 터미널이 백그라운드에서 돌아가는 도커와 분리되기 때문에 '-b' 옵션이 아니라 '-d' 옵션이 된다.
 
 ![](images/dev03.PNG)
 
@@ -160,8 +162,51 @@ AWS를 사용하는 경우 Elastic Block Store나 Elastic FIle System을 이용�
 - https://docs.aws.amazon.com/ko_kr/AmazonECS/latest/bestpracticesguide/storage-dockervolumes.html
 - https://yoyostudy.tistory.com/61
 
+Volume을 활용한 Data 관리는 [여기](https://medium.com/dtevangelist/docker-%EA%B8%B0%EB%B3%B8-5-8-volume%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-data-%EA%B4%80%EB%A6%AC-9a9ac1db978c)를 참조하면 된다.
+
 ## Docker Compose
 
 `docker-compose -f <docker compose yaml file> up`
 
 여러 컨테이너 설정을 담은 docker compose 파일을 실행시키면 한 번에 여러개의 컨테이너를 띄울 수 있다.
+
+# 도커 플러그인
+
+Docker 플러그인은 Docker 엔진에 기능을 추가하는 out-of-process 확장이다.
+
+- 참조
+  - [Docker Rex-ray 볼륨 드라이버 플러그인 소개](https://blog.ashon.me/194)
+
+# Docker with AWS
+
+## How Docker mounts data to EBS?
+
+Chat-GPT의 답변은 다음과 같다.
+
+> As of my last knowledge update in September 2021, Docker itself does not directly handle the mounting of data to Amazon Elastic Block Store (EBS) volumes. Instead, it relies on the underlying infrastructure and the host operating system to manage the EBS volumes and mount them as needed.
+>
+> When using Docker with Amazon Web Services (AWS), you can leverage the native AWS features to mount EBS volumes to your Docker containers. Here's an overview of the typical process:
+>
+> 1. **Create an EBS Volume**: First, you create an Amazon EBS volume using the AWS Management Console, AWS CLI, or SDKs. This EBS volume acts as a persistent block storage device.
+>
+> 2. **Attach the EBS Volume to EC2 Instance**: After creating the EBS volume, you attach it to an Amazon EC2 instance that is running Docker. This can be done using the AWS Management Console, AWS CLI, or SDKs.
+>
+> 3. **Mount the EBS Volume on the EC2 Instance**: Once the EBS volume is attached to the EC2 instance, you can mount it to a specific directory on the instance, just like you would mount any other block storage device on a typical Linux-based system. You can use the `mount` command to mount the EBS volume to a chosen directory.
+>
+> 4. **Run Docker Containers with Bind Mounts**: With the EBS volume mounted on the EC2 instance, you can use Docker's bind mount feature to mount directories from the EC2 instance to specific directories within the Docker containers. This allows data to be shared between the host instance and the containers.
+>
+> Here's an example of running a Docker container with a bind mount to an EBS volume:
+>
+> ```bash
+> # Assuming the EBS volume is mounted at /data/ebs_volume
+> docker run -d -v /data/ebs_volume:/app/data my_docker_image
+> ```
+>
+> In this example, the `/data/ebs_volume` directory on the EC2 instance is mounted into the `/app/data` directory inside the Docker container. Any data written to `/app/data` within the container will be stored on the EBS volume on the EC2 instance, ensuring data persistence.
+>
+> It's essential to note that the steps and commands mentioned here are generalized, and the actual implementation may vary based on your specific AWS setup and Docker configuration. Always refer to the official AWS documentation and Docker documentation for the most up-to-date and accurate information. Additionally, newer versions of Docker or AWS services may introduce changes or new features related to data mounting, so it's good practice to stay updated with the latest developments.
+
+## EC2 EBS에 볼륨을 추가 + 마운트 + 부팅시 자동 마운트 하는 방법
+
+[여기](https://yoyostudy.tistory.com/61)를 참조하세요.
+
