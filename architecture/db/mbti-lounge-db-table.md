@@ -29,6 +29,13 @@
 | 사용자ID | like_user_id | INT UNSIGNED | FK REFERENCES user(user_id) ON DELETE SET NULL |
 
 
+| 스크랩(scrap) | 컬럼명 | 속성 | 제약조건 |
+| --- | --- | --- | --- |
+| 스크랩번호 | scrap_id | INT UNSIGNED | PK, AUTO_INCREMENT |
+| 게시글번호 | scrap_post_id | INT UNSIGNED | FK REFERENCES post(post_id) ON DELETE CASCADE |
+| 사용자 | scrap_user_id | INT UNSIGNED | FK REFERENCES user(user_id) ON DELETE SET CASCADE |
+
+
 | 댓글(comment) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
 | 댓글번호 | comment_id | INT UNSIGNED | PK, AUTO_INCREMENT |
@@ -76,13 +83,6 @@
 | --- | --- | --- | --- |
 | 게시글번호 | hot_post_id | INT UNSIGNED | PK, FK REFERENCES post(post_id) ON DELETE CASCADE |
 | 순위 | rank | INT | UNIQUE |
-
-
-| 스크랩(scrap) | 컬럼명 | 속성 | 제약조건 |
-| --- | --- | --- | --- |
-| 스크랩번호 | scrap_id | INT UNSIGNED | PK, AUTO_INCREMENT |
-| 게시글번호 | scrap_post_id | INT UNSIGNED | FK REFERENCES post(post_id) ON DELETE CASCADE |
-| 사용자 | scrap_user_id | INT UNSIGNED | FK REFERENCES user(user_id) ON DELETE SET CASCADE |
 
 
 | 알림(notification) | 컬럼명 | 속성 | 제약조건 |
