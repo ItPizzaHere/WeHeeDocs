@@ -63,7 +63,6 @@
     - [채팅 시퀀스 다이어그램 - WIP](architecture/sequence-diagram/chatting-sequence-diagram.md)
 - [development](development/README.md)
   - [Spring WebSocket - WIP](development/spring-websocket.md)
-
 - [infrastructure](infrastructure/README.md)
 - [presentation](presentation/README.md)
 - [consulting](consulting/README.md)
