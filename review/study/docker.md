@@ -251,10 +251,19 @@ docker exec <RabbitMQ container name or id> rabbitmq-plugins enable rabbitmq_man
 
 `-i` 옵션을 사용하면 명령의 입력과 상호 작용할 수 있으며, 컨테이너 내부에서 쉘 명령을 실행하는 경우 -i를 사용하면 대화식으로 명령을 입력할 수 있다.
 
+```bash
+docker exec -i <container_name_or_id> /bin/bash
+```
+
 ### `-t` 옵션
 
 >  This stands for "tty" (teletype). The `-t` option allocates a pseudo-TTY (terminal) to the command, which enables the command to interact with the terminal-like environment within the container. This option is helpful when the command you are executing expects to be run in a terminal environment, as it simulates a real terminal.
-> 컨테이너 내에서 터미널과 유사한 환경으로 명령을 상호 작용하게 한다.
+
+컨테이너 내에서 터미널과 유사한 환경으로 명령을 상호 작용하게 한다.
+
+```bash
+docker exec -t <container_name_or_id> ls -l
+```
 
 ### `-it` 옵션
 
