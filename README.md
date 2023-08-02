@@ -62,7 +62,9 @@
   - [sequence-diagram](architecture/sequence-diagram/README.md)
     - [채팅 시퀀스 다이어그램 - WIP](architecture/sequence-diagram/chatting-sequence-diagram.md)
 - [development](development/README.md)
+  - [도커 설정 - WIP](development/docker-setting.md)
   - [Spring WebSocket - WIP](development/spring-websocket.md)
+  - [소셜 로그인을 이용한 인증 기능 구현하기 - WIP](development/authentication-development.md)
 - [infrastructure](infrastructure/README.md)
 - [presentation](presentation/README.md)
 - [consulting](consulting/README.md)
@@ -92,6 +94,7 @@
   - [story](review/story/README.md)
     - [우리의 기획이 어설플 수밖에 없는 이유](review/story/reasons-of-our-product-design-is-clumsy.md)
     - [목적이 다른 여러 사람이 각자, 그리고 공동의 목표를 이룰 방법은?](review/story/ways-of-achieving-personal-and-public-goals.md)
+    - [공부하고 조사한 내용은 많은데 왜 개발은 느릴까? - WIP](review/sotry/why-development-gets-slower.md)
 
 ------
 
