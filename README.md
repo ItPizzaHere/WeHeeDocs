@@ -62,9 +62,11 @@
   - [sequence-diagram](architecture/sequence-diagram/README.md)
     - [채팅 시퀀스 다이어그램 - WIP](architecture/sequence-diagram/chatting-sequence-diagram.md)
 - [development](development/README.md)
+  - [Spring Boot 환경 설정 - WIP](development/spring-boot-env-setting.md)
   - [도커 설정 - WIP](development/docker-setting.md)
   - [Spring WebSocket - WIP](development/spring-websocket.md)
   - [소셜 로그인을 이용한 인증 기능 구현하기 - WIP](development/authentication-development.md)
+  
 - [infrastructure](infrastructure/README.md)
 - [presentation](presentation/README.md)
 - [consulting](consulting/README.md)
