@@ -223,7 +223,7 @@ docker-compose -f docker-compose.yml -f docker-compose-test.yml up
 
 # 실행 중인 도커 컨테이너에 명령어 전달하기 `exec`
 
-도커 컨테이너를 이용해 MySQL이나 RabbitMQ 등을 실행하다 보면 종종 데이터베이스나 대시보드에 접근하고 싶은 경우가 발생한다.
+도커 컨테이너를 이용해 MySQL이나 RabbitMQ 등을 실행하다 보면 종종 데이터베이스나 관리 플러그인에 접근하고 싶은 경우가 발생한다.
 
 ## 1. 가동 중인 도커 컨테이너에 명령어 전달하기
 
