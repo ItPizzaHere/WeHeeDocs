@@ -5,15 +5,19 @@
 
 > **목차**
 >
-> 1. 요구사항 파악
->    1. 로그인
->    2. 회원가입
->    3. 유저 테이블
-> 2. 예시 프로젝트 실행 및 분석
->    1. 예시 프로젝트 정보
->    2. 실행 결과
->    3. DB 분석
->    4. gradle 분석
+> 1. [요구사항 파악](#1-요구사항-파악)
+>    1. [로그인](#로그인)
+>    2. [회원가입](#회원가입)
+>    3. [유저 테이블](#유저-테이블)
+> 2. [예시 프로젝트 실행 및 분석](#2-예시-프로젝트-실행-및-분석)
+>    1. [예시 프로젝트 정보](#예시-프로젝트-정보)
+>    2. [실행 결과](#실행-결과)
+>    3. [DB 분석](#db-분석)
+>    4. [gradle 분석](#gradle-분석)
+>    5. [config 클래스 분석](#config-클래스-분석)
+> 3. Entity 구현
+
+이 글은 소셜 로그인을 이용한 인증 기능 구현 개발기로, 시간의 순서에 따라 글이 작성되었습니다.
 
 # 1. 요구사항 파악
 
@@ -103,4 +107,81 @@ Spring Boot에서 의존성을 추가하면서 의도치 않게 다운 받은 ja
 
 ![](images/dev14.PNG)
 
-Adapter를 구현하기 위해 `WebSecurityConfiguraterAdapter`를 상속 받으려고 했는데 클래스가 deprecated된 것을 알게 되었다([참고](https://devlog-wjdrbs96.tistory.com/434)). 순간 의존성 추가할 때 설정한 버전을 예시 코드대로 낮출까 고민했는데 언젠간 이 귀찮은 작업을 또 하게 되는 순간이 오겠지... 하는 생각을 하며 그냥 진행하기로 했다. 일단 임시적으로 [Spring blog](https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)를 참고해 내용을 간단하게 채웠다.
+Adapter를 구현하기 위해 `WebSecurityConfiguraterAdapter`를 상속 받으려고 했는데 클래스가 deprecated된 것을 알게 되었다([참고](https://devlog-wjdrbs96.tistory.com/434)). 순간 의존성 추가할 때 설정한 버전을 예시 코드대로 낮출까 고민했는데 언젠간 이 귀찮은 작업을 또 하게 되는 순간이 오겠지... 하는 생각을 하며 그냥 진행하기로 했다. 일단 임시적으로 [Spring blog](https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter)를 참고해 내용을 간단하게 채웠다. <br>
+
+일단 여기까지 하고 얼추 프로젝트 실행이 되는 것을 확인한 후 config는 잠시 뒤로 미루고 비즈니스 로직부터 짜기로 헀다.
+
+# 3. Entity 구현
+
+사용자 인증을 위한 entity는 User밖에 없다. 위에 있는 User 테이블 구조를 그대로 사용하되, MBTI만 enum class로 관리한다.
+
+## User class
+
+```java
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Entity
+public class User {
+
+    @Id @GeneratedValue
+    private Long id;
+
+    // 소셜 로그인에서 얻을 정보
+    private String provider_id;
+    private String provider;
+    private int birth;
+    private char gender;
+    private String profile;
+
+    // 사용자 입력 정보
+    private String nickname;
+    private MBTI mbti;
+
+    // 자동 생성 정보(시스템 내부)
+    @Temporal(TemporalType.DATE)
+    private Date last_mbti_modified;
+    private boolean birth_changed;
+    private boolean gender_changed;
+    private boolean withdrawal;
+
+    @Temporal(TemporalType.DATE)
+    private Date created;
+
+}
+```
+
+- `access = AccessLevel.PROTECTED` 설정
+  - 외부에서 클래스 생성 시 기본 생성자 호출을 막기 위함
+
+- `Setter`를 생성하지 않아 외부로부터 변수가 쉽게 바뀌는 것을 막음
+- `@Temporal` annotation으로 DB type에 맞게 DB가 저장되도록 함
+
+## MBTI enum class
+
+생략
+
+# 4. API 및 비즈니스 로직 개발
+
+## 소셜 로그인 시퀀스 다이어그램
+
+![](images/dev16.jpeg)
+
+## `소셜 로그인하기` 버튼을 누를 때
+
+프론트엔드에서는 `네이버로 로그인하기`버튼을 누르면 백엔드로 어떤 API를 호출할까?
+
+![](images/dev15.PNG)
+
+1. 위의 그림에 따르면 대략적으로 아래의 API가 호출될 것이라고 추정할 수 있다.
+
+> http://localhost:8080/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect
+
+2. IdP에서 로그인을 완료하면 `redirect_url`을 호출한다.
+
+   `application.yml`에 설정한 `redirect_url`은 다음과 같다.
+
+   > http://localhost:3000/oauth/redirect
+
+3. /api/v1/users get() 호출
+
