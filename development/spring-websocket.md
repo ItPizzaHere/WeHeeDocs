@@ -6,28 +6,17 @@
 > **목차**
 >
 > 1. 배워야 할 개념들
->
 >    1. STOMP
->
 >    2. SockJS
->
 >    3. RabbitMQ
->
 >    4. Message Brocker
->
 >    5. WebSockek
->
 >    6. amqp
->
 >    7. docker compose file
->
 >       [여기](https://github.com/skylove308/playground) 참고함
->
 >    8. yml
->
 >       1. [yml 프로퍼티 관리](https://tecoble.techcourse.co.kr/post/2022-10-04-active_profiles/)
 >       2. [Spring boot 외부 환경변수 주입](https://velog.io/@crow/Spring-boot-%EC%99%B8%EB%B6%80-%ED%99%98%EA%B2%BD%EB%B3%80%EC%88%98-%EC%A3%BC%EC%9E%85)
->
 > 2. 의존성 추가
 
 # 1. 의존성 추가
@@ -52,6 +41,36 @@ rabbitmq 접근: docker exec <rabbitmq container name> rabbitmq-plugins enable r
 
 ![](images/dev01.PNG)
 ![](images/dev02.PNG)
+
+---
+
+## Docker-compose 관련 - MySQL
+
+### 1. `restart: always` 뜻
+
+![](images/dev03.PNG)
+
+Docker Compose에서 `restart: always`는 컨테이너의 재시작을 명시하는 옵션이다. 이 옵션을 사용하면 시스템 재부트이든 컨테이너가 장애에 의해 꺼졌든 무슨 이유로든 컨테이너가 종료된 상태에서 도커가 실행되면 자동으로 컨테이너를 생성하는 것을 의미한다. `restart`에 대한 다른 옵션들은 다음과 같다.
+
+> - `no`: The container will not be automatically restarted, regardless of the exit status or the cause of the stop.
+> - `on-failure`: The container will be restarted automatically only if it exits with a non-zero exit status, indicating an error or failure.
+> - `unless-stopped`: The container will be restarted automatically unless it is explicitly stopped by the user or a `docker-compose down` command is issued.
+
+### 2. docker-entrypoint-initdb.d를 마운트하는 이유?
+
+![](images/dev04.PNG)
+
+도커 컨테이너 내부에 docker-entrypoint-initdb.d에 SQL 스크립트 파일을 저장하면 컨테이너 실행 시 최초 한 번에 대해 스크립트 파일에 내용이 반영된다. 따라서 데이터베이스 초기화에 대한 sql 파일이 있다면 `./mysql-init-files` 내부에 sql 파일들을 위치시키면 된다. 이떄 sql 파일들의 이름은 어떻든 상관 없다. 
+
+---
+
+## Docker-compose 관련 - RabbitMQ, 3개의 포트를 지정하는 이유?
+
+![](images/dev05.PNG)
+
+> 1. AMQP Port (5672): The default port used by RabbitMQ for AMQP (Advanced Message Queuing Protocol) connections. AMQP is the main protocol used for communication between RabbitMQ clients and the server. This port is used for sending and receiving messages from producers and consumers.
+> 2. Management Plugin Port (15672): RabbitMQ comes with a web-based management plugin that provides a user interface for managing and monitoring the RabbitMQ server. This port is used to access the management plugin's web interface. It allows you to view queues, exchanges, connections, and other useful information about the RabbitMQ server.
+> 3. Erlang Port Mapper Daemon (EPMD) Port (4369): RabbitMQ uses the EPMD for communication between nodes in a RabbitMQ cluster. The EPMD port is essential for cluster formation and coordination among RabbitMQ nodes.
 
 ------
 
