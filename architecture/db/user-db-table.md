@@ -1,3 +1,5 @@
+[user, 라운지 ERD](https://www.erdcloud.com/d/98PARD72QWATyZNbN)
+
 | 사용자(user) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
 | ID(식별자) | user_id | INT UNSIGNED | PK, AUTO_INCREMENT |
