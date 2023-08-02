@@ -1,6 +1,6 @@
 # Docker 학습 내용
 
-마지막 업데이트 날짜: 2023-08-01 <br>
+마지막 업데이트 날짜: 2023-08-02 <br>
 작성자: 김예진
 
 > **목차**
@@ -27,8 +27,15 @@
 >    3. [컨테이너 포트 지정 → `-p`](#컨테이너-포트-지정---p)
 >    4. [환경변수 설정 → `-e`](#환경변수-설정---e)
 >    5. [볼륨 설정 → `-v`](#볼륨-설정---v)
-> 5. 도커 플러그인
-> 6. Docker with AWS
+>    6. [Docker Compose](#docker-compose)
+>       1. [`-f` 옵션](#-f-옵션)
+> 5. [실행 중인 도커 컨테이너에 명령어 전달하기 `exec`](#실행-중인-도커-컨테이너에-명령어-전다하기-exec)
+>    1. [가동 중인 도커 컨테이너에 명령어 전달하기](#1-가동-중인-도커-컨테이너에-명령어-전달하기)
+>    2. [`-it` 옵션을 사용해 컨테이너 기능 사용하기](#2--it-옵션을-사용해-컨테이너-기능-사용하기)
+> 6. [도커 플러그인](#도커-플러그인)
+> 7. [Docker with AWS](#docker-with-aws)
+>    1. [How Docker mounts data to EBS?](#how-docker-mounts-data-to-ebs)
+>    2. [EC2 EBS에 볼륨을 추가 + 마운트 + 부팅시 자동 마운트 하는 방법](#ec2-ebs에-볼륨을-추가--마운트--부팅시-자동-마운트-하는-방법)
 
 이 문서에서는 [Building Real-Time Apps with Spring, Cassandra, Redis, WebSocket and RabbitMQ](building-real-time-apps.md)와 프로젝트 진행 중 알게 된 docker에 대한 정보를 다룹니다. Docker에 대한 사전적 정의 및 기타 내용은 생략합니다.
 
@@ -60,7 +67,9 @@ DB의 경우 도커 컨테이너를 사용하면 컨테이너가 종료되는 �
 
 공식적으로 제공되는 도커 이미지의 경우 username을 언급할 필요가 없지만 커스텀 이미지를 실행시키는 경우 다음과 같은 명령어를 사용하면 된다. <br>
 
-`docker run username/image_name:tag`
+```bash
+docker run username/image_name:tag
+```
 
 ## 도커 이미지와 컨테이너의 차이
 
@@ -77,45 +86,65 @@ DB의 경우 도커 컨테이너를 사용하면 컨테이너가 종료되는 �
 
 ## 실행
 
-`docker run <username>/<image_name>:<tag>`
+```bash
+docker run <username>/<image_name>:<tag>
+```
 
 공식적으로 서비스되는 이미지인 경우 `username`을 생략한다.
 
 ## 도커 이미지 다운받기
 
-`docker pull <image>`
+```bash
+docker pull <image>
+```
 
 ## 도커 이미지 실행
 
-`docker run <image>`
+```bash
+docker run <image>
+```
 
 ## 실행중인 도커 컨테이너 리스트로 띄우기
 
-`docker ps`
+```bash
+docker ps
+```
 
 ## 모든 도커 컨테이너 리스트로 띄우기
 
-`docker pas -a`
+```bash
+docker pas -a
+```
 
 ## 해당 PC에 설치된 모든 이미지 리스트로 띄우기
 
-`docker images`
+```bash
+docker images
+```
 
 ## 실행중인 컨테이너 삭제하기
 
-`docker rm <container>`
+```bash
+docker rm <container>
+```
 
 ## 해당 PC에서 도커 이미지 삭제하기
 
-`docker rmi <image>`
+```bash
+docker rmi <image>
+```
 
 ## 컨테이너 내부에 있는 명령어 실행하기
 
-`docker exec <container>`
+```bash
+docker exec <container>
+```
 
 ## Dockerfile에서 제시하는대로 이미지 만들기
 
-`docker build`
+```bash
+docker build
+```
 
 # 도커 실행 명령어
 
@@ -123,7 +152,9 @@ DB의 경우 도커 컨테이너를 사용하면 컨테이너가 종료되는 �
 
 ## 백그라운드에서 도커 실행 → `-d`
 
-`docker run -d -p 8080:8080 jenkins`
+```bash
+docker run -d -p 8080:8080 jenkins
+```
 
 일반적으로 `docker run jenkins`를 실행하면 도커 창이 jenkins를 실행시키느라고 그 작업에만 매달려 있게 되는데 -d 옵션을 사용하면 jenkins가 백그라운드에서 실행된다. 이때 'd'는 'detach' 혹은 'detached mode'를 의미한다. 도커가 foreground에서 실행될 때는 터미널과 붙어있는 관계지만 -d 옵션을 사용할 때 터미널이 백그라운드에서 돌아가는 도커와 분리되기 때문에 '-b' 옵션이 아니라 '-d' 옵션이 된다.
 
@@ -133,27 +164,36 @@ DB의 경우 도커 컨테이너를 사용하면 컨테이너가 종료되는 �
 
 ## 컨테이너에 이름 지정 → `--name`
 
-`docker run -d --name jenkins -p 8080:8080 jenkins/jenkins:lts`
+```bash
+docker run -d --name jenkins -p 8080:8080 jenkins/jenkins:lts
+```
 
 ![](images/dev04.PNG)
 
 ## 컨테이너 포트 지정 → `-p`
 
-`docker run -d -p <host port>:<container port> jenkins`
+```bash
+docker run -d -p <host port>:<container port> jenkins
+```
 
 `-p` 태그는 호스트 운영체제와 컨테이너 환경 포트를 매핑하는 역할을 수행한다. 만약 젠킨스 실행을 `docker run -d -p 8080:5000 jenkins` 명령어를 통해 한다면, 호스트 운영체제의 8080 포트가 컨테이너 5000 포트로 포워딩된다.
 
 ## 환경변수 설정 → `-e`
-
-`docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 mysql:5.7`
+```bash
+docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 mysql:5.7
+```
 
 암호가 있는 MySQL 컨테이너를 실행한다고 가정할 때, 각 개발자마다 다른 암호를 사용한다고 가정해보면 도커 이미지를 실행시킬 때도 각기 다른 암호를 입력할 필요가 생긴다. 이때 `-e` 옵션을 사용하면 된다. `-e` 태그가 적용하려면 공식 도커 이미지가 어떤 환경 변수를 지원하는지 Docker Hub에서 확인하면 된다.
 
 ## 볼륨 설정 → `-v`
 
-`docker run -d -p 80:80 -v <host path>:<mounting point path in container> nginx`
+```bash
+docker run -d -p 80:80 -v <host path>:<mounting point path in container> nginx
+```
 
-`docker run -d -p 80:80 -v /some/nginx.conf:etc/nginx/nginx.conf.ro nginx`
+```bash
+docker run -d -p 80:80 -v /some/nginx.conf:etc/nginx/nginx.conf.ro nginx
+```
 
 컨테이너의 실행/종료 여부와 상관 없이 컨테이너의 내용을 보존하고 싶은 경우에 볼륨을 마운트하는 옵션을 사용하면 된다. 도커의 볼륨을 마운트하는 경우 디스크에 영구적으로 데이터를 저장하기 때문에 컨테이너가 종료되어도 영구적으로 데이터를 저장할 수 있다. <br>
 
@@ -165,10 +205,69 @@ AWS를 사용하는 경우 Elastic Block Store나 Elastic FIle System을 이용�
 Volume을 활용한 Data 관리는 [여기](https://medium.com/dtevangelist/docker-%EA%B8%B0%EB%B3%B8-5-8-volume%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%9C-data-%EA%B4%80%EB%A6%AC-9a9ac1db978c)를 참조하면 된다.
 
 ## Docker Compose
+```bash
+docker-compose -f <docker compose yaml file> up
+```
 
-`docker-compose -f <docker compose yaml file> up`
+여러 컨테이너 설정을 담은 docker compose 파일을 실행시키면 한 번에 여러 개의 컨테이너를 띄울 수 있다.
 
-여러 컨테이너 설정을 담은 docker compose 파일을 실행시키면 한 번에 여러개의 컨테이너를 띄울 수 있다.
+### `-f` 옵션
+
+Docker Compose는 기본적으로 커맨드가 실행하는 디렉토리에 있는 `docker-compose.yml` 또는 `docker-compose.yaml`를 설정 파일로 사용한다. Docker Compose를 실행하는 위치가 파일이 저장된 위치와 다르거나 위에 있는 파일명과 다른 파일명을 가지고 있다면 `-f` 옵션을 사용해 해당 사실을 명시한다. <br>
+
+```bash
+docker-compose -f docker-compose.yml -f docker-compose-test.yml up
+```
+
+`-f` 옵션은 여러 개의 설정 파일을 사용할 때도 사용하고, 나중에 나오는 설정이 앞에 나오는 설정보다 우선순위가 높게 작용한다.
+
+# 실행 중인 도커 컨테이너에 명령어 전달하기 `exec`
+
+도커 컨테이너를 이용해 MySQL이나 RabbitMQ 등을 실행하다 보면 종종 데이터베이스나 대시보드에 접근하고 싶은 경우가 발생한다.
+
+## 1. 가동 중인 도커 컨테이너에 명령어 전달하기
+
+```bash 
+docker exec <container-id> <명령어>
+```
+
+![](images/study_06.PNG)
+
+MySQL id를 넣고 뒤에 `ls`, `mysql -u root -p` 등의 명령어를 넣고 실험해본 결과, 일부는 작동하고 일부는 작동하지 않는 현상이 발생했다. 아무래도 컨테이너의 서비스에 명령어를 내리는 게 아니라 컨테이너 파일에 접근 가능한 명령어인 듯 싶다(컨테이너의 쉘에 접근).
+
+### 실습: RabbitMQ
+
+```bash
+docker exec <RabbitMQ container name or id> rabbitmq-plugins enable rabbitmq_management
+```
+
+![](images/study_08.PNG)
+
+## 2. `-it` 옵션을 사용해 컨테이너 기능 사용하기
+
+### `-i` 옵션
+
+>  This stands for "interactive" mode. When you use the `-i` option, it allows you to interact with the command's input. It means that the standard input (STDIN) of the command is kept open, allowing you to provide input to the command if needed. For example, if you are running a shell command inside a container, with `-i`, you can type commands interactively.
+
+`-i` 옵션을 사용하면 명령의 입력과 상호 작용할 수 있으며, 컨테이너 내부에서 쉘 명령을 실행하는 경우 -i를 사용하면 대화식으로 명령을 입력할 수 있다.
+
+### `-t` 옵션
+
+>  This stands for "tty" (teletype). The `-t` option allocates a pseudo-TTY (terminal) to the command, which enables the command to interact with the terminal-like environment within the container. This option is helpful when the command you are executing expects to be run in a terminal environment, as it simulates a real terminal.
+> 컨테이너 내에서 터미널과 유사한 환경으로 명령을 상호 작용하게 한다.
+
+### `-it` 옵션
+
+컨테이너 내에서 인터랙티브한 셸 실행
+
+### 실습: MySQL
+
+```bash
+docker exec -it <MySQL container name> bash
+```
+
+![](images/study_07.PNG)
+
 
 # 도커 플러그인
 
