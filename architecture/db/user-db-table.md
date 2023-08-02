@@ -3,7 +3,7 @@
 | 사용자(user) | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
 | ID(식별자) | user_id | INT UNSIGNED | PK, AUTO_INCREMENT |
-| 닉네임 | nickname | VARCHAR(10) | NOT NULL |
+| 닉네임 | nickname | VARCHAR(10) | NOT NULL, UNIQUE |
 | MBTI | user_mbti_id | INT | FK REFERENCES MBTI(mbti_id), NOT NULL |
 | 프로필 사진 URL | profile_url | VARCHAR(255) | DEFAULT NULL |
 | 생년 | birth | INT UNSIGNED | NOT NULL |
