@@ -1,3 +1,5 @@
+[user, 라운지 ERD](https://www.erdcloud.com/d/98PARD72QWATyZNbN)
+
 | MBTI | 컬럼명 | 속성 | 제약조건 |
 | --- | --- | --- | --- |
 | MBTI번호 | mbti_id | INT | PK |
@@ -25,6 +27,13 @@
 | 좋아요번호 | like_id | INT UNSIGNED | PK, AUTO_INCREMENT |
 | 게시글번호 | like_post_id | INT UNSIGNED | FK REFERENCES post(post_id) ON DELETE CASCADE |
 | 사용자ID | like_user_id | INT UNSIGNED | FK REFERENCES user(user_id) ON DELETE SET NULL |
+
+
+| 스크랩(scrap) | 컬럼명 | 속성 | 제약조건 |
+| --- | --- | --- | --- |
+| 스크랩번호 | scrap_id | INT UNSIGNED | PK, AUTO_INCREMENT |
+| 게시글번호 | scrap_post_id | INT UNSIGNED | FK REFERENCES post(post_id) ON DELETE CASCADE |
+| 사용자 | scrap_user_id | INT UNSIGNED | FK REFERENCES user(user_id) ON DELETE SET CASCADE |
 
 
 | 댓글(comment) | 컬럼명 | 속성 | 제약조건 |

@@ -1,3 +1,4 @@
+drop database if exists itpizza;
 create database itpizza;
 use itpizza;
 
@@ -8,7 +9,7 @@ create table MBTI(
 
 create table `user`(
 	user_id int unsigned primary key auto_increment,
-    nickname varchar(10) not null,
+    nickname varchar(10) not null unique,
     user_mbti_id int not null,
     profile_url varchar(255) default null,
     birth int unsigned not null,
@@ -43,6 +44,14 @@ create table `like`(
     like_user_id int unsigned,
     foreign key(like_post_id) references post(post_id) on delete cascade,
     foreign key(like_user_id) references `user`(user_id) on delete set null
+);
+
+create table scrap(
+	scrap_id int unsigned primary key auto_increment,
+	scrap_post_id int unsigned not null,
+    scrap_user_id int unsigned not null,
+    foreign key(scrap_post_id) references post(post_id) on delete cascade,
+    foreign key(scrap_user_id) references `user`(user_id) on delete cascade
 );
 
 create table `comment`(
