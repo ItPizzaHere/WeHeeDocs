@@ -54,6 +54,13 @@
 
 ![](images/dev08.PNG)
 
+이 테이블에 createed 컬럼을 추가하고 싶다.
+
+## 리프레시 토큰 테이블
+
+![](images/dev18.PNG)
+
+
 # 2. 예시 프로젝트 실행 및 분석
 
 ## 예시 프로젝트 정보
@@ -76,9 +83,16 @@
 
 ![](images/dev10.PNG)
 
-### WeHee와 비교
+### WeHee와 비교 - User
 
 ![](images/dev11.jpg)
+
+### USER REFRESH TOKEN 테이블 구조
+![](images/dev19.png)
+
+### WeHee와 비교 - Refresh Token
+
+![](images/dev18.png)
 
 ## gradle 분석
 
@@ -111,7 +125,7 @@ Adapter를 구현하기 위해 `WebSecurityConfiguraterAdapter`를 상속 받으
 
 일단 여기까지 하고 얼추 프로젝트 실행이 되는 것을 확인한 후 config는 잠시 뒤로 미루고 비즈니스 로직부터 짜기로 헀다.
 
-# 3. Entity 구현
+# 3. Entity 및 Enum class구현
 
 사용자 인증을 위한 entity는 User밖에 없다. 위에 있는 User 테이블 구조를 그대로 사용하되, MBTI만 enum class로 관리한다.
 
@@ -124,7 +138,7 @@ Adapter를 구현하기 위해 `WebSecurityConfiguraterAdapter`를 상속 받으
 @Entity
 public class User {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // 소셜 로그인에서 얻을 정보
@@ -140,13 +154,13 @@ public class User {
 
     // 자동 생성 정보(시스템 내부)
     @Temporal(TemporalType.DATE)
-    private Date last_mbti_modified;
+    private LocalDate last_mbti_modified;
     private boolean birth_changed;
     private boolean gender_changed;
     private boolean withdrawal;
 
     @Temporal(TemporalType.DATE)
-    private Date created;
+    private LocalDate created;
 
 }
 ```
@@ -155,17 +169,42 @@ public class User {
   - 외부에서 클래스 생성 시 기본 생성자 호출을 막기 위함
 
 - `Setter`를 생성하지 않아 외부로부터 변수가 쉽게 바뀌는 것을 막음
+- `@GeneratedValue`에서 IDENTITY 옵션을 사용해 sequence table이 생성되는 것을 막음([참고](https://gmlwjd9405.github.io/2019/08/12/primary-key-mapping.html))
 - `@Temporal` annotation으로 DB type에 맞게 DB가 저장되도록 함
+
+## RefreshToken class
+
+생략
 
 ## MBTI enum class
 
 생략
 
-# 4. API 및 비즈니스 로직 개발
+## Provider enum class
+
+생략
+
+# 4. 기본 Service 및 Repository  class 구현
+
+## UserRepository
+
+생략
+
+## UserService
+
+생략
+
+# 5. API 및 비즈니스 로직 개발
 
 ## 소셜 로그인 시퀀스 다이어그램
 
 ![](images/dev16.jpeg)
+
+### 시퀀스 다이어그램 설명
+
+![](images/dev17.png)
+
+[출처](https://deeplify.dev/back-end/spring/oauth2-social-login#%EC%8B%9C%ED%80%80%EC%8A%A4-%EC%84%A4%EB%AA%85)
 
 ## `소셜 로그인하기` 버튼을 누를 때
 
@@ -173,15 +212,63 @@ public class User {
 
 ![](images/dev15.PNG)
 
-1. 위의 그림에 따르면 대략적으로 아래의 API가 호출될 것이라고 추정할 수 있다.
+1. 위의 그림에 따르면 GET 메소드가 다음과 같이 요청된다.
 
-> http://localhost:8080/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect
+> /oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect
 
-2. IdP에서 로그인을 완료하면 `redirect_url`을 호출한다.
+2. 웹서버로 해당 요청이 전달되고, provider-id에 따라 지정된 OAuth 2.0 provider가 해당 요청을 처리하게 요청을 처리하게 라우팅한다.
+   - 백엔드에서 따로 코드를 짤 필요는 없음, `application.yml` 설정 이용
 
-   `application.yml`에 설정한 `redirect_url`은 다음과 같다.
+3. (provider) 로그인 페이지로 리다이렉트를 하면, 클라이언트는 provider 서비스에 로그인한다.
 
-   > http://localhost:3000/oauth/redirect
+4. 클라이언트가 로그인에 성공하면 IdP 서버로부터 백엔드로 Authorization 코드가 응답된다.
 
-3. /api/v1/users get() 호출
+5. 백엔드에서 인가 코드를 확인해 IdP 서버로 엑세스 토큰을 요청한다.
+
+6. 계속...
+
+## 예시 프로젝트 로그 분석
+
+> 9-1
+> =================================loadUser()==============CustomOAuth2UserService
+> =================================->getOAuth2UserInfo()=======OAuth2UserInfoFactory
+> =================================->UserPrincipal.create()=======UserPrincipal
+> id:2815283392
+> connected_at:2023-06-01T07:01:17Z
+> properties:{nickname=정보, profile_image=정보, thumbnail_image=정보} kakao_account:{profile_nickname_needs_agreement=false, profile_image_needs_agreement=false, profile={nickname=정보, thumbnail_image_url=정보, profile_image_url=정보, is_default_image=false}, has_email=true, email_needs_agreement=false, is_email_valid=true, is_email_verified=true, email=정보}
+> 
+> 9-2, 9-3
+>=================================onAuthenticationSuccess()===OAuth2AuthenticationSuccessHandler
+> =================================->getOAuth2UserInfo()=======OAuth2UserInfoFactory
+> =================================->createAuthToken2()=======AuthTokenProvider -- access token
+> =================================->createAuthToken1()=======AuthTokenProvider -- refresh token
+> 
+> 토큰 필터
+>=================================doFilterInternal()=========TokenAuthenticationFilter
+> =================================->convertAuthToken()=======AuthTokenProvider
+> =================================->getAuthentication()=======AuthTokenProvider
+> 
+> 11
+>=================================getUser()==============UserController
+
+# 6. 획득한 유저 테이블 DB 저장, JWT 엑세스 토큰과 리프레시 토큰 생성
+
+## `UserPrincipal` 클래스 구현
+
+`CustomOAuth2UserService` 클래스에서 `loadUser()`를 호출하면 OAuth2User 타입의 객체를 반환하는데, 이 객체는 UserPrincipal 클래스로 만들 수 있다. UserPrincipal 객체는 현재 인증된 사용자를 의미한다.
+
+### Principal class 사용하는 이유?
+
+> In Spring Boot OAuth 2.0, the `Principal` class is used to represent the currently authenticated user. It provides a convenient way to access user-related information after a successful authentication. The `Principal` object is automatically populated by the Spring Security framework once the user has been authenticated, and it allows you to access details about the authenticated user, such as their username, authorities, and other attributes.
+>
+> Here are some reasons why using the `Principal` class is beneficial in Spring Boot OAuth 2.0 development:
+>
+> 1. Easy access to user information: The `Principal` class abstracts away the details of how the user's information is obtained and authenticated. It provides a standardized way to access user-related data without dealing with low-level authentication mechanisms.
+> 2. Simplified authorization: Once the user is authenticated, you can use the `Principal` object to check the user's roles, authorities, or custom attributes to make authorization decisions within your application.
+> 3. Avoiding the need for manual retrieval: Without the `Principal` class, you would need to manually retrieve user information from the security context or session, which could be error-prone and cumbersome. Spring Security automatically handles this for you.
+> 4. Integration with Spring Security: Spring Boot integrates seamlessly with Spring Security, and the `Principal` class is an essential part of the security framework. It helps maintain a consistent and standard way of accessing user information across different parts of your application.
+
+## `CustomOAuth2UserService` 클래스 구현
+
+
 
