@@ -1,6 +1,6 @@
 # 소셜 로그인을 이용한 인증 기능 구현하기
 
-마지막 업데이트 날짜: 2023-08-02 <br>
+마지막 업데이트 날짜: 2023-08-04 <br>
 작성자: 김예진
 
 > **목차**
@@ -8,14 +8,47 @@
 > 1. [요구사항 파악](#1-요구사항-파악)
 >    1. [로그인](#로그인)
 >    2. [회원가입](#회원가입)
->    3. [유저 테이블](#유저-테이블)
+>    3. [유저 요구사항](#유저-요구사항)
+>    4. [유저 테이블](#유저-테이블)
+>    5. [리프레시 토큰 테이블](#리프레시-토큰-테이블)
 > 2. [예시 프로젝트 실행 및 분석](#2-예시-프로젝트-실행-및-분석)
 >    1. [예시 프로젝트 정보](#예시-프로젝트-정보)
 >    2. [실행 결과](#실행-결과)
+>       1. [실행 화면 및 DB 저장 내용](#실행-화면-및-db-저장-내용)
 >    3. [DB 분석](#db-분석)
+>       1. [User 테이블 구조](#user-테이블-구조)
+>       2. [WeHee와 비교 - User](#wehee와-비교---user)
+>       3. [USER REFRESH TOKEN 테이블 구조](#user-refresh-token-테이블-구조)
+>       4. [WeHee와 비교 - Refresh Token](#wehee와0비교---refresh-token)
 >    4. [gradle 분석](#gradle-분석)
+>       1. [인증을 위한 의존성 추가](#인증을-위한-의존성-추가)
+>       2. [build.gradle - configuration exclude](#buildbradle---configuration-exclude)
 >    5. [config 클래스 분석](#config-클래스-분석)
-> 3. Entity 구현
+>       1. [SecurityConfig.java](#securityconfigjava)
+> 3. [Entity 및 Enum class 구현](#3-entity-및-enum-class구현)
+>    1. [User class](#user-class)
+>    2. [RefreshToken class](#refreshtoken-class)
+>    3. [MBTI enum class](#mbti-enum-class)
+>    4. [Provider enum class](#provider-enum-class)
+> 4. [기본 Service 및 Repository class 구현](#4-기본-service-및-repository-classs-구현)
+>    1. [UserRepository](#userrepository)
+>    2. [UserService](#userservice)
+> 5. [API 및 비즈니스 로직 개발](#5-api-및-비즈니스-로직-개발)
+>    1. [소셜 로그인 시퀀스 다이어그램](#소셜-로그인-시퀀스-다이어그램)
+>       1. [시퀀스 다이어그램 설명](#시퀀스-다이어그램-설명)
+>    2. [`소셜 로그인하기` 버튼을 누를 때](#소셜-로그인하기-버튼을-누를-때)
+>    3. [예시 프로젝트 로그 분석](#예시-프로젝트-로그-분석)
+> 6. [획득한 유저 정보 이용해 인증된 유저 객체 만들기](#6-획득한-유저-정보-이용해-인증된-유저-객체-만들기)
+>    1. [`CustomOAuth2UserService 클래스 구현을 위한 밑작업](#customoauth2userservice-클래스-구현을-위한-밑작업)
+>    2. [`UserPrincipal` 클래스 구현](#userprincipal-클래스-구현)
+>       1. [Principal class 사용하는 이유?](#principal-class-사용하는-이유)
+>    3. [소셜 로그인을 위한 환경 설정](#소셜-로그인을-위한-환경-설정)
+>       1. [application.yml 작성](#applicationyml-작성)
+>    4. [`oauth/info` 패키지 하단의 OAuth2UserInfoFactory 관련 클래스 작성](#oauthinfo-패키지-하단의-oauth2userinfofactory-관련-클래스-작성)
+>       1. [`OAuth2UserInfoFactory` class](#oauth2userinfofactory-class)
+>       2. [`OAuth2UserInfo` abstract class](#oauth2userinfo-abstract-class)
+>       3. [`OAuth2UserInfo`를 상속받는 나머지 IdP별 classes](#oauth2userinfo를-상속하는-나머지-idp별-classes)
+>    5. [프로젝트 실행](#프로젝트-실행)
 
 이 글은 소셜 로그인을 이용한 인증 기능 구현 개발기로, 시간의 순서에 따라 글이 작성되었습니다.
 
@@ -58,7 +91,7 @@
 
 ## 리프레시 토큰 테이블
 
-![](images/dev18.PNG)
+![](images/dev18.png)
 
 
 # 2. 예시 프로젝트 실행 및 분석
@@ -212,19 +245,13 @@ public class User {
 
 ![](images/dev15.PNG)
 
-1. 위의 그림에 따르면 GET 메소드가 다음과 같이 요청된다.
-
-> /oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect
-
+1. 위의 그림에 따르면 GET 메소드가 다음과 같이 요청된다
+    `/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect`
 2. 웹서버로 해당 요청이 전달되고, provider-id에 따라 지정된 OAuth 2.0 provider가 해당 요청을 처리하게 요청을 처리하게 라우팅한다.
    - 백엔드에서 따로 코드를 짤 필요는 없음, `application.yml` 설정 이용
-
 3. (provider) 로그인 페이지로 리다이렉트를 하면, 클라이언트는 provider 서비스에 로그인한다.
-
 4. 클라이언트가 로그인에 성공하면 IdP 서버로부터 백엔드로 Authorization 코드가 응답된다.
-
 5. 백엔드에서 인가 코드를 확인해 IdP 서버로 엑세스 토큰을 요청한다.
-
 6. 계속...
 
 ## 예시 프로젝트 로그 분석
