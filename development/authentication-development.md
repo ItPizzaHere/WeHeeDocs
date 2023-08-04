@@ -251,13 +251,25 @@ public class User {
 > 11
 >=================================getUser()==============UserController
 
-# 6. 획득한 유저 테이블 DB 저장, JWT 엑세스 토큰과 리프레시 토큰 생성
+로그와 코드 내용을 대조해본 결과, 클라이언트가 소셜 로그인에 성공했을 때 `CustomOAuth2UserService` class에서 loadUser()가 호출되고 유저의 정보를 DB에 저장하는 과정이 가장 먼저 일어났다. 그 다음 소셜 로그인 성공/실패 핸들러가 JWT 토큰과 리프레시 토큰을 만드는 일에 관여한다. 이후 클라이언트에게 토큰을 전달하는 부분부터는 살짝 막힌 상태인데 오늘(2023-08-04) 이 부분은 앞에 부분을 개발하다보면 해결할 수 있을 것 같아 보인다. <br>
+
+쿠키와 토큰 필터 부분(아직은 미지의 영역)을 거치면 `UserController`의 getUser()가 호출된다.
+
+# 6. 획득한 유저 정보 이용해 인증된 유저 객체 만들기
+## `CustomOAuth2UserService` 클래스 구현을 위한 밑작업
+
+클라이언트 측에서 소셜 로그인에 성공하면 `CustomOAuth2UserService` class에서 loadUser()가 호출된다. 이 메소드가 호출하는 메소드까지 정리하면 처리하는 내용은 다음과 같다.
+
+1. 유저의 이메일 주소가 이미 다른 IdP로부터 제공받은 이메일인지 확인한다.
+2. 새로 등록되는 이메일 주소인 경우 유저 정보를 `UserPrincipal` 객체로 만들어 리턴한다. 
 
 ## `UserPrincipal` 클래스 구현
 
 `CustomOAuth2UserService` 클래스에서 `loadUser()`를 호출하면 OAuth2User 타입의 객체를 반환하는데, 이 객체는 UserPrincipal 클래스로 만들 수 있다. UserPrincipal 객체는 현재 인증된 사용자를 의미한다.
 
 ### Principal class 사용하는 이유?
+
+by ChatGPT
 
 > In Spring Boot OAuth 2.0, the `Principal` class is used to represent the currently authenticated user. It provides a convenient way to access user-related information after a successful authentication. The `Principal` object is automatically populated by the Spring Security framework once the user has been authenticated, and it allows you to access details about the authenticated user, such as their username, authorities, and other attributes.
 >
@@ -268,7 +280,116 @@ public class User {
 > 3. Avoiding the need for manual retrieval: Without the `Principal` class, you would need to manually retrieve user information from the security context or session, which could be error-prone and cumbersome. Spring Security automatically handles this for you.
 > 4. Integration with Spring Security: Spring Boot integrates seamlessly with Spring Security, and the `Principal` class is an essential part of the security framework. It helps maintain a consistent and standard way of accessing user information across different parts of your application.
 
-## `CustomOAuth2UserService` 클래스 구현
+## 소셜 로그인을 위한 환경 설정
+
+### application.yml 작성
+
+새로 추가한 부분은 다음과 같다. 예시 프로젝트보다 더 많은 정보가 필요해 해당 부분을 추가하고, 민감한 client id와 client secret은 모두 환경 변수로 바꿨다.
+
+```yml
+spring:
+    security:
+      oauth2.client:
+        registration:
+          google:
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+              - gender.read
+              - birthday.read
+          naver:
+            clientId: ${NAVER_CLIENT_ID}
+            clientSecret: ${NAVER_CLIENT_SECRET}
+            clientAuthenticationMethod: post
+            authorizationGrantType: authorization_code
+            redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            clientName: Naver
+          kakao:
+            clientId: ${KAKAO_CLIENT_ID}
+            clientSecret: ${KAKAO_CLIENT_SECRET}
+            clientAuthenticationMethod: post
+            authorizationGrantType: authorization_code
+            redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            scope:
+              - profile_nickname
+              - profile_image
+              - account_email
+              - gender
+              - birthyear
+            clientName: Kakao
+        provider:
+          naver:
+            authorizationUri: https://nid.naver.com/oauth2.0/authorize
+            tokenUri: https://nid.naver.com/oauth2.0/token
+            userInfoUri: https://openapi.naver.com/v1/nid/me
+            userNameAttribute: response
+          kakao:
+            authorizationUri: https://kauth.kakao.com/oauth/authorize
+            tokenUri: https://kauth.kakao.com/oauth/token
+            userInfoUri: https://kapi.kakao.com/v2/user/me
+            userNameAttribute: id
+```
+
+## `oauth/info` 패키지 하단의 OAuth2UserInfoFactory 관련 클래스 작성
+
+소셜 로그인에 성공한 유저의 정보를 받아 오려면 각 IdP별로 정보를 받아오는 클래스를 만들어야 한다. 이 역할을 `OAuth2UserInfo` 클래스의 getOAuth2UserInfo()가 처리해준다. getOAuth2UserInfo()는 인증 서버로부터 attributes를 넘겨 받으면 IdP별로 정보를 파싱하는 `OAuth2UserInfo` 상속 객체를 반환한다. 
+
+### `OAuth2UserInfoFactory` class
+
+```java
+public static OAuth2UserInfo getOAuth2UserInfo(ProviderType providerType, Map<String, Object> attributes) {
+        switch (providerType) {
+            case GOOGLE: return new GoogleOAuth2UserInfo(attributes);
+            case FACEBOOK: return new FacebookOAuth2UserInfo(attributes);
+            case NAVER: return new NaverOAuth2UserInfo(attributes);
+            case KAKAO: return new KakaoOAuth2UserInfo(attributes);
+            default: throw new IllegalArgumentException("Invalid Provider Type.");
+        }
+    }
+```
+
+### `OAuth2UserInfo` abstract class
+
+```java
+public abstract class OAuth2UserInfo {
+    protected Map<String, Object> attributes;
+
+    public OAuth2UserInfo(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
+
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    public abstract String getId();
+
+    public abstract String getName();
+
+    public abstract String getEmail();
+
+    public abstract String getImageUrl();
+}
+```
+
+### `OAuth2UserInfo`를 상속하는 나머지 IdP별 classes
+
+1. `GoogleOAuth2UserInfo`
+2. `KakaoOAuth2UserInfo`
+3. `NaverOAuth2UserInfo`
+
+## 프로젝트 실행
+
+![](images/dev20.PNG)
+
+여기까지 구현한 내용으로 프로젝트를 실행해보면 다음과 같이 동작한다. 로그인 버튼을 누르면 소셜 로그인을 수행하기 위한 모달이 나오고, 여기에서 아무 버튼이나 클릭하면 `http://localhost:8080`에 로그인하라는 화면을 마주하게 된다. 이때 취소를 누르면 `http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth/redirect` 링크에 대한 페이지가 작동하지 않는다는 창으로 리다이렉트 된다. <br>
+
+저 `사용자 이름`, `비밀번호` 입력창이 나오는 이유는 Spring Security 때문이라는데, 이참에 Spring Security와 그놈의 CORS를 한 번 처리해보기로 했다.
+
+# 7. Spring Security 설정
 
 
 
+# 8. JWT 엑세스 토큰과 리프레시 토큰 생성
