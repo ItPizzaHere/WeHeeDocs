@@ -48,7 +48,7 @@
 >       1. [`OAuth2UserInfoFactory` class](#oauth2userinfofactory-class)
 >       2. [`OAuth2UserInfo` abstract class](#oauth2userinfo-abstract-class)
 >       3. [`OAuth2UserInfo`를 상속받는 나머지 IdP별 classes](#oauth2userinfo를-상속하는-나머지-idp별-classes)
->    5. [프로젝트 실행](#프로젝트-실행)
+>    5. [프로젝트 실행 - 유저 객체](#프로젝트-실행---유저-객체)
 
 이 글은 소셜 로그인을 이용한 인증 기능 구현 개발기로, 시간의 순서에 따라 글이 작성되었습니다.
 
@@ -407,7 +407,7 @@ public abstract class OAuth2UserInfo {
 2. `KakaoOAuth2UserInfo`
 3. `NaverOAuth2UserInfo`
 
-## 프로젝트 실행
+## 프로젝트 실행 - 유저 객체
 
 ![](images/dev20.PNG)
 
@@ -415,8 +415,114 @@ public abstract class OAuth2UserInfo {
 
 저 `사용자 이름`, `비밀번호` 입력창이 나오는 이유는 Spring Security 때문이라는데, 이참에 Spring Security와 그놈의 CORS를 한 번 처리해보기로 했다.
 
-# 7. Spring Security 설정
+# 7. Application Properties 설정
+
+Spring Security 설정을 하기에 앞서 애플리케이션에서 사용하게 될 프로퍼티들을 먼저 설정하기로 한다. 수정할 부분은 Application class와 applicaiton.yml, custom property classes이다. 커스텀할 프로퍼티들의 내용들은 다음과 같다.
+
+## application.yml
+
+```yaml
+# AppProperties
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpiry: 1800000
+    refreshTokenExpiry: 604800000
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth/redirect
+
+# CorsProperties
+cors:
+  allowed-origins: 'http://localhost:3000'
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: '*'
+  max-age: 3600
+```
+
+## config/properties 하위의 custom property classes
+
+`config/properties` 패키지 내부에 설정할 properties class를 각각 만든다.
+
+1. `AppProperties` class
+2. `CorsProperties` class
+
+## WeHeeApplication class
+
+`@EnableConfigurationProperties` annotation을 이용해 애플리케이션 클래스에 커스텀 프로퍼티 빈을 등록한다.
+
+```java
+@SpringBootApplication
+@EnableConfigurationProperties({
+	CorsProperties.class,
+	AppProperties.class
+})
+public class WeheeApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(WeheeApplication.class, args);
+	}
+
+}
+```
+
+# 8. Spring Security 설정
+
+Spring Security 이론에 대한 공부는 [여기](../review/study/spring-security.md)에 기록했다. <br>
+
+- 변경 내역
+  - SecurityConfig
+  - RestAuthenticationEntryPoint
+  - OAuth2AuthenticationSuccessHandler
+  - OAuth2AuthenticationFailureHandler
+  - application.yml
+
+## `SecurityConfig` class filterChain() 설정
+
+```java
+@Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .cors().configurationSource(corsConfigurationSource())
+            .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+                .csrf().disable()
+                .formLogin().disable()
+                .httpBasic().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+            .and()
+                .oauth2Login()
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorization")
+            .and()
+                .redirectionEndpoint()
+                .baseUri("/*/oauth2/code/*")
+            .and()
+                .userInfoEndpoint()
+                .userService(oAuth2UserService)
+            .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler())
+                .failureHandler(oAuth2AuthenticationFailureHandler());
+        return http.build();
+    }
+```
 
 
 
-# 8. JWT 엑세스 토큰과 리프레시 토큰 생성
+
+## 프로젝트 실행 - Spring Security
+![](images/dev21.png)
+
+
+
+# 9. JWT 엑세스 토큰과 리프레시 토큰 생성
+
+# 10. 쿠키 설정
+
+# 11. 프론트엔드와 연결
+
+
+
