@@ -468,55 +468,138 @@ public class WeheeApplication {
 
 # 8. Spring Security 설정
 
-Spring Security 이론에 대한 공부는 [여기](../review/study/spring-security.md)에 기록했다. <br>
-
-- 변경 내역
-  - SecurityConfig
-  - RestAuthenticationEntryPoint
-  - OAuth2AuthenticationSuccessHandler
-  - OAuth2AuthenticationFailureHandler
-  - application.yml
+- 공부 내용 기록
+  - [Spring Security](../review/study/spring-security.md)
+  - [CSRF](../review/study/csrf.md)
 
 ## `SecurityConfig` class filterChain() 설정
 
 ```java
 @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .cors().configurationSource(corsConfigurationSource())
-            .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-                .csrf().disable()
-                .formLogin().disable()
-                .httpBasic().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-            .and()
-                .oauth2Login()
-                .authorizationEndpoint()
-                .baseUri("/oauth2/authorization")
-            .and()
-                .redirectionEndpoint()
-                .baseUri("/*/oauth2/code/*")
-            .and()
-                .userInfoEndpoint()
-                .userService(oAuth2UserService)
-            .and()
-                .successHandler(oAuth2AuthenticationSuccessHandler())
-                .failureHandler(oAuth2AuthenticationFailureHandler());
-        return http.build();
-    }
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+            .cors().configurationSource(corsConfigurationSource())
+        .and()
+            .sessionManagement()
+            // SpringSecurity에 의해 생성되는 Session 없음 (Session 기반이 아님)
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+            .csrf().disable() // JWT 사용하므로 disable
+            .formLogin().disable() // Spring Security 기본 제공 LoginForm 해제
+            .httpBasic().disable() // JWT 사용하므로 disable
+            // 인증 예외가 발생하는 경우 호출
+            .exceptionHandling()
+            .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+        .and()
+            .oauth2Login() 
+            .authorizationEndpoint() // client 요청 시 경로 설정
+            .baseUri("/oauth2/authorization")
+        .and()
+            .redirectionEndpoint() // client 측에서 인증 요청 응답 받는 시점의 경로 설정
+            .baseUri("/*/oauth2/code/*")
+        .and()
+            .userInfoEndpoint() // DefaultOAuth2UserService class의 loadUser() 호출
+            .userService(oAuth2UserService)
+        .and()
+            .successHandler(oAuth2AuthenticationSuccessHandler())
+            .failureHandler(oAuth2AuthenticationFailureHandler())
+    return http.build();
+}
 ```
 
+### CORS 설정
 
+```java
+// SecurityConfig.java
+@Bean
+public CorsConfigurationSource corsConfigurationSource() {
+    UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();
 
+    CorsConfiguration corsConfig = new CorsConfiguration();
+    corsConfig.setAllowedHeaders(Arrays.asList(corsProperties.getAllowedHeaders().split(",")));
+    corsConfig.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(",")));
+    corsConfig.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
+    corsConfig.setAllowCredentials(true);
+    corsConfig.setMaxAge(corsConfig.getMaxAge());
+
+    // 모든 Url에 대해 설정한 CorsConfiguration 등록
+    corsConfigSource.registerCorsConfiguration("/**", corsConfig);
+    return corsConfigSource;
+}
+
+// CorsProperties.java
+@Getter
+@Setter
+@Component
+@ConfigurationProperties(prefix = "cors")
+public class CorsProperties {
+    private String allowedOrigins;
+    private String allowedMethods;
+    private String allowedHeaders;
+    private Long maxAge;
+}
+
+// application.yml
+cors:
+  allowed-origins: 'http://localhost:3000'
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: '*'
+  max-age: 3600
+```
+
+### `RestAuthenticationEntryPoint` class implements `AuthenticationEntryPoint`
+
+인증 예외가 발생하는 경우 호출
+
+```java
+public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+        AuthenticationException authException) throws IOException, ServletException {
+        authException.printStackTrace();
+        response.sendError(
+            HttpServletResponse.SC_UNAUTHORIZED,
+            authException.getLocalizedMessage());
+    }
+}
+```
+
+### oauth2Login() 설정
+
+`DefaultOAuth2UserService` class의 loadUser() 호출
+
+```java
+@Service
+@RequiredArgsConstructor
+public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+
+    private final UserRepository userRepository;
+
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        OAuth2User user = super.loadUser(userRequest);
+
+        return user;
+    }
+}
+```
+
+### oauth2Login().authorizationEndpoint().baseUri("/oauth2/authorization") 설정
+
+이 옵션을 사용하면 client 쪽에서 IdP로 인증을 요청할 때 `/oauth2/authorization` 경로를 포함해야 한다([참고](https://docs.spring.io/spring-security/site/docs/5.0.7.RELEASE/reference/html/oauth2login-advanced.html))
+
+![](images/dev22.png)
+
+### redirectionEndpoint().baseUri("/*/oauth2/code/*") 설정
+
+외부 IdP로부터의 인증이 끝난 후에 리다리렉트되는 endpoint 지정([참고](https://www.baeldung.com/spring-security-5-oauth2-login))
+
+![](images/dev23.png)
 
 ## 프로젝트 실행 - Spring Security
+
 ![](images/dev21.png)
-
-
 
 # 9. JWT 엑세스 토큰과 리프레시 토큰 생성
 
