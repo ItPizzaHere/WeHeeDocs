@@ -1,6 +1,6 @@
 # 소셜 로그인을 이용한 인증 기능 구현하기
 
-마지막 업데이트 날짜: 2023-08-02 <br>
+마지막 업데이트 날짜: 2023-08-04 <br>
 작성자: 김예진
 
 > **목차**
@@ -8,14 +8,47 @@
 > 1. [요구사항 파악](#1-요구사항-파악)
 >    1. [로그인](#로그인)
 >    2. [회원가입](#회원가입)
->    3. [유저 테이블](#유저-테이블)
+>    3. [유저 요구사항](#유저-요구사항)
+>    4. [유저 테이블](#유저-테이블)
+>    5. [리프레시 토큰 테이블](#리프레시-토큰-테이블)
 > 2. [예시 프로젝트 실행 및 분석](#2-예시-프로젝트-실행-및-분석)
 >    1. [예시 프로젝트 정보](#예시-프로젝트-정보)
 >    2. [실행 결과](#실행-결과)
+>       1. [실행 화면 및 DB 저장 내용](#실행-화면-및-db-저장-내용)
 >    3. [DB 분석](#db-분석)
+>       1. [User 테이블 구조](#user-테이블-구조)
+>       2. [WeHee와 비교 - User](#wehee와-비교---user)
+>       3. [USER REFRESH TOKEN 테이블 구조](#user-refresh-token-테이블-구조)
+>       4. [WeHee와 비교 - Refresh Token](#wehee와0비교---refresh-token)
 >    4. [gradle 분석](#gradle-분석)
+>       1. [인증을 위한 의존성 추가](#인증을-위한-의존성-추가)
+>       2. [build.gradle - configuration exclude](#buildbradle---configuration-exclude)
 >    5. [config 클래스 분석](#config-클래스-분석)
-> 3. Entity 구현
+>       1. [SecurityConfig.java](#securityconfigjava)
+> 3. [Entity 및 Enum class 구현](#3-entity-및-enum-class구현)
+>    1. [User class](#user-class)
+>    2. [RefreshToken class](#refreshtoken-class)
+>    3. [MBTI enum class](#mbti-enum-class)
+>    4. [Provider enum class](#provider-enum-class)
+> 4. [기본 Service 및 Repository class 구현](#4-기본-service-및-repository-classs-구현)
+>    1. [UserRepository](#userrepository)
+>    2. [UserService](#userservice)
+> 5. [API 및 비즈니스 로직 개발](#5-api-및-비즈니스-로직-개발)
+>    1. [소셜 로그인 시퀀스 다이어그램](#소셜-로그인-시퀀스-다이어그램)
+>       1. [시퀀스 다이어그램 설명](#시퀀스-다이어그램-설명)
+>    2. [`소셜 로그인하기` 버튼을 누를 때](#소셜-로그인하기-버튼을-누를-때)
+>    3. [예시 프로젝트 로그 분석](#예시-프로젝트-로그-분석)
+> 6. [획득한 유저 정보 이용해 인증된 유저 객체 만들기](#6-획득한-유저-정보-이용해-인증된-유저-객체-만들기)
+>    1. [`CustomOAuth2UserService 클래스 구현을 위한 밑작업](#customoauth2userservice-클래스-구현을-위한-밑작업)
+>    2. [`UserPrincipal` 클래스 구현](#userprincipal-클래스-구현)
+>       1. [Principal class 사용하는 이유?](#principal-class-사용하는-이유)
+>    3. [소셜 로그인을 위한 환경 설정](#소셜-로그인을-위한-환경-설정)
+>       1. [application.yml 작성](#applicationyml-작성)
+>    4. [`oauth/info` 패키지 하단의 OAuth2UserInfoFactory 관련 클래스 작성](#oauthinfo-패키지-하단의-oauth2userinfofactory-관련-클래스-작성)
+>       1. [`OAuth2UserInfoFactory` class](#oauth2userinfofactory-class)
+>       2. [`OAuth2UserInfo` abstract class](#oauth2userinfo-abstract-class)
+>       3. [`OAuth2UserInfo`를 상속받는 나머지 IdP별 classes](#oauth2userinfo를-상속하는-나머지-idp별-classes)
+>    5. [프로젝트 실행 - 유저 객체](#프로젝트-실행---유저-객체)
 
 이 글은 소셜 로그인을 이용한 인증 기능 구현 개발기로, 시간의 순서에 따라 글이 작성되었습니다.
 
@@ -58,7 +91,7 @@
 
 ## 리프레시 토큰 테이블
 
-![](images/dev18.PNG)
+![](images/dev18.png)
 
 
 # 2. 예시 프로젝트 실행 및 분석
@@ -212,19 +245,13 @@ public class User {
 
 ![](images/dev15.PNG)
 
-1. 위의 그림에 따르면 GET 메소드가 다음과 같이 요청된다.
-
-> /oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect
-
+1. 위의 그림에 따르면 GET 메소드가 다음과 같이 요청된다
+    `/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth/redirect`
 2. 웹서버로 해당 요청이 전달되고, provider-id에 따라 지정된 OAuth 2.0 provider가 해당 요청을 처리하게 요청을 처리하게 라우팅한다.
    - 백엔드에서 따로 코드를 짤 필요는 없음, `application.yml` 설정 이용
-
 3. (provider) 로그인 페이지로 리다이렉트를 하면, 클라이언트는 provider 서비스에 로그인한다.
-
 4. 클라이언트가 로그인에 성공하면 IdP 서버로부터 백엔드로 Authorization 코드가 응답된다.
-
 5. 백엔드에서 인가 코드를 확인해 IdP 서버로 엑세스 토큰을 요청한다.
-
 6. 계속...
 
 ## 예시 프로젝트 로그 분석
@@ -251,13 +278,25 @@ public class User {
 > 11
 >=================================getUser()==============UserController
 
-# 6. 획득한 유저 테이블 DB 저장, JWT 엑세스 토큰과 리프레시 토큰 생성
+로그와 코드 내용을 대조해본 결과, 클라이언트가 소셜 로그인에 성공했을 때 `CustomOAuth2UserService` class에서 loadUser()가 호출되고 유저의 정보를 DB에 저장하는 과정이 가장 먼저 일어났다. 그 다음 소셜 로그인 성공/실패 핸들러가 JWT 토큰과 리프레시 토큰을 만드는 일에 관여한다. 이후 클라이언트에게 토큰을 전달하는 부분부터는 살짝 막힌 상태인데 오늘(2023-08-04) 이 부분은 앞에 부분을 개발하다보면 해결할 수 있을 것 같아 보인다. <br>
+
+쿠키와 토큰 필터 부분(아직은 미지의 영역)을 거치면 `UserController`의 getUser()가 호출된다.
+
+# 6. 획득한 유저 정보 이용해 인증된 유저 객체 만들기
+## `CustomOAuth2UserService` 클래스 구현을 위한 밑작업
+
+클라이언트 측에서 소셜 로그인에 성공하면 `CustomOAuth2UserService` class에서 loadUser()가 호출된다. 이 메소드가 호출하는 메소드까지 정리하면 처리하는 내용은 다음과 같다.
+
+1. 유저의 이메일 주소가 이미 다른 IdP로부터 제공받은 이메일인지 확인한다.
+2. 새로 등록되는 이메일 주소인 경우 유저 정보를 `UserPrincipal` 객체로 만들어 리턴한다. 
 
 ## `UserPrincipal` 클래스 구현
 
 `CustomOAuth2UserService` 클래스에서 `loadUser()`를 호출하면 OAuth2User 타입의 객체를 반환하는데, 이 객체는 UserPrincipal 클래스로 만들 수 있다. UserPrincipal 객체는 현재 인증된 사용자를 의미한다.
 
 ### Principal class 사용하는 이유?
+
+by ChatGPT
 
 > In Spring Boot OAuth 2.0, the `Principal` class is used to represent the currently authenticated user. It provides a convenient way to access user-related information after a successful authentication. The `Principal` object is automatically populated by the Spring Security framework once the user has been authenticated, and it allows you to access details about the authenticated user, such as their username, authorities, and other attributes.
 >
@@ -268,7 +307,315 @@ public class User {
 > 3. Avoiding the need for manual retrieval: Without the `Principal` class, you would need to manually retrieve user information from the security context or session, which could be error-prone and cumbersome. Spring Security automatically handles this for you.
 > 4. Integration with Spring Security: Spring Boot integrates seamlessly with Spring Security, and the `Principal` class is an essential part of the security framework. It helps maintain a consistent and standard way of accessing user information across different parts of your application.
 
-## `CustomOAuth2UserService` 클래스 구현
+## 소셜 로그인을 위한 환경 설정
+
+### application.yml 작성
+
+새로 추가한 부분은 다음과 같다. 예시 프로젝트보다 더 많은 정보가 필요해 해당 부분을 추가하고, 민감한 client id와 client secret은 모두 환경 변수로 바꿨다.
+
+```yml
+spring:
+    security:
+      oauth2.client:
+        registration:
+          google:
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+              - gender.read
+              - birthday.read
+          naver:
+            clientId: ${NAVER_CLIENT_ID}
+            clientSecret: ${NAVER_CLIENT_SECRET}
+            clientAuthenticationMethod: post
+            authorizationGrantType: authorization_code
+            redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            clientName: Naver
+          kakao:
+            clientId: ${KAKAO_CLIENT_ID}
+            clientSecret: ${KAKAO_CLIENT_SECRET}
+            clientAuthenticationMethod: post
+            authorizationGrantType: authorization_code
+            redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            scope:
+              - profile_nickname
+              - profile_image
+              - account_email
+              - gender
+              - birthyear
+            clientName: Kakao
+        provider:
+          naver:
+            authorizationUri: https://nid.naver.com/oauth2.0/authorize
+            tokenUri: https://nid.naver.com/oauth2.0/token
+            userInfoUri: https://openapi.naver.com/v1/nid/me
+            userNameAttribute: response
+          kakao:
+            authorizationUri: https://kauth.kakao.com/oauth/authorize
+            tokenUri: https://kauth.kakao.com/oauth/token
+            userInfoUri: https://kapi.kakao.com/v2/user/me
+            userNameAttribute: id
+```
+
+## `oauth/info` 패키지 하단의 OAuth2UserInfoFactory 관련 클래스 작성
+
+소셜 로그인에 성공한 유저의 정보를 받아 오려면 각 IdP별로 정보를 받아오는 클래스를 만들어야 한다. 이 역할을 `OAuth2UserInfo` 클래스의 getOAuth2UserInfo()가 처리해준다. getOAuth2UserInfo()는 인증 서버로부터 attributes를 넘겨 받으면 IdP별로 정보를 파싱하는 `OAuth2UserInfo` 상속 객체를 반환한다. 
+
+### `OAuth2UserInfoFactory` class
+
+```java
+public static OAuth2UserInfo getOAuth2UserInfo(ProviderType providerType, Map<String, Object> attributes) {
+        switch (providerType) {
+            case GOOGLE: return new GoogleOAuth2UserInfo(attributes);
+            case FACEBOOK: return new FacebookOAuth2UserInfo(attributes);
+            case NAVER: return new NaverOAuth2UserInfo(attributes);
+            case KAKAO: return new KakaoOAuth2UserInfo(attributes);
+            default: throw new IllegalArgumentException("Invalid Provider Type.");
+        }
+    }
+```
+
+### `OAuth2UserInfo` abstract class
+
+```java
+public abstract class OAuth2UserInfo {
+    protected Map<String, Object> attributes;
+
+    public OAuth2UserInfo(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
+
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    public abstract String getId();
+
+    public abstract String getName();
+
+    public abstract String getEmail();
+
+    public abstract String getImageUrl();
+}
+```
+
+### `OAuth2UserInfo`를 상속하는 나머지 IdP별 classes
+
+1. `GoogleOAuth2UserInfo`
+2. `KakaoOAuth2UserInfo`
+3. `NaverOAuth2UserInfo`
+
+## 프로젝트 실행 - 유저 객체
+
+![](images/dev20.PNG)
+
+여기까지 구현한 내용으로 프로젝트를 실행해보면 다음과 같이 동작한다. 로그인 버튼을 누르면 소셜 로그인을 수행하기 위한 모달이 나오고, 여기에서 아무 버튼이나 클릭하면 `http://localhost:8080`에 로그인하라는 화면을 마주하게 된다. 이때 취소를 누르면 `http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth/redirect` 링크에 대한 페이지가 작동하지 않는다는 창으로 리다이렉트 된다. <br>
+
+저 `사용자 이름`, `비밀번호` 입력창이 나오는 이유는 Spring Security 때문이라는데, 이참에 Spring Security와 그놈의 CORS를 한 번 처리해보기로 했다.
+
+# 7. Application Properties 설정
+
+Spring Security 설정을 하기에 앞서 애플리케이션에서 사용하게 될 프로퍼티들을 먼저 설정하기로 한다. 수정할 부분은 Application class와 applicaiton.yml, custom property classes이다. 커스텀할 프로퍼티들의 내용들은 다음과 같다.
+
+## application.yml
+
+```yaml
+# AppProperties
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpiry: 1800000
+    refreshTokenExpiry: 604800000
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth/redirect
+
+# CorsProperties
+cors:
+  allowed-origins: 'http://localhost:3000'
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: '*'
+  max-age: 3600
+```
+
+## config/properties 하위의 custom property classes
+
+`config/properties` 패키지 내부에 설정할 properties class를 각각 만든다.
+
+1. `AppProperties` class
+2. `CorsProperties` class
+
+## WeHeeApplication class
+
+`@EnableConfigurationProperties` annotation을 이용해 애플리케이션 클래스에 커스텀 프로퍼티 빈을 등록한다.
+
+```java
+@SpringBootApplication
+@EnableConfigurationProperties({
+	CorsProperties.class,
+	AppProperties.class
+})
+public class WeheeApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(WeheeApplication.class, args);
+	}
+
+}
+```
+
+# 8. Spring Security 설정
+
+- 공부 내용 기록
+  - [Spring Security](../review/study/spring-security.md)
+  - [CSRF](../review/study/csrf.md)
+
+## `SecurityConfig` class filterChain() 설정
+
+```java
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+            .cors().configurationSource(corsConfigurationSource())
+        .and()
+            .sessionManagement()
+            // SpringSecurity에 의해 생성되는 Session 없음 (Session 기반이 아님)
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+            .csrf().disable() // JWT 사용하므로 disable
+            .formLogin().disable() // Spring Security 기본 제공 LoginForm 해제
+            .httpBasic().disable() // JWT 사용하므로 disable
+            // 인증 예외가 발생하는 경우 호출
+            .exceptionHandling()
+            .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+        .and()
+            .oauth2Login() 
+            .authorizationEndpoint() // client 요청 시 경로 설정
+            .baseUri("/oauth2/authorization")
+        .and()
+            .redirectionEndpoint() // client 측에서 인증 요청 응답 받는 시점의 경로 설정
+            .baseUri("/*/oauth2/code/*")
+        .and()
+            .userInfoEndpoint() // DefaultOAuth2UserService class의 loadUser() 호출
+            .userService(oAuth2UserService)
+        .and()
+            .successHandler(oAuth2AuthenticationSuccessHandler())
+            .failureHandler(oAuth2AuthenticationFailureHandler())
+    return http.build();
+}
+```
+
+### CORS 설정
+
+```java
+// SecurityConfig.java
+@Bean
+public CorsConfigurationSource corsConfigurationSource() {
+    UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();
+
+    CorsConfiguration corsConfig = new CorsConfiguration();
+    corsConfig.setAllowedHeaders(Arrays.asList(corsProperties.getAllowedHeaders().split(",")));
+    corsConfig.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(",")));
+    corsConfig.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
+    corsConfig.setAllowCredentials(true);
+    corsConfig.setMaxAge(corsConfig.getMaxAge());
+
+    // 모든 Url에 대해 설정한 CorsConfiguration 등록
+    corsConfigSource.registerCorsConfiguration("/**", corsConfig);
+    return corsConfigSource;
+}
+
+// CorsProperties.java
+@Getter
+@Setter
+@Component
+@ConfigurationProperties(prefix = "cors")
+public class CorsProperties {
+    private String allowedOrigins;
+    private String allowedMethods;
+    private String allowedHeaders;
+    private Long maxAge;
+}
+
+// application.yml
+cors:
+  allowed-origins: 'http://localhost:3000'
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: '*'
+  max-age: 3600
+```
+
+### `RestAuthenticationEntryPoint` class implements `AuthenticationEntryPoint`
+
+인증 예외가 발생하는 경우 호출
+
+```java
+public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+        AuthenticationException authException) throws IOException, ServletException {
+        authException.printStackTrace();
+        response.sendError(
+            HttpServletResponse.SC_UNAUTHORIZED,
+            authException.getLocalizedMessage());
+    }
+}
+```
+
+### oauth2Login() 설정
+
+`DefaultOAuth2UserService` class의 loadUser() 호출
+
+```java
+@Service
+@RequiredArgsConstructor
+public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+
+    private final UserRepository userRepository;
+
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        OAuth2User user = super.loadUser(userRequest);
+
+        return user;
+    }
+}
+```
+
+### oauth2Login().authorizationEndpoint().baseUri("/oauth2/authorization") 설정
+
+이 옵션을 사용하면 client 쪽에서 IdP로 인증을 요청할 때 `/oauth2/authorization` 경로를 포함해야 한다([참고](https://docs.spring.io/spring-security/site/docs/5.0.7.RELEASE/reference/html/oauth2login-advanced.html))
+
+![](images/dev22.png)
+
+### redirectionEndpoint().baseUri("/*/oauth2/code/*") 설정
+
+외부 IdP로부터의 인증이 끝난 후에 리다리렉트되는 endpoint 지정([참고](https://www.baeldung.com/spring-security-5-oauth2-login))
+
+![](images/dev23.png)
+
+## 프로젝트 실행 - Spring Security
+
+![](images/dev21.png)
+
+# 9. JWT 엑세스 토큰과 리프레시 토큰 생성
+
+## `SecurityConfig` 토큰 관련 업데이트
+
+```java
+```
+
+TokenAuthenticationFilter에서
+
+//        String tokenStr = HeaderUtil.getAccessToken(request);
+//        AuthToken token = tokenProvider.convertAuthToken(tokenStr);
+
+# 10. 쿠키 설정
+
+# 11. 프론트엔드와 연결
 
 
 
