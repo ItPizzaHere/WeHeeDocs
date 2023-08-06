@@ -603,6 +603,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 # 9. JWT 엑세스 토큰과 리프레시 토큰 생성
 
+## `SecurityConfig` 토큰 관련 업데이트
+
+```java
+```
+
+TokenAuthenticationFilter에서
+
+//        String tokenStr = HeaderUtil.getAccessToken(request);
+//        AuthToken token = tokenProvider.convertAuthToken(tokenStr);
+
 # 10. 쿠키 설정
 
 # 11. 프론트엔드와 연결
