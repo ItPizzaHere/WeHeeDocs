@@ -1,6 +1,6 @@
 # 소셜 로그인을 이용한 인증 기능 구현하기
 
-마지막 업데이트 날짜: 2023-08-04 <br>
+마지막 업데이트 날짜: 2023-08-08 <br>
 작성자: 김예진
 
 > **목차**
@@ -608,12 +608,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 ```java
 ```
 
-TokenAuthenticationFilter에서
+![](images/dev24.png)
 
-//        String tokenStr = HeaderUtil.getAccessToken(request);
-//        AuthToken token = tokenProvider.convertAuthToken(tokenStr);
+![](images/dev25.png)
 
 # 10. 쿠키 설정
+
+http://localhost:3000/oauth/redirect?token=토큰
+
+![](images/dev26.png)
+
+![](images/dev27.png)
 
 # 11. 프론트엔드와 연결
 
