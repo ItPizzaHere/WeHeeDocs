@@ -24,6 +24,7 @@
 >       1. [API 출력 정보 규칙](#api-출력-정보-규칙)
 >    3. [Service 구현](#5-3-service-구현)
 >    4. [Repository 구현](#5-4-repository-구현)
+> 6. [프로트엔드와의 소통 예시](#6-프론트엔드와의-소통-예시)
 
 ### 들어가기 전에
 
@@ -186,3 +187,7 @@ API에서 동작을 수행한 후에는 ApiResponse 객체를 반환합니다. �
 ## 5-4. Repository 구현
 
 DB와 트랜잭션 하는 부분을 repository class에서 구현하시면 됩니다.
+
+# 6. 프론트엔드와의 소통 예시
+
+![](images/dev40.jpg)
