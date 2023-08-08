@@ -63,6 +63,7 @@
     - [채팅 시퀀스 다이어그램 - WIP](architecture/sequence-diagram/chatting-sequence-diagram.md)
 - [development](development/README.md)
   - [How to Run](development/how-to-run.md)
+  - [백엔드 개발자의 API 만들기](development/how-to-make-api-in-spring-boot.md)
   - [Spring Boot 환경 설정 - WIP](development/spring-boot-env-setting.md)
   - [도커 설정 - WIP](development/docker-setting.md)
   - [Spring WebSocket - WIP](development/spring-websocket.md)
