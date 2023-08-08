@@ -620,7 +620,11 @@ http://localhost:3000/oauth/redirect?token=토큰
 
 ![](images/dev27.png)
 
-# 11. 프론트엔드와 연결
+# 11. API 연동 및 로그인 확인
+
+# 12. 리프레시 토큰 발급
+
+
 
 
 
