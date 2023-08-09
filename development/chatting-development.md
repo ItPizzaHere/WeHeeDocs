@@ -141,31 +141,21 @@ public class RedisConfig {
     public RedisConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory(host, port);
     }
-
-    @Bean
-    public RedisTemplate<?, ?> redisTemplate() {
-        RedisTemplate<?, ?> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory());
-        redisTemplate.setEnableTransactionSupport(true);
-        return redisTemplate;
-    }
 }
 ```
 
-### RedisInitializer.java
+# 기타
+
+### ProjectInitializer.java
 
 ```java
 @RequiredArgsConstructor
 @Component
-public class RedisInitializer implements CommandLineRunner {
-
-    private final RedisTemplate<String, String> redisTemplate;
+public class ProjectInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        RedisConnection redisConnection = redisTemplate.getConnectionFactory().getConnection();
-        RedisServerCommands serverCommands = redisConnection.serverCommands();
-        serverCommands.flushAll();
+        System.out.println("Application started! This code will run on startup.");
     }
 }
 ```
