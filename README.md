@@ -92,7 +92,7 @@
     - [Spring Security](review/study/spring-security.md)
     - [CSRF](review/study/csrf.md)
     - [Cassandra - WIP](review/study/cassandra.md)
-    - [Redis - WIP](review/study/redis.md)
+    - [Redis](review/study/redis.md)
     - [Stateless와 Stateful 서비스 - WIP](review/study/stateless-and-stateful-services.md)
     - [분산 트랜잭션 - WIP](review/study/distributed-transaction.md)
   - [roadmap](review/roadmap/README.md)
