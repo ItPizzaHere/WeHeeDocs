@@ -1038,24 +1038,3 @@ public class UserController {
 
 
 
-### 수정해야 할 부분
-
-- AuthController.java
-  - 리프레시 토큰 유효성 검사 부분
-- AuthToken.java
-
-  ```java
-  public Claims getExpiredTokenClaims() {
-      try {
-          Jwts.parserBuilder()
-                  .setSigningKey(key)
-                  .build()
-                  .parseClaimsJws(token)
-                  .getBody();
-      } catch (ExpiredJwtException e) {
-          log.info("Expired JWT token.");
-          return e.getClaims();
-      }
-      return null;
-  }
-  ```
