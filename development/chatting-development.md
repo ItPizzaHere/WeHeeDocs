@@ -1,6 +1,6 @@
 # 채팅 기능 구현하기
 
-마지막 업데이트 날짜: 2023-08-09 <br>
+마지막 업데이트 날짜: 2023-08-11 <br>
 작성자: 김예진
 
 > **목차**
@@ -16,6 +16,18 @@
 >    8. [공지사항](#공지사항)
 >    9. [채팅 종료](#채팅-종료)
 > 2. [Redis 환경 설정](#2-redis-환경-설정)
+>    1. [`dockder-compose` 설정](#2-1-docker-compose-설정)
+>    2. [Redis-Spring Boot 환경 설정](#2-2-redis---spring-boot-환경-설정)
+>       1. [`build.grade` 설정](#buildgradle-설정)
+>       2. [`application.yml` 설정](#applicationyml-설정)
+>       3. [RedisConfig.java](##redisconfigjava)
+> 3. RabbitMQ 환경설정
+>    1. 내용
+>
+> 4. Chatting은 어떻게 만들어서 저장되는가? - Redis 관점
+> 5. Love on Chat 메인 화면
+> 6. [기타](#기타)
+>
 
 # 1. 요구사항 파악
 
@@ -143,6 +155,77 @@ public class RedisConfig {
     }
 }
 ```
+
+# 3. RabbitMQ 환경설정
+
+## 3-1. `docker-compose` 설정
+`docker-compose/dependencies.yml`에 redis 관련 설정 추가
+
+```yaml
+version: '3.8'
+services:
+  rabbitmq-stomp:
+    image: "rabbitmq:3.12"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "61613:61613"
+```
+
+## 3-2. Redis - Spring Boot 환경 설정 
+
+### `build.gradle` 설정
+
+```groovy
+# 의존성 추가
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.springframework.boot:spring-boot-starter-reactor-netty'
+}
+```
+
+## 3-3. WebSocketConfig class 설정
+
+```java
+@Configuration
+@EnableWebSocketMessageBroker
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    @Value("${wehee.chat.relay.host}")
+    private String relayHost;
+
+    @Value("${wehee.chat.relay.port}")
+    private Integer relayPort;
+
+    @Value("${wehee.chat.stomp.username}")
+    private String stompId;
+
+    @Value("${wehee.chat.stomp.username}")
+    private String stompPassword;
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/ws")
+                .setAllowedOrigins("*");
+    }
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.setApplicationDestinationPrefixes("/chatroom")
+                .enableStompBrokerRelay("/queue/", "/topic/")
+                .setUserDestinationBroadcast("/topic/unresolved.user.dest")
+                .setUserRegistryBroadcast("/topic/registry.broadcast")
+                .setRelayHost(relayHost)
+                .setVirtualHost("/")
+                .setRelayPort(relayPort)
+                .setClientLogin(stompId)
+                .setClientPasscode(stompPassword);
+    }
+}
+```
+
+
 
 # 기타
 
