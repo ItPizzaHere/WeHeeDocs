@@ -1,9 +1,7 @@
 # Git Conventions
 
-마지막 업데이트 날짜: 2023-08-04 <br>
+마지막 업데이트 날짜: 2023-08-09 <br>
 작성자: 김예진
-
-[Jira-GitLab Integration](../jira/jira-gitlab-integration.md)의 [Jira project - GitLab branch, commit 연동 결과 확인](../jira/jira-gitlab-integration.md#jira-project---gitlab-branch-commit-연동-결과-확인) 섹션 참고
 
 > **목차**
 >
@@ -31,6 +29,40 @@
 | Refactoring | `refactor/<feature-name>`    | 리팩토링 브랜치                                        | Develop | Develop         |
 
 ## Jira를 활용한 브랜치 생성
+
+> **목차**
+>
+> 1. `Create branch` 버튼 클릭
+> 2. `Create branch in GitLab` 클릭
+> 3. 브랜치 정보 입력 후 브랜치 생성
+>    1. `Jira Project` 설정
+>    2. `Source branch` 설정
+>    3. `Branch name` 설정
+
+1. `Create branch` 버튼 클릭
+
+   ![](images/convention01.png)
+   각 이슈로 들어가면 다음과 같은 `Create branch` 버튼을 보실 수 있습니다.
+
+2. `Create branch in GitLab` 클릭
+
+   3번의 사진을 참조하세요.
+
+3. 브랜치 정보 입력 후 브랜치 생성
+
+   ![](images/convention02.png)
+
+   1. Project는 Jira 프로젝트로 설정하시면 됩니다. 
+
+   2. 분기하고자 하는 브랜치를 정해 Source branch로 지정해주세요.
+
+   3. **Branch name 정하기**
+
+      Branch name은 Jira에서 연동해 사용하기 위해 `<Jira Project Key>-<Issue 번호> <원하는 브랜치 이름>` 형식으로 작성해주시면 좋습니다(참고: [Jira Issue Regex](#jira-issue-regex). [Jira Issue Prefix](#jira-issue-prefix)).
+
+### 생성된 브랜치 확인
+
+![](images/convention03.png)
 
 # 2. Commit Conventions
 
@@ -60,7 +92,19 @@ git commit -m "S09P12A806-105/feat: 로그인 기능 구현"
 
 # 3. PR Conventions
 ## PR Naming Convention
+
+`<Jira project code>-<issue#>/<branch name>`
+
 ## Jira를 활용한 PR
 
+1. `Create pull request` 버튼 클릭
 
+   ![](images/convention04.png)
 
+2. Pull Request 내용 작성
+
+   ![](images/convention05.png)
+
+   1. `Title`에 브랜치명 입력
+   2. [Pull Request Template](./templates/pull-request-template.md)에 따라 브랜치에서 수정한 내역 입력
+   3. `Create merge request` 클릭

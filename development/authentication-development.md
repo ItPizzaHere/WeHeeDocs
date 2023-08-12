@@ -49,6 +49,19 @@
 >       2. [`OAuth2UserInfo` abstract class](#oauth2userinfo-abstract-class)
 >       3. [`OAuth2UserInfo`를 상속받는 나머지 IdP별 classes](#oauth2userinfo를-상속하는-나머지-idp별-classes)
 >    5. [프로젝트 실행 - 유저 객체](#프로젝트-실행---유저-객체)
+> 7. [Application Properties 설정](#7-application-properties-설정)
+>    1. [application.yml](#applicationyml)
+>    2. [config/properties 하위의 custom property classes](#configproperties-하위의-custom-property-classes)
+> 8. [Spring Security 설정](#8-spring-security-설정)
+>    1. [`SecurityConfig` class filterChain() 설정](#securityconfig-class-filterchain-설정)
+>       1. [CORS 설정](#cors-설정)
+>       2. [`RestAuthenticationEntryPoint` class implements `AuthenticationEntryPoint`](#restauthenticationentrypoint-class-implements-authenticationentrypoint)
+>       3. [oauth2Login()설정](#oauth2login설정)
+>       4. [oauth2Login().authorizationEndpoint().baseUri("/oauth2/authorization") 설정](#oauth2loginauthorizationendpointbaseurioauth2authorization-설정)
+>       5. [redirectionEndpoint().baseUri("/oauth2/code/") 설정](#redirectionendpointbaseurioauth2code-설정)
+>    2. [프로젝트 실행 - Spring Security](#프로젝트-실행---spring-security)
+> 9. [JWT 엑세스 토큰과 리프레시 토큰 생성](#9-jwt-엑세스-토큰과-리프레시-토큰-생성)
+>
 
 이 글은 소셜 로그인을 이용한 인증 기능 구현 개발기로, 시간의 순서에 따라 글이 작성되었습니다.
 
@@ -409,7 +422,7 @@ public abstract class OAuth2UserInfo {
 
 ## 프로젝트 실행 - 유저 객체
 
-![](images/dev20.PNG)
+![](images/dev20.png)
 
 여기까지 구현한 내용으로 프로젝트를 실행해보면 다음과 같이 동작한다. 로그인 버튼을 누르면 소셜 로그인을 수행하기 위한 모달이 나오고, 여기에서 아무 버튼이나 클릭하면 `http://localhost:8080`에 로그인하라는 화면을 마주하게 된다. 이때 취소를 누르면 `http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth/redirect` 링크에 대한 페이지가 작동하지 않는다는 창으로 리다이렉트 된다. <br>
 
@@ -603,24 +616,425 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 # 9. JWT 엑세스 토큰과 리프레시 토큰 생성
 
+이 장에서는 유저가 IdP를 이용해 소셜 로그인에 성공한 후 엑세스 토큰과 리프레시 토큰을 발급하는 부분을 다룬다. 엑세스 토큰이 만료되어 만료된 토큰을 다시 발급받고 리프레시 토큰 갱신 여부를 결정하는 부분은 11장에서 다룬다.
+
 ## `SecurityConfig` 토큰 관련 업데이트
 
 ```java
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+            .cors().configurationSource(corsConfigurationSource())
+        .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+            .csrf().disable()
+            .formLogin().disable()
+            .httpBasic().disable()
+            .exceptionHandling()
+            .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+      			// 유효하지 않은 토큰/만료된 토큰에 대한 접근 거부 오류 핸들러 등록
+            .accessDeniedHandler(tokenAccessDeniedHandler)
+        .and()
+            .oauth2Login()
+            .authorizationEndpoint()
+            .baseUri("/oauth2/authorization")
+        .and()
+            .redirectionEndpoint()
+            .baseUri("/*/oauth2/code/*")
+        .and()
+            .userInfoEndpoint()
+            .userService(oAuth2UserService)
+        .and() // 인증 성공 및 실패에 대한 기능 추가
+            .successHandler(oAuth2AuthenticationSuccessHandler())
+            .failureHandler(oAuth2AuthenticationFailureHandler())
+        .and() // 토큰 검증 필터 추가
+            .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    return http.build();
+}
+
+
+@Bean
+public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
+    return new OAuth2AuthenticationSuccessHandler(
+        tokenProvider, // 토큰 발급/변환/인증 받아오기 기능 수행
+        appProperties, // token 관련 property 변수들을 가져오기 위함
+        refreshTokenRepository // DB - RefreshToken
+    );
+}
+
+@Bean
+public OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler() {
+    return new OAuth2AuthenticationFailureHandler();
+}
+
+// 토큰이 유효할 경우 security context holder에 인증 내역 추가
+// tokenProvider가 토큰으로부터 인증 받아오는 역할 수행
+@Bean
+public TokenAuthenticationFilter tokenAuthenticationFilter() {
+    return new TokenAuthenticationFilter(tokenProvider);
+}
 ```
+
+- **`addFilterBefore(<filter>, <class>)`**
+  - UsernamePasswordAuthenticationFiler.class 직전에 tokenAuthenticationFilter()가 실행되도록 설정
+  - tokenAuthenticationFilter()에서 tokenProvider가 token으로부터 UsernamePasswordAuthenticationToken을 생성, 그 다음에 UsernamePasswordAuthenticationFilter가 작동됨
+
+## OAuth2AuthenticationSuccessHander - 토큰 발행 후 DB 저장
+
+```java
+@Override
+public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+    Authentication authentication) throws IOException, ServletException {
+    super.onAuthenticationSuccess(request, response, authentication);
+
+    OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) authentication;
+    Provider provider = Provider.valueOf(authToken.getAuthorizedClientRegistrationId().toUpperCase());
+    
+    // OAuth2 provider로부터 받은 유저 정보 이용해 userInfo 객체 생성
+    OidcUser user = (OidcUser) authentication.getPrincipal();
+    OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(provider, user.getAttributes());
+    Collection<? extends GrantedAuthority> authorities = ((OidcUser) authentication.getPrincipal()).getAuthorities();
+    Role role = Role.isOf(authorities, Role.ADMIN) ? Role.ADMIN : Role.USER;
+
+    // access token 발급
+    LocalDateTime expiry = calExpiry(LocalDateTime.now(), appProperties.getAuth().getTokenExpiry());
+    AuthToken accessToken = tokenProvider.createAuthToken(
+        userInfo.getProviderId(),
+        role,
+        expiry);
+
+    LocalDateTime refreshTokenExpiry = calExpiry(LocalDateTime.now(), appProperties.getAuth().getRefreshTokenExpiry());
+    AuthToken refreshToken = tokenProvider.createAuthToken(
+        appProperties.getAuth().getTokenSecret(),
+        refreshTokenExpiry);
+
+    // refresh token 발급, DB에 저장
+    RefreshToken userRefreshToken = refreshTokenRepository.findByProviderId(userInfo.getProviderId());
+    if (userRefreshToken == null) {
+        userRefreshToken = RefreshToken.createRefreshToken(userInfo.getProviderId(), refreshToken.getToken());
+        refreshTokenRepository.save(userRefreshToken);
+    } else {
+        userRefreshToken.updateRefreshToken(refreshToken.getToken());
+    }
+}
+```
+
+## AuthToken과 AuthTokenProvider
+
+### AuthToken class
+
+Token을 관리하는 class로 토큰 생성 및 검증(token claimsnull 검사), getTokenClaims() 수행
+
+### AuthTokenProvider class
+
+새로운 토큰 생성, String token으로부터 Token으로의 형 변환, AuthToken 객체로부터 AuthenticationToken으로의 변환 기능 수행
+
+## HeaderUtil.java
+
+```java
+public static String getAccessToken(HttpServletRequest request) {
+    String headerValue = request.getHeader(HEADER_AUTHORIZATION);
+
+    if (headerValue == null) {
+        return null;
+    }
+
+    if (headerValue.startsWith(TOKEN_PREFIX)) {
+        return headerValue.substring(TOKEN_PREFIX.length());
+    }
+
+    return null;
+}
+```
+
+HttpServerRequest의 header에서 토큰 관련 prefix("Bearer ")가 나오면 토큰만 추출해 반환하는 기능 수행
+
+## 토큰 발급 후 실행 화면
+
+### 브라우저 - 토큰 발급 후
 
 ![](images/dev24.png)
 
+### User DB -  토큰 발급 후
+
 ![](images/dev25.png)
 
-# 10. 쿠키 설정
+# 10. 리프레시 토큰 쿠키 설정
 
-http://localhost:3000/oauth/redirect?token=토큰
+## `SecurityConfig` 리프레시 토큰 관련 업데이트
+
+```java
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+            .cors().configurationSource(corsConfigurationSource())
+        .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+            .csrf().disable()
+            .formLogin().disable()
+            .httpBasic().disable()
+            .exceptionHandling()
+            .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+            .accessDeniedHandler(tokenAccessDeniedHandler)
+        .and()
+            .oauth2Login()
+            .authorizationEndpoint()
+            .baseUri("/oauth2/authorization")
+            // 리프레시 토큰을 쿠키에 저장/삭제하기 위한 repository
+            .authorizationRequestRepository(oAuth2CookieRepository())
+        .and()
+            .redirectionEndpoint()
+            .baseUri("/*/oauth2/code/*")
+        .and()
+            .userInfoEndpoint()
+            .userService(oAuth2UserService)
+        .and()
+            .successHandler(oAuth2AuthenticationSuccessHandler())
+            .failureHandler(oAuth2AuthenticationFailureHandler())
+        .and()
+            .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+    return http.build();
+}
+
+// Authorization request와 관련된 state 저장
+@Bean
+public OAuth2CookieRepository oAuth2CookieRepository() {
+    return new OAuth2CookieRepository();
+}
+
+@Bean
+public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
+    return new OAuth2AuthenticationSuccessHandler(
+        tokenProvider,
+        appProperties,
+        refreshTokenRepository,
+        oAuth2CookieRepository() // 쿠키 레포지토리 추가
+    );
+}
+
+@Bean
+public OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler() {
+    // 쿠키 레포지토리 추가
+    return new OAuth2AuthenticationFailureHandler(oAuth2CookieRepository());
+}
+```
+
+## CookieUtil
+
+쿠키 발급/가져오기/삭제/직렬화/역직렬화 기능 수행
+
+## OAuth2CookieRepository
+
+Authorization request와 관련된 state를 AuthorizationRequestRepository를 구현한 `OAuth2CookieRepository`에서 저장한다. 그리고 provider에서 제공한 AuthorizationUrl에서 허용/거부가 정해진다([참고](https://jyami.tistory.com/121)).
+
+- 유저가 앱에 대한 권한을 허용하는 경우
+  - 사용자를 callback url로 리다이렉트 시킴
+  - 사용자 인증 코드도 백엔드가 가지고 있음
+  - SuccessHandler 호출
+- 유저가 앱에 대한 권한을 거부하는 경우
+  - Callback url로 똑같이 리다이렉트 하지만 에러 발생
+  - FailuerHandler 호출
+
+## OAuth2AuthenticationSuccessHandler - 쿠키
+
+```java
+@Override
+public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+    Authentication authentication) throws IOException, ServletException {
+    Optional<String> redirectUri = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
+        .map(Cookie::getValue);
+    
+    // redirectUri가 인증되었는지 검사
+    if (isUnauthorizedUri(redirectUri)) {
+        throw new IllegalArgumentException("Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication");
+    }
+
+    String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
+
+    OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) authentication;
+    Provider provider = Provider.valueOf(authToken.getAuthorizedClientRegistrationId().toUpperCase());
+
+    OidcUser user = (OidcUser) authentication.getPrincipal();
+    OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(provider, user.getAttributes());
+    Collection<? extends GrantedAuthority> authorities = ((OidcUser) authentication.getPrincipal()).getAuthorities();
+    Role role = Role.isOf(authorities, Role.ADMIN) ? Role.ADMIN : Role.USER;
+
+    LocalDateTime expiry = calExpiry(LocalDateTime.now(), appProperties.getAuth().getTokenExpiry());
+    AuthToken accessToken = tokenProvider.createAuthToken(
+        userInfo.getProviderId(),
+        role,
+        expiry);
+
+    LocalDateTime refreshTokenExpiry = calExpiry(LocalDateTime.now(), appProperties.getAuth().getRefreshTokenExpiry());
+    AuthToken refreshToken = tokenProvider.createAuthToken(
+        appProperties.getAuth().getTokenSecret(),
+        refreshTokenExpiry);
+
+    RefreshToken userRefreshToken = refreshTokenRepository.findByProviderId(userInfo.getProviderId());
+    if (userRefreshToken == null) {
+        userRefreshToken = RefreshToken.createRefreshToken(userInfo.getProviderId(), refreshToken.getToken());
+        refreshTokenRepository.save(userRefreshToken);
+    } else {
+        userRefreshToken.updateRefreshToken(refreshToken.getToken());
+    }
+
+    int cookieMaxAge = (int) appProperties.getAuth().getRefreshTokenExpiry() / 60;
+
+    // 쿠키 갱신
+    CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
+    CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
+
+    String targetUrl2 = UriComponentsBuilder.fromUriString(targetUrl)
+        .queryParam("token", accessToken.getToken())
+        .build()
+        .toUriString();
+
+    if (response.isCommitted()) {
+        return;
+    }
+    
+    // response가 정상적으로 커밋되지 않은 경우 저장된 쿠키 모두 삭제
+    clearAuthenticationAttributes(request, response);
+    getRedirectStrategy().sendRedirect(request, response, targetUrl2);
+}
+```
+
+## OAuth2AuthenticationFailureHandler - 쿠키
+
+```java
+@Override
+public void onAuthenticationFailure(
+    HttpServletRequest request, HttpServletResponse response,
+    AuthenticationException exception) throws IOException, ServletException {
+    String targetUrl = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
+        .map(Cookie::getValue)
+        .orElse(("/"));
+
+    exception.printStackTrace();
+    
+    // 미리 지정된 url로 리다이렉트 하거나 '/'로 리다리엑트
+    targetUrl = UriComponentsBuilder.fromUriString(targetUrl)
+        .queryParam("error", exception.getLocalizedMessage())
+        .build()
+        .toUriString();
+
+    // 저장된 쿠키 모두 삭제
+    oAuth2CookieRepository.removeAuthorizationRequestCookies(request, response);
+  
+    getRedirectStrategy().sendRedirect(request, response, targetUrl);
+}
+```
+
+## 실행 화면 - 쿠키 발급
+
 
 ![](images/dev26.png)
 
+# 11. 리프레시 토큰 발급
+
+## `/api/v1/auth/refresh`
+
+```java
+@GetMapping("/refresh")
+public ApiResponse refreshToken(HttpServletRequest request, HttpServletResponse response) {
+    String accessToken = HeaderUtil.getAccessToken(request);
+    AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
+  
+    // access token 유효성 검사
+    if (!authToken.validate()) {
+        return ApiResponse.invalidAccessToken();
+    }
+
+    // access token이 만료되었는지 확인
+    Claims claims = authToken.getExpiredTokenClaims();
+    if (claims == null) {
+        // 만료되지 않은 토큰인 경우 종료
+        return ApiResponse.notExpiredTokenYet();
+    }
+
+    String providerId = claims.getSubject();
+    Role role = Role.of(claims.get("role", String.class));
+    
+    // refresh token 가져오기
+    String refreshToken = CookieUtil.getCookie(request, REFRESH_TOKEN)
+        .map(Cookie::getValue)
+        .orElse((null));
+    AuthToken authRefreshToken = tokenProvider.convertAuthToken(refreshToken);
+
+    // refresh token 유효성 검사
+    if (!authRefreshToken.validate()) {
+        return ApiResponse.invalidRefreshToken();
+    }
+
+    // refresh token이 db에 있는지 확인
+    RefreshToken userRefreshToken = refreshTokenRepository.findByProviderIdAndRefreshToken(
+        providerId, refreshToken);
+    if (userRefreshToken == null) {
+        return ApiResponse.invalidRefreshToken();
+    }
+
+    // 새로운 access token 발급
+    LocalDateTime expiry = TimeUtil.calExpiry(LocalDateTime.now(), appProperties.getAuth().getRefreshTokenExpiry());
+    AuthToken newAccessToken = tokenProvider.createAuthToken(
+        providerId,
+        role,
+        expiry);
+
+    Date now = new Date();
+    long validTime = authRefreshToken.getTokenClaims().getExpiration().getTime() - now.getTime();
+    
+    // refresh 토큰 기간이 3일 이하인 경우 새로 갱신
+    if (validTime <= THREE_DAYS_MSEC) {
+        // refresh token 재발급
+        LocalDateTime refreshTokenExpiry = TimeUtil.calExpiry(LocalDateTime.now(), appProperties.getAuth().getRefreshTokenExpiry());
+        authRefreshToken = tokenProvider.createAuthToken(
+            appProperties.getAuth().getTokenSecret(),
+            refreshTokenExpiry);
+
+        // DB에 저장
+        userRefreshToken.updateRefreshToken(authRefreshToken.getToken());
+
+        // 쿠키에 refresh token 정보 갱신
+        int cookieMaxAge = (int) appProperties.getAuth().getRefreshTokenExpiry() / 60;
+        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
+        CookieUtil.addCookie(response, REFRESH_TOKEN, authRefreshToken.getToken(), cookieMaxAge);
+    }
+
+    return ApiResponse.success("token", newAccessToken.getToken());
+}
+```
+
+# 12. API 연동 및 로그인 확인
+
+## 프론트엔드 코드 분석
+
 ![](images/dev27.png)
 
-# 11. 프론트엔드와 연결
+## UserController 업데이트
+
+```java
+@RestController
+@RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
+public class UserController {
+
+    private final UserService userService;
+
+    @GetMapping
+    public ApiResponse<UserResponseDto> describeAuthenticatedUser() {
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User)
+            SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = userService.getUserByProviderId(principal.getUsername());
+        return ApiResponse.success("user", UserResponseDto.from(user));
+    }
+}
+```
 
 
 
