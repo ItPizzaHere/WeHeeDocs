@@ -68,6 +68,8 @@
   - [도커 설정 - WIP](development/docker-setting.md)
   - [Spring WebSocket - WIP](development/spring-websocket.md)
   - [소셜 로그인을 이용한 인증 기능 구현하기 - WIP](development/authentication-development.md)
+  - [채팅 기능 구현하기 - WIP](development/chatting-development.md)
+  - [Annotations in Spring Boot](development/annotations-in-spring-boot.md)
   
 - [infrastructure](infrastructure/README.md)
 - [presentation](presentation/README.md)
@@ -91,7 +93,7 @@
     - [Spring Security](review/study/spring-security.md)
     - [CSRF](review/study/csrf.md)
     - [Cassandra - WIP](review/study/cassandra.md)
-    - [Redis - WIP](review/study/redis.md)
+    - [Redis](review/study/redis.md)
     - [Stateless와 Stateful 서비스 - WIP](review/study/stateless-and-stateful-services.md)
     - [분산 트랜잭션 - WIP](review/study/distributed-transaction.md)
   - [roadmap](review/roadmap/README.md)
