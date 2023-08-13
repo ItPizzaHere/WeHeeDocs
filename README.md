@@ -69,7 +69,8 @@
   - [Spring WebSocket - WIP](development/spring-websocket.md)
   - [소셜 로그인을 이용한 인증 기능 구현하기 - WIP](development/authentication-development.md)
   - [채팅 기능 구현하기 - WIP](development/chatting-development.md)
-  - [Annotations in Spring Boot](development/annotations-in-spring-boot.md)
+  - [Annotations in Spring Boot - WIP](development/annotations-in-spring-boot.md)
+  - [배포 - WIP](development/deployment.md)
   
 - [infrastructure](infrastructure/README.md)
 - [presentation](presentation/README.md)
