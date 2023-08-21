@@ -78,18 +78,13 @@
     - [MBTI 라운지 데이터베이스 테이블 설계](architecture/db/mbti-lounge-db-table.md)
     - [사용자 및 MBTI 라운지 데이터베이스 테이블 생성&기본 데이터 삽입 SQL](architecture/db/user_lounge_init.sql)
 - [회고](review/README.md)
-  - [study](review/study/README.md)
-    - [Hexagonal Architecture](review/study/hexagonal-architecture.md) - 설계
-    - [RDBMS와 NoSQL DB의 차이](review/study/differences-between-rdmbs-and-nosql-db.md) - DB
-    - [Cassandra - WIP](review/study/cassandra.md) - DB
-    - [Redis](review/study/redis.md) - DB
   - [로드맵 만들기](review/roadmap/README.md)
     - [프론트엔드 로드맵 만들기](review/roadmap/frontend-roadmap.md)
     - [기획 로드맵 만들기 - WIP](review/roadmap/product-management-roadmap.md)
   - [이야기](review/story/README.md)
     - [우리의 기획이 어설플 수밖에 없는 이유](review/story/reasons-of-our-product-design-is-clumsy.md)
     - [목적이 다른 여러 사람이 각자, 그리고 공동의 목표를 이룰 방법은?](review/story/ways-of-achieving-personal-and-public-goals.md)
-    - [공부하고 조사한 내용은 많은데 왜 개발은 느릴까? - WIP](review/sotry/why-development-gets-slower.md)
+    - [공부하고 조사한 내용은 많은데 왜 개발은 느릴까? - WIP](review/story/why-development-gets-slower.md)
 - [공부](research/README.md)
   - [책 리뷰](research/books/README.md)
     - [Cracking the PM Interview: How to Land a Product Manager Job in Technology(Cracking the Interview & Career) - WIP](research/books/cracking-the-pm-interview.md)
@@ -108,5 +103,9 @@
     - [Docker](research/infra/docker.md)
     - [Stateless와 Stateful 서비스 - WIP](research/infra/stateless-and-stateful-services.md)
     - [분산 트랜잭션 - WIP](research/infra/distributed-transaction.md)
-  - [설계]
-  - [데이터베이스]
+  - [설계](research/architecture/README.md)
+    - [Hexagonal Architecture](research/architecture/hexagonal-architecture.md)
+  - [데이터베이스](research/database/README.md)
+    - [RDBMS와 NoSQL DB의 차이](research/database/differences-between-rdmbs-and-nosql-db.md)
+    - [Cassandra - WIP](research/database/cassandra.md)
+    - [Redis](research/database/redis.md)
