@@ -72,7 +72,6 @@
   - [채팅 기능 구현하기 - WIP](development/chatting-development.md)
   - [Annotations in Spring Boot - WIP](development/annotations-in-spring-boot.md)
   - [배포 - WIP](development/deployment.md)
-- [infrastructure](infrastructure/README.md)
 - [presentation](presentation/README.md)
   - 중간 발표
   - 최종 발표
