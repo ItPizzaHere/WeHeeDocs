@@ -95,8 +95,8 @@ Jira와 GitLab이 연동되어 있다고 해도 GitLab 측에서 설정해야 �
       Jira Cloud에 접근하려면 기본으로 설정해야 한다.
    3. Email or Username 입력
    4. Password or API token 입력 - [Jira에서의 토큰 발행](#1-jira에서의-토큰-발행)에서 발행받은 토큰 입력
-   ![](images/practice05.png)
-​	여기까지만 입력하고 저장하면 기본적으로 Jira와 GitLab의 연동이 완료된다.
+      ![](images/practice05.png)
+      ​	여기까지만 입력하고 저장하면 기본적으로 Jira와 GitLab의 연동이 완료된다.
 
 ### 4. Trigger 설정
 
