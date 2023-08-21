@@ -90,19 +90,12 @@ Jira와 GitLab이 연동되어 있다고 해도 GitLab 측에서 설정해야 �
 ### 3. Connection details 설정
 
    1. Web URL에 Jira URL 입력
-
       SSAFY 중인 사람들은 간단하게 `https://ssafy.atlassian.net`를 입력하면 된다.
-
    2. Authentication type은 `Basic`으로 설정
-
       Jira Cloud에 접근하려면 기본으로 설정해야 한다.
-
    3. Email or Username 입력
-
    4. Password or API token 입력 - [Jira에서의 토큰 발행](#1-jira에서의-토큰-발행)에서 발행받은 토큰 입력
-
    ![](images/practice05.png)
-
 ​	여기까지만 입력하고 저장하면 기본적으로 Jira와 GitLab의 연동이 완료된다.
 
 ### 4. Trigger 설정
@@ -169,11 +162,8 @@ xxx에는 숫자가 들어간다), GitLab에서는 'PROJ-'를 제외한 숫자�
    ![](images/practice19.png)
 
    1. Project는 Jira 프로젝트로 설정하시면 됩니다. 
-
    2. 분기하고자 하는 브랜치를 정해 Source branch로 지정해주세요.
-
    3. **Branch name 정하기**
-
       Branch name은 Jira에서 연동해 사용하기 위해 `<Jira Project Key>-<Issue 번호> <원하는 브랜치 이름>` 형식으로 작성해주시면 좋습니다(참고: [Jira Issue Regex](#jira-issue-regex). [Jira Issue Prefix](#jira-issue-prefix)).
 
 ### 생성된 브랜치 확인
