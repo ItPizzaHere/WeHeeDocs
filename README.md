@@ -72,10 +72,10 @@
   - [채팅 기능 구현하기 - WIP](development/chatting-development.md)
   - [Annotations in Spring Boot - WIP](development/annotations-in-spring-boot.md)
   - [배포 - WIP](development/deployment.md)
-- [presentation](presentation/README.md)
-  - 중간 발표
-  - 최종 발표
-  - UCC
+- [발표](presentation/README.md)
+  - [기획 발표](presentation/planning-presentation.pdf)
+  - [최종 발표](presentation/final-presentation.pdf)
+  - [UCC](presentation/wehee.mp4)
 - [consulting](consulting/README.md)
   - [week2](consulting/week2/README.md)
     - [week2 result](consulting/week2/week2-consulting-result.md)
