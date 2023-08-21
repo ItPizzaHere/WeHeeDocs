@@ -62,6 +62,8 @@
   - [UCC](presentation/wehee.mp4)
 - [기능 구현](development/README.md)
 
+  - [인증 및 인가]
+  - [채팅]
   - [소셜 로그인을 이용한 인증 기능 구현하기 - WIP](development/authentication-development.md)
   - [채팅 기능 구현하기 - WIP](development/chatting-development.md)
   - [배포 - WIP](development/deployment.md)
