@@ -79,15 +79,10 @@
     - [사용자 및 MBTI 라운지 데이터베이스 테이블 생성&기본 데이터 삽입 SQL](architecture/db/user_lounge_init.sql)
 - [회고](review/README.md)
   - [study](review/study/README.md)
-    - [Hexagonal Architecture](review/study/hexagonal-architecture.md)
-    - [OAuth를 이용한 소셜 로그인 구현](review/study/social-login-using-oauth.md)
-    - [Docker](review/study/docker.md)
-    - [RDBMS와 NoSQL DB의 차이](review/study/differences-between-rdmbs-and-nosql-db.md)
-    - [CSRF](review/study/csrf.md)
-    - [Cassandra - WIP](review/study/cassandra.md)
-    - [Redis](review/study/redis.md)
-    - [Stateless와 Stateful 서비스 - WIP](review/study/stateless-and-stateful-services.md)
-    - [분산 트랜잭션 - WIP](review/study/distributed-transaction.md)
+    - [Hexagonal Architecture](review/study/hexagonal-architecture.md) - 설계
+    - [RDBMS와 NoSQL DB의 차이](review/study/differences-between-rdmbs-and-nosql-db.md) - DB
+    - [Cassandra - WIP](review/study/cassandra.md) - DB
+    - [Redis](review/study/redis.md) - DB
   - [로드맵 만들기](review/roadmap/README.md)
     - [프론트엔드 로드맵 만들기](review/roadmap/frontend-roadmap.md)
     - [기획 로드맵 만들기 - WIP](review/roadmap/product-management-roadmap.md)
@@ -106,5 +101,12 @@
     - [Spring WebSocket - WIP](research/spring-boot/spring-websocket.md)
     - [Annotations in Spring Boot - WIP](research/spring-boot/annotations-in-spring-boot.md)
     - [Spring Security](research/spring-boot/spring-security.md)
-  - [인증 및 인가]
-    - 
+  - [인증 및 인가](research/auth/README.md)
+    - [OAuth를 이용한 소셜 로그인 구현](research/auth/social-login-using-oauth.md)
+    - [CSRF](research/auth/csrf.md)
+  - [인프라](research/infra/README.md)
+    - [Docker](research/infra/docker.md)
+    - [Stateless와 Stateful 서비스 - WIP](research/infra/stateless-and-stateful-services.md)
+    - [분산 트랜잭션 - WIP](research/infra/distributed-transaction.md)
+  - [설계]
+  - [데이터베이스]
