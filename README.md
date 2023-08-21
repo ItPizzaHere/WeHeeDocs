@@ -23,41 +23,28 @@
     - [Jira-GitLab 연동하기](operations/jira/jira-gitlab-integration.md)
     - [Jira 컨벤션 및 세미나](operations/jira/jira-conventions-seminar.md)
   - [Docs 작성 규칙](operations/docs/README.md)
-- 디자인
-  - [WeHee 디자인](design/README.md)
-    1. [로고 및 컬러 팔레트](design/logo-and-pallete.md)
-    2. [와이어프레임](design/wireframe.md)
-    3. [프로토타입](design/prototype/README.md)
-       1. [메인 및 회원 프로토타입](design/prototype/main-prototype.md)
-       2. [우리집 프로토타입](design/prototype/board-prototype.md)
-       3. [채팅 프로토타입](design/prototype/chatting-prototype.md)
-       4. [보이스룸 프로토타입](design/prototype/voice-room-prototype.md)
-    4. [피그마 보는 간단 가이드](design/figma-guide.md)
-  - [WeHee 기획](proposal/README.md)
-    1. 프로젝트 기획서
-    2. 요구사항
-       1. 마이페이지 요구사항
-       2. 우리집 요구사항
-       3. 채팅 요구사항
-       4. 보이스룸 요구사항
-    3. 자료조사
-
 - [디자인](design/README.md)
-  - [로고 이미지](design/logo.png)
-  - [Figma](design/Figma)
-    - [피그마 보는 간단 가이드](design/Figma/README.md)
-    - [로고, 컬러팔레트, 무드보드](design/Figma/identity.md)
-    - [채팅 프로토타입](design/Figma/chatting-prototype.pdf)
-  - [proposal](design/proposal/)
-    - [project-proposal](design/proposal/project-proposal.pdf)
-    - [chatting-requirements](design/proposal/chatting-requirements.pdf)
-    - [mypage-requirements](design/proposal/mypage-requirements.pdf)
-    - [board-requirements](design/proposal/board-requirements.pdf)
-    - [voiceroom-requirements](design/proposal/voiceroom-requirements.pdf)
-    - [references](design/proposal/references.pptx)
-    - [vote-requirements](design/proposal/vote-requirements.pdf)
-    - [voiceroom-add_some_details](design/proposal/voiceroom-add_some_details.pdf)
-    - [planning-presentation](design/proposal/planning-presentation.pdf)
+  1. [로고 및 컬러 팔레트](design/logo-and-pallete.md)
+  2. [와이어프레임](design/wireframe.md)
+  3. [프로토타입](design/prototype/README.md)
+     1. [메인 및 회원 프로토타입](design/prototype/main-prototype.md)
+     2. [우리집 프로토타입](design/prototype/board-prototype.md)
+     3. [채팅 프로토타입](design/prototype/chatting-prototype.md)
+     4. [보이스룸 프로토타입](design/prototype/voice-room-prototype.md)
+  4. [피그마 보는 간단 가이드](design/figma-guide.md)
+- [기획](proposal/README.md)
+  - 
+
+- [proposal](proposal/README.md)
+  - [project-proposal](design/proposal/project-proposal.pdf)
+  - [chatting-requirements](design/proposal/chatting-requirements.pdf)
+  - [mypage-requirements](design/proposal/mypage-requirements.pdf)
+  - [board-requirements](design/proposal/board-requirements.pdf)
+  - [voiceroom-requirements](design/proposal/voiceroom-requirements.pdf)
+  - [references](design/proposal/references.pptx)
+  - [vote-requirements](design/proposal/vote-requirements.pdf)
+  - [voiceroom-add_some_details](design/proposal/voiceroom-add_some_details.pdf)
+  - [planning-presentation](design/proposal/planning-presentation.pdf)
 - [architecture](architecture/README.md)
   - [architecture.drawio](architecture/architecture.drawio)
   - [전체 시스템 설계](architecture/README.md)
@@ -90,13 +77,11 @@
   - [채팅 기능 구현하기 - WIP](development/chatting-development.md)
   - [Annotations in Spring Boot - WIP](development/annotations-in-spring-boot.md)
   - [배포 - WIP](development/deployment.md)
-
 - [infrastructure](infrastructure/README.md)
 - [presentation](presentation/README.md)
   - 중간 발표
   - 최종 발표
   - UCC
-
 - [consulting](consulting/README.md)
   - [week2](consulting/week2/README.md)
     - [week2 result](consulting/week2/week2-consulting-result.md)
