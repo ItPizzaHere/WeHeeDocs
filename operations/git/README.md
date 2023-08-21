@@ -42,7 +42,7 @@
 
 1. `Create branch` 버튼 클릭
 
-   ![](C:/Users/SSAFY/Desktop/Yejining/WeHeeDocs/operations/git/images/convention01.png)
+   ![](images/convention01.png)
    각 이슈로 들어가면 다음과 같은 `Create branch` 버튼을 보실 수 있습니다.
 
 2. `Create branch in GitLab` 클릭
@@ -51,7 +51,7 @@
 
 3. 브랜치 정보 입력 후 브랜치 생성
 
-   ![](C:/Users/SSAFY/Desktop/Yejining/WeHeeDocs/operations/git/images/convention02.png)
+   ![](images/convention02.png)
 
    1. Project는 Jira 프로젝트로 설정하시면 됩니다. 
 
@@ -63,7 +63,7 @@
 
 ### 생성된 브랜치 확인
 
-![](C:/Users/SSAFY/Desktop/Yejining/WeHeeDocs/operations/git/images/convention03.png)
+![](images/convention03.png)
 
 # 2. Commit Conventions
 
@@ -101,11 +101,11 @@ git commit -m "S09P12A806-105/feat: 로그인 기능 구현"
 
 1. `Create pull request` 버튼 클릭
 
-   ![](C:/Users/SSAFY/Desktop/Yejining/WeHeeDocs/operations/git/images/convention04.png)
+   ![](images/convention04.png)
 
 2. Pull Request 내용 작성
 
-   ![](C:/Users/SSAFY/Desktop/Yejining/WeHeeDocs/operations/git/images/convention05.png)
+   ![](images/convention05.png)
 
    1. `Title`에 브랜치명 입력
    2. [Pull Request Template](./templates/pull-request-template.md)에 따라 브랜치에서 수정한 내역 입력
