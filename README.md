@@ -23,7 +23,7 @@
     - [Jira-GitLab 연동하기](operations/jira/jira-gitlab-integration.md)
     - [Jira 컨벤션 및 세미나](operations/jira/jira-conventions-seminar.md)
   - [Docs 작성 규칙](operations/docs/README.md)
-- [design](design/README.md)
+- [디자인](design/README.md)
   - [로고 이미지](design/logo.png)
   - [Figma](design/Figma)
     - [피그마 보는 간단 가이드](design/Figma/README.md)
@@ -74,6 +74,10 @@
   
 - [infrastructure](infrastructure/README.md)
 - [presentation](presentation/README.md)
+  - 중간 발표
+  - 최종 발표
+  - UCC
+
 - [consulting](consulting/README.md)
   - [week2](consulting/week2/README.md)
     - [week2 result](consulting/week2/week2-consulting-result.md)
