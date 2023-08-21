@@ -1,4 +1,4 @@
-# Design (디자인)
+# Design (디자인 및 기획)
 
 Design 폴더에서는 WeHee의 디자인 및 기획과 관련된 내용을 다룹니다.
 
@@ -7,13 +7,13 @@ Design 폴더에서는 WeHee의 디자인 및 기획과 관련된 내용을 다�
 > 1. [WeHee 디자인](design/README.md)
 >    1. [로고 및 컬러 팔레트](design/logo-and-pallete.md)
 >    2. [와이어프레임](design/wireframe.md)
->    3. 프로토타입
->       1. 메인 및 회원 프로토타입
->       2. 우리집 프로토타입
->       3. 채팅 프로토타입
->       4. 보이스룸 프로토타입
->    4. 피그마 보는 간단 가이드
-> 2. 기획
+>    3. [프로토타입](design/prototype/README.md)
+>       1. [메인 및 회원 프로토타입](design/prototype/main-prototype.md)
+>       2. [우리집 프로토타입](design/prototype/board-prototype.md)
+>       3. [채팅 프로토타입](design/prototype/chatting-prototype.md)
+>       4. [보이스룸 프로토타입](design/prototype/voice-room-prototype.md)
+>    4. [피그마 보는 간단 가이드](design/figma-guide.md)
+> 2. [WeHee 기획](proposal/README.md)
 >    1. 프로젝트 기획서
 >    2. 요구사항
 >       1. 마이페이지 요구사항
