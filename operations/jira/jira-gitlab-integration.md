@@ -1,6 +1,6 @@
 # Jira-GitLab Integration
 
-작성일: 2023-07-19<br>
+작성일: 2023-08-21<br>
 작성자: 김예진
 
 > **목차**
@@ -28,17 +28,17 @@
 
 내부적으로 어떤 방식으로 Jira와 GitLab이 연동되어 있는지 모르겠지만 ssafy측에서 제공하는 '버튼 누르기'를 이용해 Jira 프로젝트와 GitLab 레포지토리를 생성하면 그 둘은 일단 연결된 상태로 있다고 보면 된다. 여기서 몇 가지 세팅만 하면 다음과 같은 기능들을 편하게 연동할 수 있다.
 
-1. 이슈 발행
-2. 브랜치 분기
-3. 브랜치 요청 및 합병
-4. 커밋
-5. 릴리즈
-6. 기타
+> 1. 이슈 발행
+> 2. 브랜치 분기
+> 3. 브랜치 요청 및 합병
+> 4. 커밋
+> 5. 릴리즈
+> 6. 기타
 
 Jira와 GitLab이 연동되어 있다고 해도 GitLab 측에서 설정해야 하는 몇 가지 사항들이 있다. 다음은 진정한 연동을 위해 해야하는 일 목록이다.
 
-1. Jira에서의 토큰 발행
-2. GitLab에서의 Jira Integretion Setting
+> 1. Jira에서의 토큰 발행
+> 2. GitLab에서의 Jira Integretion Setting
 
 본격적인 튜토리얼에 들어가기 앞서, GitLab측에서 제공하는 [Jira issue integration documentation](https://docs.gitlab.com/ee/integration/jira/configure.html)을 참고하면 큰 도움을 받을 수 있다. 참고로, 이 장에서는 기본적인 연동만 다루기 떄문에, Jira의 Issue나 Branch까지 연동하고 싶다면 [Jira-GitLab Issue 연동하기](#jira-gitlab-issue-연동하기) 등의 섹션을 참고하면 된다.
 
@@ -46,10 +46,12 @@ Jira와 GitLab이 연동되어 있다고 해도 GitLab 측에서 설정해야 �
 
 이 토큰은 GitLab이 Jira의 데이터센터나 서버에 접근할 때 필요하므로 먼저 발행해두고 시작하면 좋다.
 
-1. https://id.atlassian.com/manage/api-tokens에 접속한다.
-2. `Create API token` 버튼을 클릭한다.
-3. `Label`에는 식별 가능한 이름을 넣으면 되는데, 나는 쉽게 기억하기 위해 'gitlab'으로 입력했다.
-4. 토큰 생성을 완료한다.
+> **목차**
+>
+> 1. https://id.atlassian.com/manage/api-tokens에 접속한다.
+> 2. `Create API token` 버튼을 클릭한다.
+> 3. `Label`에는 식별 가능한 이름을 넣으면 되는데, 나는 쉽게 기억하기 위해 'gitlab'으로 입력했다.
+> 4. 토큰 생성을 완료한다.
 
 토큰 생성을 완료하면 해당 토큰을 미리 복사하라고 안내하는데, 복사한 후 개인이 알아서 보관하면 된다. 해당 모달을 닫고 나면 다시는 토큰을 볼 수 없기 때문에 일단 복사해서 다른 곳에 두는 것이 좋다. 만약 복사하기 전 모달창을 닫아버렸다면 재발급 받으면 되니 큰 걱정은 안해도 된다.
 
@@ -61,54 +63,46 @@ Jira와 GitLab이 연동되어 있다고 해도 GitLab 측에서 설정해야 �
 
 세팅을 완료하기 위한 대략적인 순서는 다음과 같다. 따라하는게 가능하다면 아래의 리스트를 보고 따라하고, 만약 어려운 부분이 있다면 하단의 상세 설명을 참고하면 된다. 상세하게 설정하고 싶은 부분은 분량이 길기 때문에 따로 다룬다.
 
-1. GitLab Setting 창으로 이동
-2. Use custom settings 설정
-3. Connection details 설정
-   1. Web URL에 Jira URL 입력
-   2. Authentication type은 `Basic`으로 설정
-   3. Email or Username 입력
-   4. Password or API token 입력 - [Jira에서의 토큰 발행](#1-jira에서의-토큰-발행)에서 발행받은 토큰 입력
-4. Trigger 설정
-   1. Commit 체크
-   2. Merge Request 체크
+> **목차**
+> 
+> 1. GitLab Setting 창으로 이동
+> 2. Use custom settings 설정
+> 3. Connection details 설정
+>    1. Web URL에 Jira URL 입력
+>    2. Authentication type은 `Basic`으로 설정
+>    3. Email or Username 입력
+>    4. Password or API token 입력 - [Jira에서의 토큰 발행](#1-jira에서의-토큰-발행)에서 발행받은 토큰 입력
+> 4. Trigger 설정
+>    1. Commit 체크
+>    2. Merge Request 체크
+> 5. 연동 확인
 
-5. 연동 확인
-
-<br>
-
-1. GitLab Setting 창으로 이동
+### 1. GitLab Setting 창으로 이동
 
 이제는 Jira가 아니라 GitLab으로 넘어갈 차례다. Jira와 연동하고자 하는 레포지토리 세팅으로 들어가 Integration까지 간다(**`Repository Setting`** → **`Integrations`**). 일반적으로 레포지토리를 생성하면 여러 연동 가능한 리스트가 나오는데, 그 중에서는 지라를 선택하면 된다. 만약 SSAFY를 통해 연동한다면 자동으로 Jira 연동으로 나올 것이다.
 
-2. Use custom settings 설정
+### 2. Use custom settings 설정
 
 ![](images/practice04.png)
 
 세팅창까지 들어갔다면 다음과 같은 화면이 나온다. 여기에서 수정하려고 해보면 모든 항목이 수정 불가능하다. 저 위의 'Use default settings'를 **`Use custom settings`**로 변경한다.
 
-3. Connection details 설정
+### 3. Connection details 설정
 
    1. Web URL에 Jira URL 입력
-
       SSAFY 중인 사람들은 간단하게 `https://ssafy.atlassian.net`를 입력하면 된다.
-
    2. Authentication type은 `Basic`으로 설정
-
       Jira Cloud에 접근하려면 기본으로 설정해야 한다.
-
    3. Email or Username 입력
-
    4. Password or API token 입력 - [Jira에서의 토큰 발행](#1-jira에서의-토큰-발행)에서 발행받은 토큰 입력
+      ![](images/practice05.png)
+      ​	여기까지만 입력하고 저장하면 기본적으로 Jira와 GitLab의 연동이 완료된다.
 
-   ![](images/practice05.png)
-
-​	여기까지만 입력하고 저장하면 기본적으로 Jira와 GitLab의 연동이 완료된다.
-
-4. Trigger 설정
+### 4. Trigger 설정
 
    ![](images/practice07.png)
 
-5. 연동 확인
+### 5. 연동 확인
 
    ![](images/practice06.png)
 
@@ -154,25 +148,22 @@ xxx에는 숫자가 들어간다), GitLab에서는 'PROJ-'를 제외한 숫자�
 >    2. `Source branch` 설정
 >    3. `Branch name` 설정
 
-1. `Create branch` 버튼 클릭
+### 1. `Create branch` 버튼 클릭
 
    ![](images/practice18.png)
    각 이슈로 들어가면 다음과 같은 `Create branch` 버튼을 보실 수 있습니다.
 
-2. `Create branch in GitLab` 클릭
+### 2. `Create branch in GitLab` 클릭
 
    3번의 사진을 참조하세요.
 
-3. 브랜치 정보 입력 후 브랜치 생성
+### 3. 브랜치 정보 입력 후 브랜치 생성
 
    ![](images/practice19.png)
 
    1. Project는 Jira 프로젝트로 설정하시면 됩니다. 
-
    2. 분기하고자 하는 브랜치를 정해 Source branch로 지정해주세요.
-
    3. **Branch name 정하기**
-
       Branch name은 Jira에서 연동해 사용하기 위해 `<Jira Project Key>-<Issue 번호> <원하는 브랜치 이름>` 형식으로 작성해주시면 좋습니다(참고: [Jira Issue Regex](#jira-issue-regex). [Jira Issue Prefix](#jira-issue-prefix)).
 
 ### 생성된 브랜치 확인

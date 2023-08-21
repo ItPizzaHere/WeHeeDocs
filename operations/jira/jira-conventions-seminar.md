@@ -1,6 +1,6 @@
 # Jira Conventions 세미나
 
-작성일: 2023-07-20 <br>
+작성일: 2023-08-21 <br>
 작성자: 김예진
 
 > **목차**
@@ -13,12 +13,6 @@
 >    2. [Task Issue 관리](#task-issue-관리)
 >    3. [Issue 깊이 관리](#issue-깊이-관리)
 > 4. [Sprint 사용](#sprint-사용)
-
-### 빠른 참고 링크
-
-1. [WeHee Jira](https://ssafy.atlassian.net/jira/software/c/projects/S09P12A806/boards/3230?selectedIssue=S09P12A806-25)
-2. [WeHee Wiki](https://lab.ssafy.com/s09-webmobile1-sub2/S09P12A806/-/wikis/home)
-3. [Wiki 사용 계획 예제 - 예진 레포지토리](https://lab.ssafy.com/s09-webmobile1-sub1/S09P11A806/-/tree/master/%EA%B9%80%EC%98%88%EC%A7%84)
 
 # Jira에서 사용할 기능들
 
