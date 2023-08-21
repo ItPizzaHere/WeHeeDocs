@@ -7,7 +7,7 @@
 ## Changes
 - contents
 
-## Test Checklist - to Reviewrs
+## Test Checklist - to Reviewers
 - [ ] checklist
 ```
 
