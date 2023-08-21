@@ -12,7 +12,7 @@
 >    1. [Commit Example](#commit-example)
 >    2. [Commit Template](#commit-template)
 >    3. [Commit Type](#commit-type)
-> 3. [PR Conventions](#pr-conventions)
+> 3. [PR Conventions](#3-pr-conventions)
 >    1. [PR Naming Convention](#pr-naming-convention)
 >    2. [Jira를 활용한 PR](#jira를-활용한-pr)
 
@@ -59,7 +59,7 @@
 
    3. **Branch name 정하기**
 
-      Branch name은 Jira에서 연동해 사용하기 위해 `<Jira Project Key>-<Issue 번호> <원하는 브랜치 이름>` 형식으로 작성해주시면 좋습니다(참고: [Jira Issue Regex](#jira-issue-regex). [Jira Issue Prefix](#jira-issue-prefix)).
+      Branch name은 Jira에서 연동해 사용하기 위해 `<Jira Project Key>-<Issue 번호> <원하는 브랜치 이름>` 형식으로 작성해주시면 좋습니다(참고: [Jira Issue Regex](../jira/jira-gitlab-integration.md#jira-issue-regex). [Jira Issue Prefix](../jira/jira-gitlab-integration.md#jira-issue-prefix)).
 
 ### 생성된 브랜치 확인
 
