@@ -2,7 +2,7 @@
 
 > WeHee의 자료를 관리하는 문서 레포지토리입니다.
 
-## EXTERNAL LINKS
+### EXTERNAL LINKS
 
 - [Notion](https://lemonade-log.notion.site/SSAFY-PJT-f8804bbfc7b24b1e91c25a4667a75e61?pvs=4)
 - [Jira](https://ssafy.atlassian.net/jira/software/c/projects/S09P12A806/boards/3230)
@@ -11,7 +11,7 @@
 
 # Documentation
 
-## QUICK LINKS
+### QUICK LINKS
 
 표 안의 내용을 클릭하면 해당 목차로 이동합니다. 
 
@@ -24,9 +24,8 @@
 
 # WeHee 개발
 
-## 1. 기획
+## 1. [기획](proposal/README.md)
 
-- [기획](proposal/README.md)
   - [프로젝트 기획서](proposal/project-proposal.pdf)
   - [요구사항](proposal/requirements/README.md)
     - [마이페이지 요구사항](proposal/requirements/mypage-requirements.md)
@@ -35,43 +34,38 @@
     - [보이스룸 요구사항](proposal/requirements/voice-room-requirements.md)
   - [자료조사](proposal/references.pdf)
 
-## 2. 디자인
+## 2. [디자인](design/README.md)
 
-- [디자인](design/README.md)
-  - [로고 및 컬러 팔레트](design/logo-and-pallete.md)
-  - [와이어프레임](design/wireframe.md)
-  - [프로토타입](design/prototype/README.md)
-    - [메인 및 회원 프로토타입](design/prototype/main-prototype.md)
-    - [우리집 프로토타입](design/prototype/board-prototype.md)
-    - [채팅 프로토타입](design/prototype/chatting-prototype.md)
-    - [보이스룸 프로토타입](design/prototype/voice-room-prototype.md)
-  - [피그마 보는 간단 가이드](design/figma-guide.md)
+- [로고 및 컬러 팔레트](design/logo-and-pallete.md)
+- [와이어프레임](design/wireframe.md)
+- [프로토타입](design/prototype/README.md)
+  - [메인 및 회원 프로토타입](design/prototype/main-prototype.md)
+  - [우리집 프로토타입](design/prototype/board-prototype.md)
+  - [채팅 프로토타입](design/prototype/chatting-prototype.md)
+  - [보이스룸 프로토타입](design/prototype/voice-room-prototype.md)
+- [피그마 보는 간단 가이드](design/figma-guide.md)
 
-## 3. 설계
+## 3. [설계](architecture/README.md)
 
-- [설계](architecture/README.md)
-  - [시스템 설계](architecture/system-architecture/README.md)
-    - [architecture.drawio](architecture/system-architecture/architecture.drawio)
-  - [데이터베이스](architecture/db/README.md)
-    - [사용자 데이터베이스 테이블 설계](architecture/db/user-db-table.md)
-    - [MBTI 라운지 데이터베이스 테이블 설계](architecture/db/mbti-lounge-db-table.md)
-    - [사용자 및 MBTI 라운지 데이터베이스 테이블 생성&기본 데이터 삽입 SQL](architecture/db/user_lounge_init.sql)
+- [시스템 설계](architecture/system-architecture/README.md)
+  - [architecture.drawio](architecture/system-architecture/architecture.drawio)
+- [데이터베이스](architecture/db/README.md)
+  - [사용자 데이터베이스 테이블 설계](architecture/db/user-db-table.md)
+  - [MBTI 라운지 데이터베이스 테이블 설계](architecture/db/mbti-lounge-db-table.md)
+  - [사용자 및 MBTI 라운지 데이터베이스 테이블 생성&기본 데이터 삽입 SQL](architecture/db/user_lounge_init.sql)
 
-## 4. 기능 구현
+## 4. [기능 구현]((development/README.md))
 
-- [기능 구현](development/README.md)
-  - [채팅](development/chatting/README.md)
-    - [채팅 기능 구현하기 - WIP](development/chatting/chatting-development.md)
-    - [채팅 기능 설계 구체화](development/chatting/refining-chatting-feature-design.md)
-    - [채팅 아키텍처 설계 - WIP](development/chatting/design-chatting-architecture.md)
-  - [소셜 로그인을 이용한 인증 기능 구현하기 - WIP](development/auth/authentication-development.md)
-  - [배포 - WIP](development/deployment.md)
+- [채팅](development/chatting/README.md)
+  - [채팅 기능 구현하기 - WIP](development/chatting/chatting-development.md)
+  - [채팅 기능 설계 구체화](development/chatting/refining-chatting-feature-design.md)
+  - [채팅 아키텍처 설계 - WIP](development/chatting/design-chatting-architecture.md)
+- [소셜 로그인을 이용한 인증 기능 구현하기 - WIP](development/auth/authentication-development.md)
+- [배포 - WIP](development/deployment.md)
 
 # 프로젝트 운영
 
-## 1. 컨벤션
-
-[컨벤션](conventions/README.md)
+## 1. [컨벤션](conventions/README.md)
 
 - [Git 컨벤션](conventions/git/README.md)
 - [Jira 컨벤션](conventions/jira/README.md)
@@ -84,37 +78,31 @@
   - [PR 템플릿](conventions/git/templates/pull-request-template.md)
 - [Docs 작성 규칙](operations/docs/README.md)
 
-## 2. 운영
+## 2. [운영](operations/README.md)
 
-- [운영](operations/README.md)
-  - [기술 스택](operations/tech_stack.md)
-  - [일정](operations/plan.md)
-  - [역할 분담](operations/roles.md)
+- [기술 스택](operations/tech_stack.md)
+- [일정](operations/plan.md)
+- [역할 분담](operations/roles.md)
 
-## 3. 발표
+## 3. [발표](presentation/README.md)
 
-- [발표](presentation/README.md)
-  - [기획 발표](presentation/planning-presentation.pdf)
-  - [최종 발표](presentation/final-presentation.pdf)
-  - [UCC](presentation/wehee.mp4)
+- [기획 발표](presentation/planning-presentation.pdf)
+- [최종 발표](presentation/final-presentation.pdf)
+- [UCC](presentation/wehee.mp4)
 
 ## 4. 포팅 매뉴얼
 
 # 학습
 
-## 1. 세미나
+## 1. [세미나](seminar/README.md)
 
-- [세미나](seminar/README.md)
-  - [How to Run](development/how-to-run.md)
-  - [백엔드 개발자의 API 만들기](development/how-to-make-api-in-spring-boot.md)
-  - [컨설팅](seminar/consulting/README.md)
+- [How to Run](development/how-to-run.md)
+- [백엔드 개발자의 API 만들기](development/how-to-make-api-in-spring-boot.md)
+- [컨설팅](seminar/consulting/README.md)
+  - [2주차 컨설팅 보고](seminar/consulting/week2-consulting.md)
+  - [3주차 컨설팅 보고](seminar/consulting/week3-consulting.md)
 
-    - [2주차 컨설팅 보고](seminar/consulting/week2-consulting.md)
-    - [3주차 컨설팅 보고](seminar/consulting/week3-consulting.md)
-
-## 2. 공부
-
-[공부](research/README.md)
+## 2. [공부](research/README.md)
 
 - [책 리뷰](research/books/README.md)
   - [Cracking the PM Interview: How to Land a Product Manager Job in Technology(Cracking the Interview & Career) - WIP](research/books/cracking-the-pm-interview.md)
@@ -143,9 +131,7 @@
   - [채팅 시스템을 구현한다면, 어느 정도 수준의 설계까지 구현 가능할 것인가?](research/chatting/plan-for-designing-chatting-architecture.md)
   - [채팅 예시 프로젝트 실행 - Building Real-Time Apps with Spring, Cassandra, Redis, WebSocket and RabbitMQ](research/chatting/sample-project-jorge-acetozi.md)
 
-## 3. 회고
-
-[회고](review/README.md)
+## 3. [회고](review/README.md)
 
 - [로드맵 만들기](review/roadmap/README.md)
   - [프론트엔드 로드맵 만들기](review/roadmap/frontend-roadmap.md)
