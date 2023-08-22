@@ -1,6 +1,6 @@
 # 소셜 로그인을 이용한 인증 기능 구현하기
 
-마지막 업데이트 날짜: 2023-08-08 <br>
+마지막 업데이트 날짜: 2023-08-22 <br>
 작성자: 김예진
 
 > **목차**
@@ -61,6 +61,33 @@
 >       5. [redirectionEndpoint().baseUri("/oauth2/code/") 설정](#redirectionendpointbaseurioauth2code-설정)
 >    2. [프로젝트 실행 - Spring Security](#프로젝트-실행---spring-security)
 > 9. [JWT 엑세스 토큰과 리프레시 토큰 생성](#9-jwt-엑세스-토큰과-리프레시-토큰-생성)
+>    1. [`SecurityConfig` 토큰 관련 업데이트](#securityconfig-토큰-관련-업데이트)
+>    2. [OAuth2AuthenticationSuccessHander - 토큰 발행 후 DB 저장](#oauth2authenticationsuccesshander---토큰-발행-후-db-저장)
+>    3. [AuthToken과 AuthTokenProvider](#authtoken과-authtokenprovider)
+>       1. [AuthToken class](#authtoken-class)
+>       2. [AuthTokenProvider class](#authtokenprovider-class)
+>
+>    4. [HeaderUtil.java](#headerutiljava)
+>    5. [토큰 발급 후 실행 화면](#토큰-발급-후-실행-화면)
+>       1. [브라우저 - 토큰 발급 후](#브라우저---토큰-발급-후)
+>       2. [User DB - 토큰 발급 후](#user-db----토큰-발급-후)
+>
+> 10. [리프레시 토큰 쿠키 설정](#10-리프레시-토큰-쿠키-설정)
+>     1. [`SecurityConfig` 리프레시 토큰 관련 업데이트](#securityconfig-리프레시-토큰-관련-업데이트)
+>     2. [CookieUtil](#cookieutil)
+>     3. [OAuth2CookieRepository](#oauth2cookierepository)
+>     4. [OAuth2AuthenticationSuccessHandler - 쿠키](#oauth2authenticationsuccesshandler---쿠키)
+>     5. [OAuth2AuthenticationFailureHandler - 쿠키](#oauth2authenticationfailurehandler---쿠키)
+>     6. [실행 화면 - 쿠키 발급](#실행-화면---쿠키-발급)
+>
+> 11. [리프레시 토큰 발급](#11-리프레시-토큰-발급)
+>     1. [`/api/v1/auth/refresh`](#apiv1authrefresh)
+>
+> 12. [API 연동 및 로그인 확인](#12-api-연동-및-로그인-확인)
+>     1. [프론트엔드 코드 분석](#프론트엔드-코드-분석)
+>     2. [UserController 업데이트](#usercontroller-업데이트)
+>
+> 13. [최종 실행 및 확인](#13-최종-실행-및-확인)
 >
 
 이 글은 소셜 로그인을 이용한 인증 기능 구현 개발기로, 시간의 순서에 따라 글이 작성되었습니다.
@@ -1036,5 +1063,5 @@ public class UserController {
 }
 ```
 
-
+# 13. 최종 실행 및 확인
 
