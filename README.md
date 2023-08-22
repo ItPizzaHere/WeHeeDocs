@@ -54,14 +54,13 @@
   - [MBTI 라운지 데이터베이스 테이블 설계](architecture/db/mbti-lounge-db-table.md)
   - [사용자 및 MBTI 라운지 데이터베이스 테이블 생성&기본 데이터 삽입 SQL](architecture/db/user_lounge_init.sql)
 
-## 4. [기능 구현]((development/README.md))
+## 4. [기능 구현](development/README.md)
 
 - [채팅](development/chatting/README.md)
   - [채팅 기능 구현하기 - WIP](development/chatting/chatting-development.md)
   - [채팅 기능 설계 구체화](development/chatting/refining-chatting-feature-design.md)
   - [채팅 아키텍처 설계 - WIP](development/chatting/design-chatting-architecture.md)
-- [소셜 로그인을 이용한 인증 기능 구현하기 - WIP](development/auth/authentication-development.md)
-- [배포 - WIP](development/deployment.md)
+- [소셜 로그인을 이용한 인증 기능 구현하기 - WIP](development/authentication-development.md)
 
 # 프로젝트 운영
 
@@ -90,7 +89,10 @@
 - [최종 발표](presentation/final-presentation.pdf)
 - [UCC](presentation/wehee.mp4)
 
-## 4. 포팅 매뉴얼
+## 4. [포팅 매뉴얼](mannual/README.md)
+
+- [배포 매뉴얼](mannual/deployment.md)
+- 포팅 매뉴얼
 
 # 학습
 
