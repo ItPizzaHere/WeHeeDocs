@@ -92,7 +92,8 @@
 ## 4. [포팅 매뉴얼](mannual/README.md)
 
 - [배포 매뉴얼](mannual/deployment.md)
-- 포팅 매뉴얼
+- [프로젝트 버전 정보](mannual/versions.md)
+- [포팅 매뉴얼](mannual/how-to-run.md)
 
 # 학습
 
