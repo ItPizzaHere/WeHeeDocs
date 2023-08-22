@@ -1,4 +1,0 @@
-- [마이크로서비스 - 분산 트랜잭션 처리 패턴](https://velog.io/@youngerjesus/%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%8C%A8%ED%84%B4-%EB%B6%84%EC%82%B0-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EC%B2%98%EB%A6%AC)
-- [분산 트랜잭션 처리를 사용하는 이유](https://www.ibm.com/docs/ko/cics-ts/5.5?topic=processing-why-distributed-transaction)
-- [마이크로 서비스에서 분산 트랜잭션](https://giljae.medium.com/%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C-%EC%84%9C%EB%B9%84%EC%8A%A4%EC%97%90%EC%84%9C-%EB%B6%84%EC%82%B0-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-347af5136c87)
-- [분산 트랜잭션 - 문제 예방을 위해 알아야할 사항들](https://dataonair.or.kr/db-tech-reference/d-lounge/technical-data/?mod=document&uid=235692)
