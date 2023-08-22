@@ -94,6 +94,9 @@
 - [배포 매뉴얼](mannual/deployment.md)
 - [프로젝트 버전 정보](mannual/versions.md)
 - [포팅 매뉴얼](mannual/how-to-run.md)
+- [데이터](mannual/data/README.md)
+  - [wehee_create.sql](mannual/data/wehee_create.sql)
+  - [wehee_dump.sql](mannual/data/wehee_dump.sql)
 
 # 학습
 
