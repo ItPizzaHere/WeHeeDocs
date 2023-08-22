@@ -102,6 +102,7 @@
 
 ## 1. [세미나](seminar/README.md)
 
+- [Jira 컨벤션 및 세미나](conventions/jira/jira-conventions-seminar.md)
 - [How to Run](development/how-to-run.md)
 - [백엔드 개발자의 API 만들기](development/how-to-make-api-in-spring-boot.md)
 - [컨설팅](seminar/consulting/README.md)
