@@ -111,11 +111,21 @@
 
 ## 2. [공부](research/README.md)
 
-- [책 리뷰](research/books/README.md)
-  - [Cracking the PM Interview: How to Land a Product Manager Job in Technology(Cracking the Interview & Career) - WIP](research/books/cracking-the-pm-interview.md)
-  - [도메인 주도 설계 핵심](research/books/domain-driven-development-core.md)
-  - [가상 면접 사례로 배우는 대규모 시스템 설계 기초](research/books/system-design-interview.md)
-  - [Building Real-Time Apps with Spring, Cassandra, Redis, WebSocket and RabbitMQ - WIP](research/books/building-real-time-apps.md)
+### 설계
+
+- [설계](research/architecture/README.md)
+  - [Hexagonal Architecture](research/architecture/hexagonal-architecture.md)
+- [데이터베이스](research/database/README.md)
+  - [RDBMS와 NoSQL DB의 차이](research/database/differences-between-rdmbs-and-nosql-db.md)
+  - [Cassandra - WIP](research/database/cassandra.md)
+  - [Redis](research/database/redis.md)
+- [인프라](research/infra/README.md)
+  - [Docker](research/infra/docker.md)
+  - [Stateless와 Stateful 서비스 - WIP](research/infra/stateless-and-stateful-services.md)
+  - [분산 트랜잭션 - WIP](research/infra/distributed-transaction.md)
+
+### 개발
+
 - [Spring Boot](research/spring-boot/README.md)
   - [Spring Boot 환경 설정 - WIP](research/spring-boot/spring-boot-env-setting.md)
   - [Spring WebSocket - WIP](research/spring-boot/spring-websocket.md)
@@ -124,19 +134,17 @@
 - [인증 및 인가](research/auth/README.md)
   - [OAuth를 이용한 소셜 로그인 구현](research/auth/social-login-using-oauth.md)
   - [CSRF](research/auth/csrf.md)
-- [인프라](research/infra/README.md)
-  - [Docker](research/infra/docker.md)
-  - [Stateless와 Stateful 서비스 - WIP](research/infra/stateless-and-stateful-services.md)
-  - [분산 트랜잭션 - WIP](research/infra/distributed-transaction.md)
-- [설계](research/architecture/README.md)
-  - [Hexagonal Architecture](research/architecture/hexagonal-architecture.md)
-- [데이터베이스](research/database/README.md)
-  - [RDBMS와 NoSQL DB의 차이](research/database/differences-between-rdmbs-and-nosql-db.md)
-  - [Cassandra - WIP](research/database/cassandra.md)
-  - [Redis](research/database/redis.md)
 - [채팅](research/chatting/README.md)
   - [채팅 시스템을 구현한다면, 어느 정도 수준의 설계까지 구현 가능할 것인가?](research/chatting/plan-for-designing-chatting-architecture.md)
   - [채팅 예시 프로젝트 실행 - Building Real-Time Apps with Spring, Cassandra, Redis, WebSocket and RabbitMQ](research/chatting/sample-project-jorge-acetozi.md)
+
+### 기타
+
+- [책 리뷰](research/books/README.md)
+  - [Cracking the PM Interview: How to Land a Product Manager Job in Technology(Cracking the Interview & Career) - WIP](research/books/cracking-the-pm-interview.md)
+  - [도메인 주도 설계 핵심](research/books/domain-driven-development-core.md)
+  - [가상 면접 사례로 배우는 대규모 시스템 설계 기초](research/books/system-design-interview.md)
+  - [Building Real-Time Apps with Spring, Cassandra, Redis, WebSocket and RabbitMQ - WIP](research/books/building-real-time-apps.md)
 
 ## 3. [회고](review/README.md)
 
@@ -147,3 +155,6 @@
   - [우리의 기획이 어설플 수밖에 없는 이유](review/story/reasons-of-our-product-design-is-clumsy.md)
   - [목적이 다른 여러 사람이 각자, 그리고 공동의 목표를 이룰 방법은?](review/story/ways-of-achieving-personal-and-public-goals.md)
   - [공부하고 조사한 내용은 많은데 왜 개발은 느릴까? - WIP](review/story/why-development-gets-slower.md)
+  - 최종 발표일 중계
+  - 프로젝트, 끝났지만 끝나지 않았는데요
+  - WeHee를 하며 배운 내용과 앞으로 배워야 할 내용
