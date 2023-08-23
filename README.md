@@ -155,6 +155,6 @@
   - [우리의 기획이 어설플 수밖에 없는 이유](review/story/reasons-of-our-product-design-is-clumsy.md)
   - [목적이 다른 여러 사람이 각자, 그리고 공동의 목표를 이룰 방법은?](review/story/ways-of-achieving-personal-and-public-goals.md)
   - [공부하고 조사한 내용은 많은데 왜 개발은 느릴까? - WIP](review/story/why-development-gets-slower.md)
-  - 최종 발표일 중계
-  - 프로젝트, 끝났지만 끝나지 않았는데요
-  - WeHee를 하며 배운 내용과 앞으로 배워야 할 내용
+  - [최종 발표일 중계](review/story/final-presentation.md)
+  - [프로젝트, 끝났지만 끝나지 않았는데요](review/story/it-never-gets-over.md)
+  - [WeHee를 하며 배운 내용과 앞으로 배워야 할 내용](review/story/what-ive-learn-from-the-project.md)
