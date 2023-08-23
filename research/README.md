@@ -25,8 +25,8 @@
 ## 3. [인프라](infra/README.md)
 
 - [Docker](infra/docker.md)
-- [Stateless와 Stateful 서비스 - WIP](infra/stateless-and-stateful-services.md)
-- [분산 트랜잭션 - WIP](infra/distributed-transaction.md)
+- [Stateless와 Stateful 서비스](infra/stateless-and-stateful-services.md)
+- [분산 트랜잭션](infra/distributed-transaction.md)
 
 # 개발
 
