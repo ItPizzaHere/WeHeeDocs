@@ -27,6 +27,7 @@
 - [Docker](infra/docker.md)
 - [Stateless와 Stateful 서비스](infra/stateless-and-stateful-services.md)
 - [분산 트랜잭션](infra/distributed-transaction.md)
+- [IntelliJ Big Data Tools로 EC2 접속하기](infra/intellij-ec2.md)
 
 # 개발
 

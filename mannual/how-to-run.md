@@ -1,6 +1,6 @@
-# How to Run
+# 로컬 실행 매뉴얼
 
-마지막 업데이트 날짜: 2023-08-18 <br>
+마지막 업데이트 날짜: 2023-08-25 <br>
 작성자: 김예진
 
 > **목차**
@@ -19,7 +19,6 @@
 >       2. [Stomp 활성화](#stomp-활성화)
 >    2. [IntelliJ 실행](#3-2-intellij-실행)
 >    3. [Frontend 실행](#3-3-frontend-실행)
-> 4. [EC2에 배포 후 실행하기](#4-ec2에-배포-후-실행하기)
 
 # 1. Git Clone
 
@@ -104,12 +103,6 @@ JWT_SECRET=<jwt_secret>
 REDIS_HOST=<redis_host>
 ```
 
-위의 `.env`파일을 만들고 Spring Boot 프로젝트의 resources 폴더 내부에 파일을 위치시킵니다. jar 파일 실행 시 자동으로 환경변수를 인식하게 하기 위해 새로운 의존성도 gradle에 추가해주어야 합니다.
-
-```groovy
-implementation 'me.paulschwarz:spring-dotenv:4.0.0'
-```
-
 ### 환경변수를 등록하는 방법 - IntelliJ에 환경변수 등록하기
 
 Spring Boot 프로젝트를 실행할 때 `application.yml`에서는 여러 가지 환경변수들을 관리할 수 있습니다. 이때 외부에 드러내기 민감한 정보들은 다음과 같이 변수로 보호해주는데요, 프로젝트 실행 시에는 어떻게든 이 환경 변수를 시스템에게 알려주어야 합니다.
@@ -177,155 +170,3 @@ npm update
 ```bash
 npm start
 ```
-
-# 4. EC2에 배포 후 실행하기
-
-### EC2 배포 안내
-
-> [EC2 배포 안내]
->
-> 9기 공통 프로젝트 클라우드 서버 안내드립니다.
->
-> - 제공기간: 금일 ~ 공통 프로젝트 종료 시(종료 후 7일 이내 삭제 예정)
-> - 서버 도메인: i9[팀ID].p.ssafy.io
-> - 접속 방법: 제공된 인증키(.pem)를 사용하여 ubuntu 계정으로 SSH 접속서울1반 1팀의 CLI 접속 예: ssh -i I9A101T.pem [ubuntu@i9a101.p.ssafy.io](mailto:ubuntu@i9a101.p.ssafy.io)
->
-> ※ 주의 사항 별도의 웹 콘솔 제공되지 않으며 원격 터미널만 접속 가능하므로 방화벽 설정에 주의 방화벽 기본 설정: 활성, 22번 포트만 접속 가능(첨부된 UFW 포트설정하기 참조)
->
-> /home 및 시스템 디렉토리의 퍼미션 임의 변경 금지 퍼블릭 클라우드의 서버는 외부에서 쉽게 접근 가능하므로 중요한 파일 저장 및 계정, DB 등의 패스워드 설정에 주의 SSH 포트 차단, 공개키 삭제, 퍼미션 임의 변경 등으로 접속 불가 시 또는 해킹, 악성코드 감염 시 복구 불가(초기화 요청만 가능)
-
-## 4-1. EC2와 연결하기
-
-이 과정은 맥북에서 수행하는 것을 가정하고 합니다.
-
-### Shell에서 접근하는 방법
-
-```bash
-cd .ssh
-```
-
-
-```bash
-ssh i- <pem키 파일> ubuntu@<도메인>
-```
-
-### IntelliJ Big Data Tools로 접근하는 방법
-
-1. IntelliJ에서 Big Data Tools 설치
-2. EC2와 연결
-   - ![](images/dev05.png)
-
-## 4-2. 외부 개발
-
-- 배포 내용
-  1. MySQL
-  2. Redis
-  3. RabbitMQ
-
-### 외부 개발 배포하기
-
-1. EC2 인스턴스 내부에 `/home/ubuntu/databases` 폴더 생성
-
-2. 외부 개발 내용 배포를 위한 `docker-compose.yml` 파일, `.env` 파일을 해당 폴더에 옮겨놓기
-
-   ```yaml
-   version: '3.8'
-   services:
-     redis:
-       restart: always
-       image: "redis:7.0"
-       ports:
-         - "6379:6379"
-       volumes:
-         - ./redis/data:/var/lib/mysql
-         - ./redis/data/redis.conf:/var/lib/redis/redis.conf
-       command: redis-server /var/lib/redis/redis.conf
-     mysql:
-       image: "mysql:8.0.34"
-       restart: always
-       ports:
-         - "3306:3306"
-       environment:
-         MYSQL_USER: "${MYSQL_USER}"
-         MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-         MYSQL_DATABASE: "${MYSQL_DATABASE}"
-         MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-         TZ: Asia/Seoul
-       command:
-         - --character-set-server=utf8mb4
-         - --collation-server=utf8mb4_unicode_ci
-       volumes:
-         - ./mysql-init-files/:/docker-entrypoint-initdb.d/
-         - ./mysql/data:/var/lib/mysql
-     rabbitmq-stomp:
-       restart: always
-       image: "rabbitmq:3.12"
-       ports:
-         - "5672:5672"
-         - "15672:15672"
-         - "61613:61613"
-   ```
-
-3. 
-
-
-## 4-3. 자체 개발 - 백엔드
-
-- 배포 내용: JVM + JAR
-
-### 백엔드 배포하기
-1. EC2 인스턴스 내부에 `/home/ubuntu/backend/libs` 폴더 생성
-
-2. `bootJar 파일`, `application.yml` 파일, `.env` 파일을 해당 폴더에 옮겨놓기
-
-3. `libs` 폴더 내부에 `entrypoint.sh` 파일 작성
-
-   ```sh
-   #!/bin/bash
-   
-   cd /home/libs
-   
-   set -eux
-   
-   export $(cat .env | xargs)
-   java -jar <BootJar 파일명>
-   ```
-
-4. JVM 실행을 위한 docker-compose yaml 파일을 `/home/ubuntu/backend` 폴더 내부에 생성
-
-   ```bash
-   version: "3.8"
-   services:
-     backend:
-       image: docker.io/library/openjdk:19-ea-19-jdk-slim-buster
-       network_mode: host
-       volumes:
-         - ./libs:/home/libs
-       command:
-         - /home/libs/entrypoint.sh
-   ```
-
-5. Docker 명령어 실행
-
-   ```bash
-   cd /home/ubuntu/backend
-   ```
-
-   ```bash
-   docker compose stop
-   ```
-
-   ```bash
-   docker compose start
-   ```
-
-## 4-4. 자체 개발 - 프론트
-
-- 배포 내용: Node + frontend
-
-### 프론트 배포하기
-
-
-
-
-
