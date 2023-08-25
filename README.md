@@ -47,12 +47,9 @@
 
 ## 3. [설계](architecture/README.md)
 
-- [시스템 설계](architecture/system-architecture/README.md)
-  - [architecture.drawio](architecture/system-architecture/architecture.drawio)
-- [데이터베이스](architecture/db/README.md)
-  - [사용자 데이터베이스 테이블 설계](architecture/db/user-db-table.md)
-  - [MBTI 라운지 데이터베이스 테이블 설계](architecture/db/mbti-lounge-db-table.md)
-  - [사용자 및 MBTI 라운지 데이터베이스 테이블 생성&기본 데이터 삽입 SQL](architecture/db/user_lounge_init.sql)
+- [시스템 설계](architecture/system-architecture.md)
+  - [architecture.drawio](architecture/architecture.drawio)
+- [데이터베이스 설계](architecture/database.md)
 
 ## 4. [기능 구현](development/README.md)
 
@@ -91,15 +88,15 @@
 
 ## 4. [포팅 매뉴얼](mannual/README.md)
 
-- [로컬 실행 매뉴얼](how-to-run.md)
-- [배포 매뉴얼](deployment.md)
+- [로컬 실행 매뉴얼](mannual/how-to-run.md)
+- [배포 매뉴얼](mannual/deployment.md)
 - 기타
-   - [백엔드 빌드하기](build-backend.md)
-   - [프론트엔드 빌드하기](build-frontend.md)
-   - [프로젝트 버전 정보](versions.md)
-- [데이터](data/README.md)
-   - [wehee_create.sql](data/wehee_create.sql)
-   - [wehee_dump.sql](data/wehee_dump.sql)
+   - [백엔드 빌드하기](mannual/build-backend.md)
+   - [프론트엔드 빌드하기](mannual/build-frontend.md)
+   - [프로젝트 버전 정보](mannual/versions.md)
+- [데이터](mannual/data/README.md)
+   - [wehee_create.sql](mannual/data/wehee_create.sql)
+   - [wehee_dump.sql](mannual/data/wehee_dump.sql)
 
 # 학습
 
