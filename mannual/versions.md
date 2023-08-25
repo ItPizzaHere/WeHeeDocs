@@ -151,8 +151,18 @@ services:
 ## JVM
 
 ```yml
+version: "3.8"
+services:
+  backend:
+    image: docker.io/library/openjdk:19-ea-19-jdk-slim-buster
+    network_mode: host
+    volumes:
+      - ./libs:/home/libs
+    command:
+      - /home/libs/entrypoint.sh
 ```
 
 ## Node
 ```yml
+18.17.0
 ```

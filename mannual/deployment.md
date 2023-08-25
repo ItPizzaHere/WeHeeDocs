@@ -34,7 +34,7 @@
 
 - [x] well-known 포트 유지?
   - [ ] OpenVidu용 nginx가 host nework 모드로 실행돼 웹서버가 80, 443 포트를 사용할 수 없는 상태
-- [x] 방화벽 유지?(ufw)
+- [x] 방화벽 유지? (ufw)
 - [ ] 인증서
 - [ ] Https
 
