@@ -91,12 +91,15 @@
 
 ## 4. [포팅 매뉴얼](mannual/README.md)
 
-- [배포 매뉴얼](mannual/deployment.md)
-- [프로젝트 버전 정보](mannual/versions.md)
-- [포팅 매뉴얼](mannual/how-to-run.md)
-- [데이터](mannual/data/README.md)
-  - [wehee_create.sql](mannual/data/wehee_create.sql)
-  - [wehee_dump.sql](mannual/data/wehee_dump.sql)
+- [로컬 실행 매뉴얼](how-to-run.md)
+- [배포 매뉴얼](deployment.md)
+- 기타
+   - [백엔드 빌드하기](build-backend.md)
+   - [프론트엔드 빌드하기](build-frontend.md)
+   - [프로젝트 버전 정보](versions.md)
+- [데이터](data/README.md)
+   - [wehee_create.sql](data/wehee_create.sql)
+   - [wehee_dump.sql](data/wehee_dump.sql)
 
 # 학습
 
@@ -123,6 +126,7 @@
   - [Docker](research/infra/docker.md)
   - [Stateless와 Stateful 서비스 - WIP](research/infra/stateless-and-stateful-services.md)
   - [분산 트랜잭션 - WIP](research/infra/distributed-transaction.md)
+  - [IntelliJ Big Data Tools로 EC2 접속하기](research/infra/intellij-ec2.md)
 
 ### 개발
 

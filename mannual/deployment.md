@@ -1,18 +1,21 @@
 # 배포 매뉴얼
 
-마지막 작성 날짜: 2023-08-13
+마지막 작성 날짜: 2023-08-25
 작성자: 김예진
 
 > **목차**
 >
-> 1. [기본 요구사항](#1-기본-요구사항)
-> 2. [WeHee 서버 실행 요구사항](#2-wehee-서버-실행-요구사항)
->    1. [외부 개발](#외부-개발)
->    2. [자체 개발 - 백엔드](#자체-개발---백엔드)
->    3. [자체  개발 - 프론트](#자체-개발---프론트)
+> 1. [요구사항](#1-요구사항)
+>    1. [기본 요구사항](#기본-요구사항)
+>    2. [WeHee 서버 실행 요구사항](#wehee-서버-실행-요구사항)
+> 2. [EC2 서버 접속](#2-ec2-서버-접속)
+>    1. [Windows에서 접속](#windows에서-접속)
+>    2. [Mac에서 접속](#mac에서-접속)
+>    3. [IntelliJ Big Data Tools로 접속](#intelllij-big-data-tools로-접속)
 > 3. [배포](#3-배포)
 >    1. [Backend 배포하기](#backend-배포하기)
 >    2. [Frontend 배포하기](#frontend-배포하기)
+>    3. [3rd party 배포하기](#3rd-party-배포하기)
 
 ### EC2 배포 안내
 
@@ -30,7 +33,9 @@
 
 ---
 
-# 1. 기본 요구사항
+# 1. 요구사항
+
+## 기본 요구사항
 
 - [x] well-known 포트 유지?
   - [ ] OpenVidu용 nginx가 host nework 모드로 실행돼 웹서버가 80, 443 포트를 사용할 수 없는 상태
@@ -38,40 +43,180 @@
 - [ ] 인증서
 - [ ] Https
 
-# 2. WeHee 서버 실행 요구사항
+## WeHee 서버 실행 요구사항
 
-## 외부 개발
+| 외부 개발 | 자체 개발 - 백엔드 | 자체 개발 - 프론트 |
+| --------- | ------------------ | ------------------ |
+| MySQL     | JVM + JAR          | Node + frontend    |
+| Redis     |                    |                    |
+| Cassandra |                    |                    |
+| RabbitMQ  |                    |                    |
 
-1. Mysql
-2. Redis
-3. Cassandra
-4. RabbitMQ
-5. OpenVidu
+# 2. EC2 서버 접속
 
-## 자체 개발 - 백엔드
+## Windows에서 접속
 
-1. JVM + JAR
+``` bash
+ssh -i <pem키 파일> ubuntu@<도메인>
+```
 
-## 자체 개발 - 프론트
+## Mac에서 접속
 
-1. Node + frontend
+``` bash
+cd .ssh
+```
+
+``` bash
+ssh i- <pem키 파일> ubuntu@<도메인>
+```
+
+## IntelliJ Big Data Tools로 접속
+
+[IntelliJ Big Data Tools로 EC2 접속하기](../research/infra/intellij-ec2.md)를 참고해 IntelliJ로 EC2에 접속
 
 # 3. 배포
 
 ## Backend 배포하기
 
-1. 빌드: ./gradlew bootJar
-2. 업로드: Libs 폴더의 .jar /home/ubuntu/backend/libs 로 업로드하기 (sftp, ftp, S3, Intellij 아무거나)
-3. 실행
-   1. cd /home/ubuntu/backend
-   2. docker compose stop
-   3. docker compose start
+1. EC2 인스턴스에 백엔드 배포 환경 구축
+   1. `/home/<username>/backend` 폴더 생성
+   2. `/home/<username>/backend/libs` 폴더 생성
+2. EC2 인스턴스에 빌드 파일 업로드
+   1. 로컬에서 [백엔드 배포하기](build-backend.md)를 참고해 빌드 수행
+   2. 로컬 `build/libs` 폴더의 프로젝트 jar 파일을 EC2 서버의 `/home/<username>/backend/libs` 하단에 업로드
+   3. Spring Boot 프로젝트 실행을 위한 `application.yml` 파일과 `.env` 파일을 `/home/<username>/backend/libs` 하단에 업로드
+3. `entrypoint.sh` 파일 생성
+   `/home/<username>/backend/libs` 하단에 저장
+   ``` sh
+   #!/bin/bash
+   
+   cd /home/libs
+   
+   set -eux
+   
+   export $(cat .env | xargs)
+   java -jar <jar file>
+   ```
+4. jar 파일 실행을 위한 도커 파일 만들기
+   `/home/<username>/backend/docker-compose.yaml`로 저장
+   
+   ```
+   version: "3.8"
+   services:
+     backend:
+       image: docker.io/library/openjdk:19-ea-19-jdk-slim-buster
+       network_mode: host
+       volumes:
+         - ./libs:/home/libs
+       command:
+         - /home/libs/entrypoint.sh
+   ```
+5. 실행
+   ```bash
+   cd /home/<username>/backend
+   ```
+   ``` bash
+   docker compose stop
+   ```
+   ``` bash
+   docker compose start
+   ```
 
 ## Frontend 배포하기
 
-1. 빌드: npm i && npm run build
-2. 업로드: build 폴더를 /home/ubuntu/frontend/libs/build 폴더로 업로드
-3. 실행
-   1. cd /home/ubuntu/frontend
-   2. docker compose stop
-   3. docker compose start
+1. EC2 인스턴스에 프론트엔드 배포 환경 구축
+   1. `/home/<username>/frontend` 폴더 생성
+   2. `/home/<username>/frontend/libs` 폴더 생성
+2. EC2 인스턴스에 빌드 파일 업로드
+   1. 로컬에서 [프론트엔드 배포하기](build-frontend.md)를 참고해 빌드 수행
+   2. 로컬 `build` 폴더 내부 파일을 EC2 서버의 `/home/<username>/frontend/libs/build` 폴더로 업로드
+3. `entrypoint.sh` 파일 생성
+   `/home/<username>/frontend/libs` 하단에 저장
+   ```sh
+   #!/bin/bash
+   
+   cd /home/libs
+   
+   set -eux
+   
+   npm install -g serve
+   serve build
+   ```
+4. Node.js 실행을 위한 도커 파일 만들기
+   `/home/<username>/frontend/docker-compose.yaml`로 저장
+
+   ``` yaml
+   version: "3.8"
+   services:
+     backend:
+       image: docker.io/library/node:18.17.1-bullseye
+       ports:
+         - 3000:3000
+       volumes:
+         - ./libs:/home/libs
+       command:
+         - /home/libs/entrypoint.sh
+   ```
+5. 실행
+   ```bash
+   cd /home/<username>/frontend
+   ```
+   ``` bash
+   docker compose stop
+   ```
+   ``` bash
+   docker compose start
+
+## 3rd party 배포하기
+
+1. EC2 인스턴스에 3rd party 배포 환경 구축
+   `/home/<username>/third-party` 폴더 생성
+2. 3rd party 실행을 위한 도커 파일 만들기
+   `/home/<username>/third-party/docker-compose.yaml`로 저장
+   ``` yaml
+   version: '3.8'
+   services:
+     redis:
+       image: "redis:7.0"
+       ports:
+         - "6379:6379"
+       volumes:
+         - ./redis/data:/var/lib/mysql
+         - ./redis/data/redis.conf:/var/lib/redis/redis.conf
+       command: redis-server /var/lib/redis/redis.conf
+     mysql:
+       image: "mysql:8.0.34"
+       restart: always
+       ports:
+         - "3306:3306"
+       environment:
+         MYSQL_USER: "${MYSQL_USER}"
+         MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+         MYSQL_DATABASE: "${MYSQL_DATABASE}"
+         MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+         TZ: Asia/Seoul
+       command:
+         - --character-set-server=utf8mb4
+         - --collation-server=utf8mb4_unicode_ci
+       volumes:
+         - ./mysql-init-files/:/docker-entrypoint-initdb.d/
+         - ./mysql/data:/var/lib/mysql
+     rabbitmq-stomp:
+       image: "rabbitmq:3.12"
+       ports:
+         - "5672:5672"
+         - "15672:15672"
+         - "61613:61613"
+   ```
+3. `docker-comose.yaml` 환경변수 설정을 위한 `.env` 파일 업로드
+   `home/<username>/third-party/.env`로 업로드
+4. 실행
+   ```bash
+   cd /home/<username>/third-party
+   ```
+   ``` bash
+   docker compose stop
+   ```
+   ``` bash
+   docker compose start
+   ```
