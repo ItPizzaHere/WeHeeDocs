@@ -33,11 +33,11 @@ WeHee에서 사용되는 테이블 생성 코드는 [wehee_create.sql](../mannua
 
 ## WeHee ERD
 
-![](C:\Users\SSAFY\Desktop\Yejining\WeHeeDocs\architecture\images\architecture01.png)
+![](images/architecture01.png)
 
 ## 우리집(게시판) 관련 확장된 ERD
 
-![](C:\Users\SSAFY\Desktop\Yejining\WeHeeDocs\architecture\images\architecture02.png)
+![](images/architecture02.png)
 
 # 3. 데이터베이스 관련 심화 기능 설계
 
