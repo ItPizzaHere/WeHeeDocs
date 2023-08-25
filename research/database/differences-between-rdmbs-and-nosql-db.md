@@ -23,7 +23,7 @@
 
 # Schema
 
-스키마에 대한 전반적인 정의는 [여기(외부 링크)](https://jwprogramming.tistory.com/47)를 참조하시면 됩니다. <br>
+스키마에 대한 전반적인 정의는 [여기(외부 링크)](https://jwprogramming.tistory.com/47)를 참조하시면 됩니다.
 
 ## Schema 정의
 
