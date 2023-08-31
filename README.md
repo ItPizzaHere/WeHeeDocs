@@ -55,9 +55,10 @@
 
 - [소셜 로그인을 이용한 인증 기능 구현하기 - WIP](development/authentication-development.md)
 - [채팅](development/chatting/README.md)
-  - [채팅 기능 구현하기 - WIP](development/chatting/chatting-development.md)
-  - [채팅 기능 설계 구체화](development/chatting/refining-chatting-feature-design.md)
-  - [채팅 아키텍처 설계 - WIP](development/chatting/design-chatting-architecture.md)
+  - [채팅 기획 구체화](development/refining-chatting-feature-design.md)
+  - [채팅 기술 스택 선정](development/design-chatting-architecture.md)
+  - [채팅 요구사항 파악](development/chatting-requirements.md)
+  - [시퀀스 다이어그램 작성](development/chatting-sequence-diagram.md)
 
 # 프로젝트 운영
 
@@ -72,7 +73,7 @@
   - [기능 요청 템플릿](conventions/git/templates/feature-request-template.md)
   - [이슈 템플릿](conventions/git/templates/issue-template.md)
   - [PR 템플릿](conventions/git/templates/pull-request-template.md)
-- [Docs 작성 규칙](operations/docs/README.md)
+- [Docs 작성 규칙](conventions/docs/README.md)
 
 ## 2. [운영](operations/README.md)
 
