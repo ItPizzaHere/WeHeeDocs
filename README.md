@@ -73,7 +73,7 @@
   - [기능 요청 템플릿](conventions/git/templates/feature-request-template.md)
   - [이슈 템플릿](conventions/git/templates/issue-template.md)
   - [PR 템플릿](conventions/git/templates/pull-request-template.md)
-- [Docs 작성 규칙](operations/docs/README.md)
+- [Docs 작성 규칙](conventions/docs/README.md)
 
 ## 2. [운영](operations/README.md)
 
